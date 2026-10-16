@@ -22,3 +22,8 @@
 - Before presenting the site as publicly official, confirm branding, domain ownership, privacy policy and content with the project owner.
 - All third-party resources: optional Google Fonts via CSS; page still works using device fonts if blocked.
 - No AI chat, D1 or dataset storage features; the site is informational, independent of production and the app.
+
+## Contact and Social Links update
+Version 2 adds the user-provided Facebook, GitHub, WhatsApp, Threads, TikTok, Instagram, X, Discord, LinkedIn, Email, and telephone contacts to the Contact section. WhatsApp uses `https://wa.me/60189745031` rather than a generic app-install link. Verify any time-limited share/invite links periodically. All phone/email details here are public on the website by design.
+
+To update the live Pages site: upload these files into the personal GitHub repo `Piangpi1997/ZoLaiGPT-Official-Website` root, replacing older files, and commit. The connected Cloudflare Pages project will automatically rebuild. Do this only when ready to publish the listed contacts publicly.
