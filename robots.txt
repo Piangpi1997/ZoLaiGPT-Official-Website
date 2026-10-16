@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://zolaigpt-official-website.pages.dev/sitemap.xml
+Sitemap: https://zolaigptofficial.com/sitemap.xml
