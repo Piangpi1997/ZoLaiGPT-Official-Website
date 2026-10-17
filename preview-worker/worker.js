@@ -22,10 +22,11 @@ export default {async fetch(request,env){
  const turns=history.filter(m=>m&&['user','assistant'].includes(m.role)&&typeof m.content==='string'&&m.content.length<=1000).map(m=>({role:m.role,content:m.content}));
  const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),15000);
  try{
-  const upstream=await fetch('https://openrouter.ai/api/v1/chat/completions',{method:'POST',signal:controller.signal,headers:{'Authorization':'Bearer '+env.OPENROUTER_API_KEY,'Content-Type':'application/json','HTTP-Referer':allowed,'X-Title':'ZoLaiGPT V5.5 Preview'},body:JSON.stringify({model:'openrouter/free',max_tokens:400,temperature:0.5,messages:[{role:'system',content:'You are the ZoLaiGPT website PREVIEW assistant. Reply concisely in '+({en:'English',my:'Myanmar language',zom:'Zomi (Tedim), if possible; otherwise explain honestly'}[lang])+'. Do not invent official app releases, downloads, pricing or product capabilities. Clearly say you are a preview assistant when asked.'},...turns,{role:'user',content:message.trim()}]})});
+  const upstream=await fetch('https://openrouter.ai/api/v1/chat/completions',{method:'POST',signal:controller.signal,headers:{'Authorization':'Bearer '+env.OPENROUTER_API_KEY,'Content-Type':'application/json','HTTP-Referer':allowed,'X-Title':'ZoLaiGPT V5.5 Preview'},body:JSON.stringify({model:'openrouter/free',max_tokens:700,temperature:0.5,messages:[{role:'system',content:'You are the ZoLaiGPT website PREVIEW assistant. Reply concisely in '+({en:'English',my:'Myanmar language',zom:'Zomi (Tedim), if possible; otherwise explain honestly'}[lang])+'. Do not invent official app releases, downloads, pricing or product capabilities. Clearly say you are a preview assistant when asked.'},...turns,{role:'user',content:message.trim()}]})});
   if(!upstream.ok)return json({error:upstream.status===429?'Free AI quota or rate limit reached':'AI service unavailable right now'},upstream.status===429?429:502,origin);
-  const data=await upstream.json();const reply=data?.choices?.[0]?.message?.content;
-  if(typeof reply!=='string'||!reply.trim())return json({error:'AI returned no text'},502,origin);
+  const data=await upstream.json();const content=data?.choices?.[0]?.message?.content;
+  const reply=typeof content==='string'?content:Array.isArray(content)?content.filter(x=>x?.type==='text'&&typeof x.text==='string').map(x=>x.text).join('\n'):'';
+  if(!reply.trim())return json({error:'Free model returned an empty response. Please try again.'},502,origin);
   return json({reply:reply.slice(0,4000),model:data.model||'openrouter/free'},200,origin);
  }catch{return json({error:'AI request timed out or failed'},502,origin)}
  finally{clearTimeout(timer)}
