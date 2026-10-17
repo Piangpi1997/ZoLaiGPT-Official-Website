@@ -19,7 +19,7 @@ async function loadFaq(){
  }catch{return null}
 }
 function faqScore(question,record){
- const norm=s=>String(s||'').toLowerCase().normalize('NFKC').replace(/[^\\p{L}\\p{N}\\s]/gu,' ').replace(/\\s+/g,' ').trim();
+ const norm=s=>String(s||'').toLowerCase().normalize('NFKC').replace(/[^\p{L}\p{N}\s]/gu,' ').replace(/\s+/g,' ').trim();
  const input=norm(question),en=norm(record.question_en),my=norm(record.question_my);
  if(!input)return 0;if(input===en||input===my)return 1;
  if(input.length>=12&&(en.includes(input)||my.includes(input)))return .93;
