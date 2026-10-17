@@ -1,0 +1,8 @@
+Three.js 0.170.0 — MIT. Copyright three.js authors. License: vendor/THREE-LICENSE.txt
+https://github.com/mrdoob/three.js/tree/r170
+World geographic outlines: https://github.com/holtzy/D3-graph-gallery/blob/master/DATA/world.geojson
+Used only as a generalized illustrative map, not a statement of borders.
+Social icons: Simple Icons v13 (CC0), https://github.com/simple-icons/simple-icons/tree/13.0.0
+Brand names and marks remain property of their respective owners.
+Original ZoLaiGPT logo and text: supplied source repository.
+App screenshots: user-supplied 1000232450.jpg and 1000232451.jpg, resized only by CSS; lossless proportions.
