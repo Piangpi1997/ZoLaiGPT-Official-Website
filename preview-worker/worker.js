@@ -1,6 +1,40 @@
 // ZoLaiGPT V5.5 preview-only OpenRouter Worker. Never paste API keys into this file.
 // Required secret: OPENROUTER_API_KEY. Optional: ALLOWED_ORIGIN, RATE_LIMITER binding.
 const json=(data,status=200,origin='')=>new Response(JSON.stringify(data),{status,headers:{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store','X-Content-Type-Options':'nosniff',...(origin?{'Access-Control-Allow-Origin':origin,'Vary':'Origin'}:{})}});
+
+const FAQ_URL='https://v55-chatbot-preview.zolaigpt-official-website.pages.dev/faq-runtime.json';
+const FAQ_SHA256='1cf1f3b7b29be6ebc4bfffb0f2c074e42f3a3b155e4bc41bb41c066b3a50cd1b';
+let faqCache=null,faqCacheUntil=0;
+async function loadFaq(){
+ if(faqCache&&Date.now()<faqCacheUntil)return faqCache;
+ try{
+  const response=await fetch(FAQ_URL,{headers:{Accept:'application/json'},redirect:'error'});
+  if(!response.ok)return null;
+  const buffer=await response.arrayBuffer();if(buffer.byteLength>150000)return null;
+  const digest=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',buffer)),b=>b.toString(16).padStart(2,'0')).join('');
+  if(digest!==FAQ_SHA256)return null;
+  const parsed=JSON.parse(new TextDecoder().decode(buffer));
+  if(parsed?.records?.length!==72||parsed?.counts?.verified!==54||parsed?.counts?.unverified!==18)return null;
+  faqCache=parsed.records;faqCacheUntil=Date.now()+180000;return faqCache;
+ }catch{return null}
+}
+function faqScore(question,record){
+ const norm=s=>String(s||'').toLowerCase().normalize('NFKC').replace(/[^\\p{L}\\p{N}\\s]/gu,' ').replace(/\\s+/g,' ').trim();
+ const input=norm(question),en=norm(record.question_en),my=norm(record.question_my);
+ if(!input)return 0;if(input===en||input===my)return 1;
+ if(input.length>=12&&(en.includes(input)||my.includes(input)))return .93;
+ const stop=new Set(['what','how','does','the','is','are','can','do','i','to','a','an','for','on','about','and','of','my','where','why','this','which','please','tell','me']);
+ const words=t=>t.split(' ').filter(w=>w.length>2&&!stop.has(w));
+ const query=words(input),target=new Set(words(en+' '+my));if(!query.length)return 0;
+ let matches=0;for(const w of query)if(target.has(w))matches++;
+ return matches/Math.max(query.length,words(en).length*.8);
+}
+function findFaq(text,records){
+ let best=null,score=0;
+ for(const record of records){const value=faqScore(text,record);if(value>score){score=value;best=record}}
+ return score>=.58?best:null;
+}
+
 export default {async fetch(request,env){
  const origin=request.headers.get('Origin')||'';
  const allowed=env.ALLOWED_ORIGIN||'https://v55-chatbot-preview.zolaigpt-official-website.pages.dev';
@@ -30,6 +64,17 @@ export default {async fetch(request,env){
  if(typeof message!=='string'||!message.trim()||message.length>1000)return json({error:'Message must be 1-1000 characters'},400,origin);
  const history=Array.isArray(payload.history)?payload.history.slice(-8):[];
  const turns=history.filter(m=>m&&['user','assistant'].includes(m.role)&&typeof m.content==='string'&&m.content.length<=1000).map(m=>({role:m.role,content:m.content}));
+ // Source-backed runtime FAQ retrieval. Unverified entries contain no official answers.
+ const faqRecords=await loadFaq();
+ if(faqRecords){
+  const matched=findFaq(message,faqRecords);
+  if(matched){
+   if(matched.verification_status!=='verified')return json({reply:lang==='my'?'ဤအချက်အလက်ကို တရားဝင် အတည်မပြုရသေးပါ။ Official Website တွင် ကြေညာချက်ကို စစ်ဆေးပါ။':'This information has not been officially verified. Please check the official website for updates.',source_id:matched.id,verification_status:'unverified'},200,origin);
+   const verifiedReply=effectiveLang==='my'?matched.answer_my:matched.answer_en;
+   const reply=lang==='zom'?'Zomi (Tedim) translation is pending native review. English fallback: '+matched.answer_en:verifiedReply;
+   return json({reply,source_id:matched.id,source_refs:matched.source_refs,verification_status:'verified',model:'source-backed-faq'},200,origin);
+  }
+ }
  // Deterministic response for verified site facts: free models must not guess basic ZoLaiGPT details.
  const languageQuestion=/what languages|which languages|supported languages|languages does zolaigpt|ဘာသာစကား|pau bang|languages supported/i.test(message);
  if(languageQuestion){
