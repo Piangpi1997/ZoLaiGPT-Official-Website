@@ -10,3 +10,13 @@
 #chat-log{height:auto;min-height:70px;flex:1 1 auto;overflow-y:auto}
 #chat-panel .chat-v55-tools,#chat-panel .chat-v55-suggestions,#chat-panel #chat-form{flex-shrink:0}
 @media(max-width:600px){#chat-panel{inset:8px 8px auto 8px;width:calc(100vw - 16px);margin:0;padding:12px;max-height:calc(100dvh - 16px)}#chat-panel[open]{height:calc(100dvh - 16px);gap:8px}#chat-panel .chat-notice{font-size:11px;line-height:1.4}#chat-panel .chat-v55-suggestions{max-height:90px;overflow:auto}#chat-panel #chat-form{margin-top:auto}#chat-panel #chat-minimize{min-height:32px;padding:4px 10px}}
+
+/* V5.5 preview compact mobile chat: content-sized dialog instead of stretched fullscreen */
+@media(max-width:600px){
+ #chat-panel{inset:auto 8px 8px 8px;width:calc(100vw - 16px);max-height:calc(100dvh - 16px);overflow-y:auto;overscroll-behavior:contain}
+ #chat-panel[open]{height:auto;max-height:calc(100dvh - 16px);gap:8px;overflow-y:auto}
+ #chat-panel #chat-log{height:clamp(145px,27dvh,275px);min-height:120px;flex:none;overflow-y:auto}
+ #chat-panel #chat-form{margin-top:0}
+ #chat-panel .chat-v55-suggestions{flex-shrink:0;max-height:85px;overflow:auto}
+ #chat-panel .chat-header,#chat-panel .chat-v55-tools{flex-shrink:0}
+}
