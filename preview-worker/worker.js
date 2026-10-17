@@ -43,7 +43,7 @@ export default {async fetch(request,env){
   const reply=typeof content==='string'?content:Array.isArray(content)?content.filter(x=>x?.type==='text'&&typeof x.text==='string').map(x=>x.text).join('\n'):'';
   if(!reply.trim())return json({error:'This free AI model did not provide a reply. Please try again shortly.'},502,origin);
   // A Burmese-script reply is not a Zomi (Tedim) reply. Avoid mislabelling it.
-  if(lang==='zom'&&/[\\u1000-\\u109F]/.test(reply))return json({reply:'Zomi (Tedim) reply could not be verified for this request. Please select English or try again later.',model:'language-quality-guard'},200,origin);
+  if(lang==='zom'&&/[\u1000-\u109F]/.test(reply))return json({reply:'Zomi (Tedim) reply could not be verified for this request. Please select English or try again later.',model:'language-quality-guard'},200,origin);
   return json({reply:reply.slice(0,4000),model:data.model||'openrouter/free'},200,origin);
  }catch{return json({error:'AI request timed out or failed'},502,origin)}
  finally{clearTimeout(timer)}
