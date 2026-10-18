@@ -40,7 +40,7 @@
    if(!response.ok)throw Error(data.error||'AI temporarily unavailable');
    if(typeof data.reply!=='string'||!data.reply.trim())throw Error('Empty AI reply');
    const bubble=append(data.reply,'assistant');
-   if(data.source_id&&/^ZLG-FAQ-\\d{3}$/.test(data.source_id)){
+   if(data.source_id&&/^ZLG-FAQ-\d{3}$/.test(data.source_id)){
     const tag=document.createElement('small');
     tag.className='chat-source-label';
     tag.textContent=(data.verification_status==='verified'?'Verified FAQ':'Unverified FAQ')+' · '+data.source_id;
