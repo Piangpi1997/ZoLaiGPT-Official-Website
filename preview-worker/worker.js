@@ -17,9 +17,22 @@ function faqScore(question,record){
  return matches/Math.max(query.length,words(en).length*.8);
 }
 function findFaq(text,records){
- let best=null,score=0;
- for(const record of records){const value=faqScore(text,record);if(value>score){score=value;best=record}}
- return score>=.58?best:null;
+ // Exact matches take precedence before fuzzy matching; preserve Myanmar combining marks.
+ const exact=s=>String(s||'').normalize('NFKC').toLowerCase().replace(/\\s+/g,' ').trim();
+ const query=exact(text);
+ if(!query)return null;
+ const matches=records.filter(r=>query===exact(r.question_en)||query===exact(r.question_my));
+ if(matches.length===1)return matches[0];
+ if(matches.length>1)return null; // ambiguous: do not assert a source-backed answer
+ // Avoid misleading substring/token matches for non-Latin script.
+ if(/[^\\x00-\\x7F]/.test(query))return null;
+ let best=null,score=.58,tied=false;
+ for(const record of records){
+  const value=faqScore(text,record);
+  if(value>score+1e-8){score=value;best=record;tied=false}
+  else if(best&&Math.abs(value-score)<=1e-8){tied=true}
+ }
+ return tied?null:best;
 }
 
 export default {async fetch(request,env){
@@ -33,8 +46,10 @@ export default {async fetch(request,env){
  // Fail closed until an actual Cloudflare Rate Limiting binding is configured.
  if(!env.RATE_LIMITER)return json({error:'Rate limiting must be configured before enabling AI'},503,origin);
  const ip=request.headers.get('CF-Connecting-IP')||'unknown';
- const limit=await env.RATE_LIMITER.limit({key:ip});
- if(!limit.success)return json({error:'Too many requests. Please try later.'},429,origin);
+ let limit;
+ try{limit=await env.RATE_LIMITER.limit({key:ip})}
+ catch{return json({error:'Rate limiting service is temporarily unavailable'},503,origin)}
+ if(!limit?.success)return json({error:'Too many requests. Please try later.'},429,origin);
  // Enforce an actual byte cap even for chunked bodies with no Content-Length.
  if(Number(request.headers.get('Content-Length')||0)>12000)return json({error:'Message too large'},413,origin);
  let payload;
@@ -56,7 +71,7 @@ export default {async fetch(request,env){
  if(faqRecords){
   const matched=findFaq(message,faqRecords);
   if(matched){
-   if(matched.verification_status!=='verified')return json({reply:lang==='my'?'ဤအချက်အလက်ကို တရားဝင် အတည်မပြုရသေးပါ။ Official Website တွင် ကြေညာချက်ကို စစ်ဆေးပါ။':'This information has not been officially verified. Please check the official website for updates.',source_id:matched.id,verification_status:'unverified'},200,origin);
+   if(matched.verification_status!=='verified'){const notice='This information has not been officially verified. Please check the official website for updates.';return json({reply:lang==='my'?'ဤအချက်အလက်ကို တရားဝင် အတည်မပြုရသေးပါ။ Official Website တွင် ကြေညာချက်ကို စစ်ဆေးပါ။':lang==='zom'?'Zomi (Tedim) translation is pending native review. English fallback: '+notice:notice,source_id:matched.id,verification_status:'unverified'},200,origin);}
    const verifiedReply=effectiveLang==='my'?matched.answer_my:matched.answer_en;
    const reply=lang==='zom'?'Zomi (Tedim) translation is pending native review. English fallback: '+matched.answer_en:verifiedReply;
    return json({reply,source_id:matched.id,source_refs:matched.source_refs,verification_status:'verified',model:'source-backed-faq'},200,origin);
@@ -85,7 +100,7 @@ export default {async fetch(request,env){
   const reply=typeof content==='string'?content:Array.isArray(content)?content.filter(x=>x?.type==='text'&&typeof x.text==='string').map(x=>x.text).join('\n'):'';
   if(!reply.trim())return json({error:'This free AI model did not provide a reply. Please try again shortly.'},502,origin);
   // A Burmese-script reply is not a Zomi (Tedim) reply. Avoid mislabelling it.
-  if(lang==='zom'&&/[\u1000-\u109F]/.test(reply))return json({reply:'Zomi (Tedim) reply could not be verified for this request. Please select English or try again later.',model:'language-quality-guard'},200,origin);
+  if(lang==='zom'&&/[\u1000-\u109F\uA9E0-\uA9FF\uAA60-\uAA7F]/u.test(reply))return json({reply:'Zomi (Tedim) reply could not be verified for this request. Please select English or try again later.',model:'language-quality-guard'},200,origin);
   return json({reply:lang==='zom'?'Zomi (Tedim) translation is pending native review. English fallback: '+reply.slice(0,3700):reply.slice(0,4000),model:data.model||'openrouter/free'},200,origin);
  }catch{return json({error:'AI request timed out or failed'},502,origin)}
  finally{clearTimeout(timer)}
