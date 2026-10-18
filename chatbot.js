@@ -29,16 +29,26 @@
  language.addEventListener('change',()=>{mainLanguage.value=language.value;mainLanguage.dispatchEvent(new Event('change'));populate();});
  mainLanguage.addEventListener('change',sync);
  populate();append(current().welcome,'assistant');
+
+ // Error copy is user-facing; no upstream bodies, secrets or model reasoning are shown.
+ function serviceError(data,selected){
+  const copy={
+   en:{AI_TIMEOUT:'AI service took too long to respond. Please try later.',AI_EMPTY_REPLY:'The free AI model did not provide a reply. Please try again later.',AI_CONNECTION_ERROR:'AI service could not be reached. Please try later.',AI_BAD_RESPONSE:'AI service returned an unreadable reply. Please try later.',AI_RATE_LIMITED:'AI request limit reached. Please wait before trying again.',AI_PROVIDER_BUSY:'AI service is busy. Please try later.',AI_PROVIDER_ERROR:'AI service is unavailable right now. Please try later.',AI_SERVICE_UNAVAILABLE:'AI service is temporarily unavailable.',AI_REQUEST_UNAVAILABLE:'AI service cannot answer this request.'},
+   my:{AI_TIMEOUT:'AI အဖြေစောင့်ချိန် ကန့်သတ်ချက်ကို ကျော်သွားပါသည်။ နောက်မှ ပြန်စမ်းပါ။',AI_EMPTY_REPLY:'Free AI Model က အဖြေမပေးခဲ့ပါ။ နောက်မှ ပြန်စမ်းပါ။',AI_CONNECTION_ERROR:'AI ဝန်ဆောင်မှုသို့ မချိတ်ဆက်နိုင်ပါ။ နောက်မှ ပြန်စမ်းပါ။',AI_BAD_RESPONSE:'AI ဝန်ဆောင်မှု၏ အဖြေကို ဖတ်မရပါ။ နောက်မှ ပြန်စမ်းပါ။',AI_RATE_LIMITED:'AI Request ကန့်သတ်ချက်ကို ရောက်နေပါသည်။ ခဏစောင့်ပြီးမှ ပြန်စမ်းပါ။',AI_PROVIDER_BUSY:'AI ဝန်ဆောင်မှု မအားလပ်သေးပါ။ နောက်မှ ပြန်စမ်းပါ။',AI_PROVIDER_ERROR:'AI ဝန်ဆောင်မှုကို ယခုအသုံးပြု၍ မရသေးပါ။ နောက်မှ ပြန်စမ်းပါ။',AI_SERVICE_UNAVAILABLE:'AI ဝန်ဆောင်မှုကို ယာယီအသုံးပြု၍ မရသေးပါ။',AI_REQUEST_UNAVAILABLE:'ဤ Request ကို AI ဝန်ဆောင်မှုက မဖြေနိုင်ပါ။'}
+  };
+  return copy[selected==='my'?'my':'en'][data?.error_code]||data?.error||'AI temporarily unavailable';
+ }
+
  form.addEventListener('submit',async event=>{
   event.preventDefault();const message=input.value.trim();if(!message||pending!==null||abortController)return;
   append(message,'user');input.value='';typing.hidden=false;send.disabled=true;
   const requestVersion=conversationVersion;
-  const controller=new AbortController();abortController=controller;
-  const timeout=setTimeout(()=>controller.abort(),18000);
+  const controller=new AbortController();abortController=controller;const requestedLanguage=language.value;
+  const timeout=setTimeout(()=>controller.abort(),35000);
   try{
-   const response=await fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message,language:language.value,history:history.slice(-8)}),signal:controller.signal});
+   const response=await fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message,language:requestedLanguage,history:history.slice(-8)}),signal:controller.signal});
    let data={};try{data=await response.json()}catch{}
-   if(!response.ok)throw Error(data.error||'AI temporarily unavailable');
+   if(!response.ok)throw Error(serviceError(data,requestedLanguage));
    if(typeof data.reply!=='string'||!data.reply.trim())throw Error('Empty AI reply');
    if(requestVersion!==conversationVersion)return;
    const bubble=append(data.reply,'assistant');

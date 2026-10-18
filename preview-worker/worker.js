@@ -92,16 +92,78 @@ export default {async fetch(request,env){
    :{en:'Official ZoLaiGPT app release and download details have not been confirmed on this website. Please check the official website for announcements.',my:'ZoLaiGPT App ၏ တရားဝင် ထုတ်ဝေမည့်ရက်နှင့် Download Link ကို Website ပေါ်တွင် အတည်မပြုရသေးပါ။ တရားဝင်ကြေညာချက်များကို Website တွင် စစ်ဆေးနိုင်ပါသည်။'};
   return json({reply:effectiveLang==='my'?facts.my:lang==='zom'?'Zomi (Tedim) translation is pending native review. English fallback: '+facts.en:facts.en,model:'verified-site-facts'},200,origin);
  }
- const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),15000);
+
+ // Preview proposal: at most one extra call after empty output; one total deadline.
+ const controller=new AbortController(),deadline=Date.now()+25000;
+ const timer=setTimeout(()=>controller.abort(),25000);
+ const fail=(error_code,error,status=502,retryable=true,retryAfter=null)=>{
+  const response=json({error,error_code,retryable},status,origin);
+  if(Number.isFinite(retryAfter)&&retryAfter>0)response.headers.set('Retry-After',String(Math.ceil(retryAfter)));
+  return response;
+ };
+ const providerFailure=(status,headers)=>{
+  const retryAfter=Number(headers?.get('Retry-After'));
+  if(status===429)return fail('AI_RATE_LIMITED','AI request limit reached. Please try later.',429,true,retryAfter);
+  if(status===401||status===402||status===403)return fail('AI_SERVICE_UNAVAILABLE','AI service is temporarily unavailable.',503,false);
+  if(status===408||status===504)return fail('AI_TIMEOUT','AI service took too long to respond. Please try later.',504,true,retryAfter);
+  if(status===503)return fail('AI_PROVIDER_BUSY','AI service is busy. Please try later.',503,true,retryAfter);
+  return fail('AI_PROVIDER_ERROR','AI service unavailable right now. Please try later.',502,true,retryAfter);
+ };
+ const readProviderJson=async response=>{
+  if(!response.body)throw new SyntaxError('Missing provider body');
+  const reader=response.body.getReader(),parts=[];let size=0;
+  try{
+   while(true){
+    const {done,value}=await reader.read();if(done)break;
+    size+=value.byteLength;
+    if(size>262144){await reader.cancel();throw new SyntaxError('Provider response limit');}
+    parts.push(value);
+   }
+  }finally{reader.releaseLock();}
+  const bytes=new Uint8Array(size);let offset=0;
+  for(const part of parts){bytes.set(part,offset);offset+=part.byteLength;}
+  return JSON.parse(new TextDecoder('utf-8',{fatal:true}).decode(bytes));
+ };
  try{
-  const upstream=await fetch('https://openrouter.ai/api/v1/chat/completions',{method:'POST',signal:controller.signal,headers:{'Authorization':'Bearer '+env.OPENROUTER_API_KEY,'Content-Type':'application/json','HTTP-Referer':allowed,'X-Title':'ZoLaiGPT V5.5 Preview'},body:JSON.stringify({model:'openrouter/free',max_tokens:700,temperature:0.5,messages:[{role:'system',content:'VERIFIED ZOLAIGPT WEBSITE FACTS: The official ZoLaiGPT website focuses on English, Myanmar (Burmese), and Zomi (Tedim). It is the official information and brand hub, separate from the app. The website explores how multilingual AI can help people learn, communicate and create. The app release date, download link, prices and availability are not confirmed here. Do not claim all languages have complete AI support. If asked which languages ZoLaiGPT supports or focuses on, name English, Myanmar and Zomi (Tedim) explicitly. For any unknown official details, say unconfirmed. You are the ZoLaiGPT website PREVIEW assistant. Reply concisely in '+({en:'English',my:'Myanmar language',zom:'Zomi (Tedim) ONLY if you can express it reliably; otherwise answer in English with a short disclosure that Zomi translation is unavailable. NEVER answer in Burmese when Zomi was requested'}[effectiveLang])+'. Do not invent official app releases, downloads, pricing or product capabilities. Clearly say you are a preview assistant when asked.'},...turns,{role:'user',content:message.trim()}]})});
-  if(!upstream.ok)return json({error:upstream.status===429?'Free AI quota or rate limit reached':'AI service unavailable right now'},upstream.status===429?429:502,origin);
-  const data=await upstream.json();const content=data?.choices?.[0]?.message?.content;
-  const reply=typeof content==='string'?content:Array.isArray(content)?content.filter(x=>x?.type==='text'&&typeof x.text==='string').map(x=>x.text).join('\n'):'';
-  if(!reply.trim())return json({error:'This free AI model did not provide a reply. Please try again shortly.'},502,origin);
+  const basePayload={model:'openrouter/free',max_tokens:700,temperature:0.5,messages:[{role:'system',content:'VERIFIED ZOLAIGPT WEBSITE FACTS: The official ZoLaiGPT website focuses on English, Myanmar (Burmese), and Zomi (Tedim). It is the official information and brand hub, separate from the app. The website explores how multilingual AI can help people learn, communicate and create. The app release date, download link, prices and availability are not confirmed here. Do not claim all languages have complete AI support. If asked which languages ZoLaiGPT supports or focuses on, name English, Myanmar and Zomi (Tedim) explicitly. For any unknown official details, say unconfirmed. You are the ZoLaiGPT website PREVIEW assistant. Reply concisely in '+({en:'English',my:'Myanmar language',zom:'Zomi (Tedim) ONLY if you can express it reliably; otherwise answer in English with a short disclosure that Zomi translation is unavailable. NEVER answer in Burmese when Zomi was requested'}[effectiveLang])+'. Do not invent official app releases, downloads, pricing or product capabilities. Clearly say you are a preview assistant when asked.'},...turns,{role:'user',content:message.trim()}]};
+  let outputLimit=700;
+  for(let attempt=0;attempt<2;attempt++){
+   const upstream=await fetch('https://openrouter.ai/api/v1/chat/completions',{
+    method:'POST',signal:controller.signal,
+    headers:{'Authorization':'Bearer '+env.OPENROUTER_API_KEY,'Content-Type':'application/json','HTTP-Referer':allowed,'X-Title':'ZoLaiGPT V5.5 Preview'},
+    body:JSON.stringify({...basePayload,max_tokens:outputLimit})
+   });
+   if(!upstream.ok){
+    if(upstream.body)await upstream.body.cancel().catch(()=>{});
+    return providerFailure(upstream.status,upstream.headers);
+   }
+   let data;
+   try{data=await readProviderJson(upstream);}
+   catch(error){if(controller.signal.aborted)throw error;return fail('AI_BAD_RESPONSE','AI service returned an unreadable reply. Please try later.');}
+   // Providers can return an error envelope after HTTP 200. Never publish it as text.
+   if(data?.error)return providerFailure(Number(data.error.code),upstream.headers);
+   if(!Array.isArray(data?.choices)||!data.choices[0]?.message)return fail('AI_BAD_RESPONSE','AI service returned an unreadable reply. Please try later.');
+   const choice=data.choices[0],content=choice.message.content;
+   if(choice.finish_reason==='content_filter'||(typeof choice.message.refusal==='string'&&choice.message.refusal.trim()))return fail('AI_REQUEST_UNAVAILABLE','AI service cannot answer this request.',403,false);
+   if(choice.finish_reason==='error')return fail('AI_PROVIDER_ERROR','AI service unavailable right now. Please try later.');
+   const reply=typeof content==='string'?content:Array.isArray(content)?content.filter(x=>x?.type==='text'&&typeof x.text==='string').map(x=>x.text).join('\n'):'';
+   if(!reply.trim()){
+    if(attempt===0&&Date.now()<deadline-5000){
+     // Reasoning can consume a small output budget. Never expose reasoning as an answer.
+     if(choice.finish_reason==='length')outputLimit=1400;
+     continue;
+    }
+    return fail('AI_EMPTY_REPLY','The free AI model did not provide a visible reply. Please try again later.');
+   }
   // A Burmese-script reply is not a Zomi (Tedim) reply. Avoid mislabelling it.
   if(lang==='zom'&&/[\u1000-\u109F\uA9E0-\uA9FF\uAA60-\uAA7F]/u.test(reply))return json({reply:'Zomi (Tedim) reply could not be verified for this request. Please select English or try again later.',model:'language-quality-guard'},200,origin);
   return json({reply:lang==='zom'?'Zomi (Tedim) translation is pending native review. English fallback: '+reply.slice(0,3700):reply.slice(0,4000),model:data.model||'openrouter/free'},200,origin);
- }catch{return json({error:'AI request timed out or failed'},502,origin)}
- finally{clearTimeout(timer)}
+  }
+  return fail('AI_EMPTY_REPLY','The free AI model did not provide a visible reply. Please try again later.');
+ }catch{
+  return controller.signal.aborted
+   ?fail('AI_TIMEOUT','AI service took too long to respond. Please try later.',504)
+   :fail('AI_CONNECTION_ERROR','AI service could not be reached. Please try later.');
+ }finally{clearTimeout(timer);}
+
 }};
