@@ -15,9 +15,9 @@
  const clear=document.createElement('button');clear.type='button';clear.className='chat-v55-clear';controls.append(clear);
  const suggestions=document.createElement('div');suggestions.className='chat-v55-suggestions';suggestions.setAttribute('aria-label','Suggested demo questions');
  log.before(controls);log.after(suggestions);
- const style=document.createElement('style');style.textContent='.chat-v55-tools{display:flex;justify-content:flex-end;margin:8px 0}.chat-v55-clear,.chat-v55-suggestions button{border:1px solid #ffffff30;border-radius:999px;background:#162541;color:#f7f9fc;font:inherit;font-size:12px;padding:7px 12px;cursor:pointer}.chat-v55-suggestions{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}.chat-v55-suggestions button:hover,.chat-v55-clear:hover{border-color:#ff741c}.chat-v55-tools button:focus-visible,.chat-v55-suggestions button:focus-visible{outline:2px solid #ff9b51;outline-offset:2px}';document.head.append(style);
+ const style=document.createElement('style');style.textContent='.chat-v55-tools{display:flex;justify-content:flex-end;margin:8px 0}.chat-v55-clear,.chat-v55-suggestions button{border:1px solid #ffffff30;border-radius:999px;background:#162541;color:#f7f9fc;font:inherit;font-size:12px;padding:7px 12px;cursor:pointer}.chat-v55-suggestions{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}.chat-v55-suggestions button:hover,.chat-v55-clear:hover{border-color:#ff741c}.chat-v55-tools button:focus-visible,.chat-v55-suggestions button:focus-visible{outline:2px solid #ff9b51;outline-offset:2px}.chat-source-label{display:block;margin-top:8px;color:#ffb76d;font-size:11px;line-height:1.4;letter-spacing:.01em}';document.head.append(style);
  const current=()=>labels[language.value]||labels.en;
- function append(text,who){const p=document.createElement('p');p.className='chat-message '+who;p.textContent=text;log.append(p);while(log.children.length>40)log.firstElementChild.remove();log.scrollTop=log.scrollHeight;}
+ function append(text,who){const p=document.createElement('p');p.className='chat-message '+who;p.textContent=text;log.append(p);while(log.children.length>40)log.firstElementChild.remove();log.scrollTop=log.scrollHeight;return p;}
  function cancel(){if(pending!==null){clearTimeout(pending);pending=null;}if(abortController){abortController.abort();abortController=null;}typing.hidden=true;send.disabled=false;}
  function populate(){clear.textContent=current().clear;suggestions.replaceChildren();current().topics.forEach((label,index)=>{const btn=document.createElement('button');btn.type='button';btn.textContent=label;btn.addEventListener('click',()=>{input.value=label;form.requestSubmit();});suggestions.append(btn);});}
  function sync(){language.value=mainLanguage.value;populate();}
@@ -39,7 +39,17 @@
    let data={};try{data=await response.json()}catch{}
    if(!response.ok)throw Error(data.error||'AI temporarily unavailable');
    if(typeof data.reply!=='string'||!data.reply.trim())throw Error('Empty AI reply');
-   append(data.reply,'assistant');
+   const bubble=append(data.reply,'assistant');
+   if(data.source_id&&/^ZLG-FAQ-\\d{3}$/.test(data.source_id)){
+    const tag=document.createElement('small');
+    tag.className='chat-source-label';
+    tag.textContent=(data.verification_status==='verified'?'Verified FAQ':'Unverified FAQ')+' · '+data.source_id;
+    bubble.append(document.createElement('span'),tag);
+   }else{
+    const tag=document.createElement('small');tag.className='chat-source-label';
+    tag.textContent=data.model==='verified-site-facts'?'Website facts':'OpenRouter AI · verify important details';
+    bubble.append(document.createElement('span'),tag);
+   }
    history.push({role:'user',content:message},{role:'assistant',content:data.reply.slice(0,1000)});
    history=history.slice(-8);
   }catch(error){
