@@ -18,14 +18,14 @@ function faqScore(question,record){
 }
 function findFaq(text,records){
  // Exact matches take precedence before fuzzy matching; preserve Myanmar combining marks.
- const exact=s=>String(s||'').normalize('NFKC').toLowerCase().replace(/\\s+/g,' ').trim();
+ const exact=s=>String(s||'').normalize('NFKC').toLowerCase().replace(/\s+/g,' ').trim();
  const query=exact(text);
  if(!query)return null;
  const matches=records.filter(r=>query===exact(r.question_en)||query===exact(r.question_my));
  if(matches.length===1)return matches[0];
  if(matches.length>1)return null; // ambiguous: do not assert a source-backed answer
  // Avoid misleading substring/token matches for non-Latin script.
- if(/[^\\x00-\\x7F]/.test(query))return null;
+ if(/[^\x00-\x7F]/.test(query))return null;
  let best=null,score=.58,tied=false;
  for(const record of records){
   const value=faqScore(text,record);
