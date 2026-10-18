@@ -66,7 +66,7 @@
    history=history.slice(-8);
   }catch(error){
    if(requestVersion!==conversationVersion)return;
-   if(!controller.signal.aborted)append('AI unavailable — '+(error.message||'Please try again later')+'. No demo response was substituted.','assistant');
+   if(!controller.signal.aborted){const detail=String(error.message||'Please try again later').trim().replace(/[.!?]+$/,'');append('AI unavailable — '+detail+'. No demo response was substituted.','assistant');}
    else if(log.isConnected)append('Request cancelled or timed out. Please try again.','assistant');
   }finally{clearTimeout(timeout);if(abortController===controller){abortController=null;typing.hidden=true;send.disabled=false;if(requestVersion===conversationVersion)input.focus();}}
  });
