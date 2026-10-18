@@ -3,7 +3,7 @@
  const panel=document.querySelector('#chat-panel'),launch=document.querySelector('#chat-launch'),form=document.querySelector('#chat-form'),input=document.querySelector('#chat-input'),log=document.querySelector('#chat-log'),typing=document.querySelector('#chat-typing'),language=document.querySelector('#chat-lang'),mainLanguage=document.querySelector('#lang');
  if(!panel||!launch||!form||!input||!log||!typing||!language||!mainLanguage)return;
  const send=form.querySelector('button[type="submit"]');
- let pending=null,abortController=null;
+ let pending=null,abortController=null,conversationVersion=0;
  const ENDPOINT='https://zolaigpt-v55-openrouter-preview.thangdeihpiang21.workers.dev';
  let history=[];
  const labels={
@@ -21,7 +21,7 @@
  function cancel(){if(pending!==null){clearTimeout(pending);pending=null;}if(abortController){abortController.abort();abortController=null;}typing.hidden=true;send.disabled=false;}
  function populate(){clear.textContent=current().clear;suggestions.replaceChildren();current().topics.forEach((label,index)=>{const btn=document.createElement('button');btn.type='button';btn.textContent=label;btn.addEventListener('click',()=>{input.value=label;form.requestSubmit();});suggestions.append(btn);});}
  function sync(){language.value=mainLanguage.value;populate();}
- function reset(){cancel();history=[];log.replaceChildren();append(current().welcome,'assistant');input.value='';input.focus();}
+ function reset(){conversationVersion++;cancel();history=[];log.replaceChildren();append(current().welcome,'assistant');input.value='';input.focus();}
  clear.addEventListener('click',reset);
  launch.addEventListener('click',()=>{sync();if(!panel.open)panel.showModal();launch.setAttribute('aria-expanded','true');input.focus();});
  const close=()=>panel.close();document.querySelector('#chat-close').addEventListener('click',close);document.querySelector('#chat-minimize').addEventListener('click',close);
@@ -32,6 +32,7 @@
  form.addEventListener('submit',async event=>{
   event.preventDefault();const message=input.value.trim();if(!message||pending!==null||abortController)return;
   append(message,'user');input.value='';typing.hidden=false;send.disabled=true;
+  const requestVersion=conversationVersion;
   const controller=new AbortController();abortController=controller;
   const timeout=setTimeout(()=>controller.abort(),18000);
   try{
@@ -39,6 +40,7 @@
    let data={};try{data=await response.json()}catch{}
    if(!response.ok)throw Error(data.error||'AI temporarily unavailable');
    if(typeof data.reply!=='string'||!data.reply.trim())throw Error('Empty AI reply');
+   if(requestVersion!==conversationVersion)return;
    const bubble=append(data.reply,'assistant');
    if(data.source_id&&/^ZLG-FAQ-\d{3}$/.test(data.source_id)){
     const tag=document.createElement('small');
@@ -53,9 +55,10 @@
    history.push({role:'user',content:message},{role:'assistant',content:data.reply.slice(0,1000)});
    history=history.slice(-8);
   }catch(error){
+   if(requestVersion!==conversationVersion)return;
    if(!controller.signal.aborted)append('AI unavailable — '+(error.message||'Please try again later')+'. No demo response was substituted.','assistant');
    else if(log.isConnected)append('Request cancelled or timed out. Please try again.','assistant');
-  }finally{clearTimeout(timeout);if(abortController===controller)abortController=null;typing.hidden=true;send.disabled=false;input.focus();}
+  }finally{clearTimeout(timeout);if(abortController===controller){abortController=null;typing.hidden=true;send.disabled=false;if(requestVersion===conversationVersion)input.focus();}}
  });
  window.addEventListener('pagehide',cancel);
 })();
