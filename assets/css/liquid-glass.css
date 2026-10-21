@@ -1,0 +1,160 @@
+/* ZoLaiGPT V5.6 — liquid glass design layer.
+   Presentation only: orb rendering, translations and demo-chat behavior unchanged.
+   Dark contrast-safe surfaces; visual transparency is progressively enhanced. */
+:root{
+ --glass-edge:rgba(218,236,255,.21);
+ --glass-edge-bright:rgba(255,235,207,.43);
+ --glass-surface:rgba(21,39,62,.80);
+ --glass-ink:#f5f7fc;
+ --glass-shadow:0 16px 48px rgba(0,4,14,.31);
+ --glass-blur:18px;
+ --glass-radius:26px;
+}
+body{
+ background-color:#050a14;
+ background-image:
+  radial-gradient(ellipse 65% 26% at 90% 9%,rgba(49,113,175,.17),transparent 77%),
+  radial-gradient(ellipse 48% 19% at 4% 45%,rgba(255,112,35,.075),transparent 80%),
+  linear-gradient(170deg,#050a14 0%,#081322 54%,#050b16 100%);
+ background-attachment:scroll;
+}
+.header{
+ border:1px solid var(--glass-edge);
+ border-top-color:rgba(241,250,255,.35);
+ background:linear-gradient(125deg,rgba(33,56,81,.84),rgba(10,20,35,.91) 55%,rgba(22,40,60,.84));
+ box-shadow:0 12px 42px rgba(0,3,13,.3),inset 0 1px rgba(255,255,255,.085);
+ border-radius:24px;
+ -webkit-backdrop-filter:blur(var(--glass-blur)) saturate(135%);
+ backdrop-filter:blur(var(--glass-blur)) saturate(135%);
+}
+.header .brand img{filter:drop-shadow(0 0 10px rgba(255,138,48,.32))}
+#nav a{transition:color .22s}
+.header select,.chat-tools select{
+ border-color:rgba(196,222,255,.22);
+ background:linear-gradient(155deg,rgba(41,64,91,.88),rgba(13,25,45,.95));
+ box-shadow:inset 0 1px rgba(255,255,255,.095);
+ border-radius:14px;
+}
+.menu{border-radius:14px}
+.version-pill{
+ border-color:rgba(255,194,127,.45);
+ background:linear-gradient(110deg,rgba(255,162,74,.17),rgba(247,204,147,.045));
+ color:#ffe0b7;
+ box-shadow:inset 0 1px rgba(255,236,219,.10),0 0 23px rgba(255,137,44,.10);
+ padding:5px 12px;
+}
+.button{position:relative;isolation:isolate;overflow:hidden}
+.button.primary{
+ background:linear-gradient(125deg,#ffe0a8 0%,#ff9c40 38%,#fb711f 100%);
+ box-shadow:inset 0 1px rgba(255,255,255,.53),0 12px 26px rgba(255,113,26,.25);
+}
+.button.primary:after{
+ content:'';position:absolute;inset:0;
+ background:linear-gradient(110deg,transparent 24%,rgba(255,255,255,.18) 43%,transparent 64%);
+ transform:translateX(-130%);pointer-events:none;
+}
+.button.primary:hover:after{transform:translateX(130%);transition:transform .75s ease}
+.button.secondary,.device-picker button,.orb-caption button,.back-top{
+ background:linear-gradient(145deg,rgba(53,78,107,.5),rgba(12,25,43,.78));
+ border-color:var(--glass-edge);
+ box-shadow:inset 0 1px rgba(255,255,255,.095);
+ -webkit-backdrop-filter:blur(12px);
+ backdrop-filter:blur(12px);
+}
+.orb-caption{
+ width:fit-content;max-width:100%;margin-inline:auto;padding:11px 16px;
+ border-radius:999px;border:1px solid rgba(188,217,248,.22);
+ background:linear-gradient(120deg,rgba(36,57,82,.68),rgba(9,22,38,.76));
+ box-shadow:inset 0 1px rgba(255,255,255,.10),0 12px 36px rgba(0,5,16,.3);
+ -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
+}
+.language-cards button,.feature,.plan,.phone-stage,.assistant-teaser,.coming-panel,.update-entry{
+ position:relative;isolation:isolate;
+ border:1px solid var(--glass-edge);
+ border-top-color:rgba(237,246,255,.29);
+ border-radius:var(--glass-radius);
+ background:
+  radial-gradient(ellipse 95% 72% at 7% 0%,rgba(164,214,255,.12),transparent 69%),
+  linear-gradient(139deg,rgba(36,59,85,.80),rgba(10,23,40,.85) 56%,rgba(20,32,52,.85));
+ box-shadow:var(--glass-shadow),inset 0 1px rgba(255,255,255,.10);
+ -webkit-backdrop-filter:blur(var(--glass-blur)) saturate(118%);
+ backdrop-filter:blur(var(--glass-blur)) saturate(118%);
+}
+.language-cards button:before,.feature:before,.plan:before,.assistant-teaser:before,.coming-panel:before{
+ content:'';position:absolute;pointer-events:none;inset:0;
+ border-radius:inherit;
+ background:linear-gradient(128deg,rgba(255,255,255,.09),transparent 36%,transparent 72%,rgba(130,190,253,.045));
+}
+.language-cards button:hover,.feature:hover,.plan:hover{
+ border-color:rgba(255,195,133,.53);
+ box-shadow:0 21px 52px rgba(0,4,16,.36),0 0 26px rgba(255,122,35,.065),inset 0 1px rgba(255,255,255,.18);
+}
+.language-cards button[aria-pressed=true]{
+ background:radial-gradient(ellipse at 0% 0%,rgba(255,163,77,.20),transparent 70%),linear-gradient(140deg,rgba(44,57,73,.88),rgba(13,27,44,.88));
+ border-color:rgba(255,174,96,.65);
+}
+.feature:nth-child(2),.plan:nth-child(2),.assistant-teaser{
+ background:radial-gradient(ellipse at 0% 0%,rgba(89,161,229,.14),transparent 67%),linear-gradient(145deg,rgba(32,53,81,.82),rgba(11,25,43,.87));
+}
+.feature:nth-child(3),.plan:nth-child(3),.coming-panel{
+ background:radial-gradient(ellipse at 80% 5%,rgba(255,149,65,.16),transparent 70%),linear-gradient(145deg,rgba(44,43,56,.83),rgba(13,24,42,.88));
+}
+.plan:nth-child(3){border-color:rgba(255,179,104,.59);box-shadow:0 18px 45px rgba(0,3,12,.37),0 0 25px rgba(255,143,64,.065),inset 0 1px rgba(255,255,255,.12)}
+.mission{background:radial-gradient(ellipse at 13% 27%,rgba(79,149,207,.10),transparent 60%),linear-gradient(145deg,rgba(9,24,42,.56),rgba(6,13,24,.75))}
+.phone-stage{background:radial-gradient(ellipse at 45% 40%,rgba(64,130,191,.21),transparent 65%),linear-gradient(140deg,rgba(31,51,76,.76),rgba(10,21,37,.86))}
+.assistant-teaser{transform:rotate(-1deg)}
+.update-entry{gap:12px 24px}
+.update-entry small{color:#ffd5a8}
+#chat-launch{
+ background:linear-gradient(135deg,rgba(65,73,91,.94),rgba(17,30,50,.94));
+ border:1px solid rgba(255,190,121,.65);
+ box-shadow:0 12px 37px rgba(0,4,16,.46),0 0 21px rgba(255,129,40,.13),inset 0 1px rgba(255,255,255,.23);
+ -webkit-backdrop-filter:blur(20px) saturate(140%);backdrop-filter:blur(20px) saturate(140%);
+}
+#chat-panel{
+ border:1px solid rgba(207,229,255,.33);
+ border-top-color:rgba(239,248,255,.44);
+ background:linear-gradient(150deg,rgba(28,49,76,.96),rgba(11,23,43,.97) 58%,rgba(21,33,51,.96));
+ box-shadow:0 34px 100px rgba(0,3,12,.72),inset 0 1px rgba(255,255,255,.15);
+ -webkit-backdrop-filter:blur(26px) saturate(125%);
+ backdrop-filter:blur(26px) saturate(125%);
+}
+.chat-message{background:linear-gradient(145deg,rgba(58,85,116,.65),rgba(27,47,73,.78));border-color:rgba(206,228,253,.16)}
+.chat-message.user{background:linear-gradient(145deg,rgba(130,76,41,.60),rgba(74,40,28,.70));border-color:rgba(255,186,119,.24)}
+.chat-tools button,.quick-prompts button{
+ background:linear-gradient(130deg,rgba(57,82,105,.62),rgba(20,37,56,.82));
+ border-color:rgba(210,230,255,.24);
+ box-shadow:inset 0 1px rgba(255,255,255,.09);
+}
+#chat-form{
+ border-color:rgba(206,230,255,.36);
+ background:linear-gradient(120deg,rgba(11,22,39,.89),rgba(31,52,75,.79));
+ box-shadow:inset 0 1px rgba(255,255,255,.09);
+}
+#chat-form:focus-within{border-color:#f7b578;box-shadow:0 0 0 2px rgba(255,157,68,.16)}
+#chat-form button{background:linear-gradient(145deg,#ffe3b2,#ff9c43 58%,#ff7d2e);box-shadow:inset 0 1px rgba(255,255,255,.55)}
+.footer-bottom{border-top-color:rgba(207,228,252,.15)}
+@supports not ((-webkit-backdrop-filter:blur(1px)) or (backdrop-filter:blur(1px))){
+ .header,.language-cards button,.feature,.plan,.phone-stage,.assistant-teaser,.coming-panel,.update-entry,#chat-panel,#chat-launch,.orb-caption{background-color:#102035}
+}
+@media(max-width:700px){
+ :root{--glass-blur:12px}
+ .header{border-radius:20px}
+ .language-cards button,.feature,.plan,.phone-stage,.assistant-teaser,.coming-panel,.update-entry{border-radius:22px}
+ .orb-caption{padding:9px 10px;border-radius:18px}
+ #chat-panel{max-height:calc(100dvh - 24px)}
+}
+@media(max-width:350px){
+ .orb-caption{gap:7px}
+ .version-pill{padding:4px 7px}
+ .header{padding-inline:8px}
+}
+@media(prefers-reduced-motion:reduce){
+ .button.primary:after{display:none}
+ .button,.language-cards button,.feature,.plan{transition:none!important}
+ .assistant-teaser{transform:none}
+}
+@media(prefers-contrast:more){
+ .header,.language-cards button,.feature,.plan,.phone-stage,.assistant-teaser,.coming-panel,.update-entry,#chat-panel{border-color:#b9cce5;background:#0c1b2d}
+ .version-pill,.chat-message{border-color:#f1c18e}
+}
