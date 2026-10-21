@@ -80,6 +80,14 @@ export default function Workspace() {
     return () => { viewport?.removeEventListener('resize', adjust); document.documentElement.style.removeProperty('--workspace-height'); };
   }, []);
 
+  useEffect(() => {
+    const running = job.current;
+    if (!reduced || !running) return;
+    if (running.timer) clearTimeout(running.timer);
+    setThreads(items => items.map(t => t.id !== running.threadId ? t : {...t, messages:t.messages.map(m => m.id === running.messageId ? {...m,content:running.reply} : m)}));
+    job.current = null; setStreamId(null);
+  }, [reduced]);
+
   function stop() {
     if (job.current?.timer) clearTimeout(job.current.timer);
     const running = job.current;

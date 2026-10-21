@@ -158,3 +158,6 @@ body{
  .header,.language-cards button,.feature,.plan,.phone-stage,.assistant-teaser,.coming-panel,.update-entry,#chat-panel{border-color:#b9cce5;background:#0c1b2d}
  .version-pill,.chat-message{border-color:#f1c18e}
 }
+
+/* V5.7 workspace entry, retained alongside the compact homepage demo. */
+.workspace-entry{display:flex;justify-content:space-between;align-items:center;padding:11px 14px;border:1px solid #ffbd7045;border-radius:12px;background:#ffbd700b;color:#ffd8ab;font-size:11px}.assistant-section .button{margin:0 8px 12px 0}@media(min-width:1001px){#nav{gap:18px}}
