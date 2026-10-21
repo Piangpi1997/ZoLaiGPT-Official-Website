@@ -1,6 +1,12 @@
-# ZoLaiGPT V5.5 — VNext Premium Orb Preview
+# ZoLaiGPT V5.6 — Liquid Glass + Premium Orb Preview
 
 PREVIEW ONLY. Do not merge this branch into main or upload its noindex headers to the production project without separate approval and a production SEO review.
+
+
+## V5.6 Liquid Glass interface
+The original VNext Premium Orb stays intact. The new last-loaded `assets/css/liquid-glass.css` adds frosted glass, layered specular highlights, translucent dark surfaces, glowing amber accents and refined outlines to navigation, cards, buttons, future updates and the chat panel. Mobile blur is reduced and unsupported backdrop-filter/high contrast/reduced motion all have fallbacks. The version and preview updates are managed in `assets/js/site-config.js`.
+
+This remains an explicitly labelled **local demo** chatbot. The older V5.5 OpenRouter Worker is not implicitly wired into this redesigned branch. Never add or expose API keys in source control.
 
 ## Design
 The owner-supplied orange glass orb artwork replaces the globe map and sticker-like emblem. Independent amber/blue orbit travelers, glass lighting, floating core, restrained particles and a luminous base create a dimensional CSS composition. This is a layered artwork/CSS experience, not a claimed real-time 3D/WebGL sphere. It works without WebGL or third-party runtime libraries.
@@ -12,7 +18,7 @@ Serve the repository root: `python3 -m http.server 8080`. Open http://localhost:
 
 ## Organization
 - index.html: semantic content and reusable section/card markup.
-- styles.css: CSS entry point; assets/css/{base,sections,orb,chatbot}.css.
+- styles.css: CSS entry point; assets/css/{base,sections,orb,chatbot,liquid-glass}.css.
 - script.js: bootstrap/navigation/screenshot selection.
 - assets/js/translations.js: original dictionaries; i18n.js: shared language state.
 - assets/js/site-config.js: version/channel and future announcements. Change version here for V5.6/V6. Metadata title is separately editorial.
@@ -25,7 +31,7 @@ Serve the repository root: `python3 -m http.server 8080`. Open http://localhost:
 Reduced motion disables CSS loops automatically. Pause/Resume applies across the page. Hidden tabs and offscreen orb stop relevant animations. Quiet atmosphere removes particles, reflection and floating motion; low-memory/CPU/save-data devices default to this lighter configuration. A CSS-lit original-logo fallback appears if orb artwork fails. Main illustration is the supplied artwork encoded as WebP (dimensions and transparency retained) and is prioritized. App screenshots are lazy-loaded. No Lighthouse or physical-device FPS score is claimed.
 
 ## Preview deployment
-Branch: release/vnext-premium-orb-preview. Preferred: push this branch to the existing repository so its Cloudflare Pages Git integration creates a branch preview. Do not change the main/production branch mapping. If preview builds are disabled, enable only this branch's preview build in the intended preview project or direct-upload the ZIP to a dedicated preview project. Preserve `_headers` and robots meta noindex. Never assign zolaigptofficial.com to this preview.
+Branch: feature/v56-liquid-glass-preview. Preferred: push this branch to the existing repository so its Cloudflare Pages Git integration creates a branch preview. Do not change the main/production branch mapping. If preview builds are disabled, enable only this branch's preview build in the intended preview project or direct-upload the ZIP to a dedicated preview project. Preserve `_headers` and robots meta noindex. Never assign zolaigptofficial.com to this preview.
 
 Use the final report for actual branch/commit/deployment status; these instructions alone are not evidence of deployment.
 
