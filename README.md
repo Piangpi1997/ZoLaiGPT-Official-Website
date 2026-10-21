@@ -1,33 +1,36 @@
-# ZoLaiGPT Official Website
+# ZoLaiGPT V5.5 — VNext Premium Orb Preview
 
-**Independent public-facing brand website for ZoLaiGPT.** The mobile app and existing production Workers remain separate and unchanged.
+PREVIEW ONLY. Do not merge this branch into main or upload its noindex headers to the production project without separate approval and a production SEO review.
 
-## Included
-- `index.html` — responsive static one-page website, SEO/meta, sections for Home, Features, About, App, Updates, Contact
-- `styles.css` — dark navy and orange premium style
-- `script.js` — English / Myanmar / draft Zomi (Tedim) UI, mobile navigation
-- `logo.png` — existing ZoLaiGPT logo supplied earlier by the project owner
-- `.nojekyll` — useful if deploying to GitHub Pages
+## Design
+The owner-supplied orange glass orb artwork replaces the globe map and sticker-like emblem. Independent amber/blue orbit travelers, glass lighting, floating core, restrained particles and a luminous base create a dimensional CSS composition. This is a layered artwork/CSS experience, not a claimed real-time 3D/WebGL sphere. It works without WebGL or third-party runtime libraries.
 
-## Deployment to GitHub (new repository)
-1. Create repository `Zolai-AI/zolaigpt-website` under the organization if you have organization permission. Prefer **Public** for the official public website.
-2. On the repository's **Add file → Upload files**, extract the ZIP first, then upload these files at the repository **root**, not inside a nested folder. Commit to `main`.
-3. In Cloudflare Pages, create a **new** project connected to that GitHub repo (do not edit existing projects). Use Framework preset **None**, build command **blank**, output directory **/** or root as supported by Pages UI. If the Pages UI requires a built output folder, use a simple build script to copy the root static files to `dist` and set output to `dist`.
-4. Confirm all nav links, languages, and mobile layout before configuring a custom domain.
+Original logo.png, translations, ten social destinations, real app screenshots, legal drafts, canonical domain, sitemap and verification file remain intact. New editorial/preview labels stay in English until approved translations are available. Zomi source copy remains draft.
 
-## Important editorial checks
-- The Zomi localization in `script.js` is **draft**, must be reviewed by a fluent Tedim speaker before representing it as authoritative.
-- The App download button intentionally goes to the App section, **not** an invented APK or Play Store URL.
-- The official contact method and release date have **not** been supplied, so this starter doesn't invent them.
-- Before presenting the site as publicly official, confirm branding, domain ownership, privacy policy and content with the project owner.
-- All third-party resources: optional Google Fonts via CSS; page still works using device fonts if blocked.
-- No AI chat, D1 or dataset storage features; the site is informational, independent of production and the app.
+## Run
+Serve the repository root: `python3 -m http.server 8080`. Open http://localhost:8080/. Modules need HTTP; file:// is unsupported. No build step or install is needed.
 
-## Contact and Social Links update
-Version 2 adds the user-provided Facebook, GitHub, WhatsApp, Threads, TikTok, Instagram, X, Discord, LinkedIn, Email, and telephone contacts to the Contact section. WhatsApp uses `https://wa.me/60189745031` rather than a generic app-install link. Verify any time-limited share/invite links periodically. All phone/email details here are public on the website by design.
+## Organization
+- index.html: semantic content and reusable section/card markup.
+- styles.css: CSS entry point; assets/css/{base,sections,orb,chatbot}.css.
+- script.js: bootstrap/navigation/screenshot selection.
+- assets/js/translations.js: original dictionaries; i18n.js: shared language state.
+- assets/js/site-config.js: version/channel and future announcements. Change version here for V5.6/V6. Metadata title is separately editorial.
+- assets/js/animation.js: system reduced motion, explicit pause, visibility and reveals.
+- hero-orb.js: optional quiet atmosphere, artwork failure fallback and offscreen pause.
+- chatbot.js: honest local scripted preview with source-based multilingual replies and quick prompts. No network calls, API keys, backend or persistent chat storage.
+- qa.html: responsive test harness; optional and noindex.
 
-To update the live Pages site: upload these files into the personal GitHub repo `Piangpi1997/ZoLaiGPT-Official-Website` root, replacing older files, and commit. The connected Cloudflare Pages project will automatically rebuild. Do this only when ready to publish the listed contacts publicly.
+## Motion and performance
+Reduced motion disables CSS loops automatically. Pause/Resume applies across the page. Hidden tabs and offscreen orb stop relevant animations. Quiet atmosphere removes particles, reflection and floating motion; low-memory/CPU/save-data devices default to this lighter configuration. A CSS-lit original-logo fallback appears if orb artwork fails. Main illustration is the supplied artwork encoded as WebP (dimensions and transparency retained) and is prioritized. App screenshots are lazy-loaded. No Lighthouse or physical-device FPS score is claimed.
 
+## Preview deployment
+Branch: release/vnext-premium-orb-preview. Preferred: push this branch to the existing repository so its Cloudflare Pages Git integration creates a branch preview. Do not change the main/production branch mapping. If preview builds are disabled, enable only this branch's preview build in the intended preview project or direct-upload the ZIP to a dedicated preview project. Preserve `_headers` and robots meta noindex. Never assign zolaigptofficial.com to this preview.
 
-## V3 review draft
-Includes English / Myanmar / Zomi (Tedim) draft Privacy Policy and Terms of Use. Both pages are temporarily `noindex` pending review. Verify operator identity, legal jurisdiction, Cloudflare analytics/logging, retention periods, Google Fonts third-party requests, and ownership/brand permission. Zomi legal translations require fluent Tedim review. Social links and existing main-language UI are preserved. After approval, revise legal copy and remove `noindex`/robots exclusion as appropriate.
+Use the final report for actual branch/commit/deployment status; these instructions alone are not evidence of deployment.
+
+## Rollback
+Pre-change repository commit: e008d40f854e4ef325177ac194de67f30fa10e43. Changes are isolated to the preview branch; production can continue serving its existing deployment. Restore that commit on a separate preview branch or use the previous preview URL. No production rollback is needed because this task does not deploy to production.
+
+## Future real AI (proposal, not deployed)
+Use a separate server-side Worker proxy with provider credentials in secrets, authenticated sessions, per-user/IP rate and concurrency limits, bounded input/output, timeout handling, bot/abuse controls and minimal redacted logs. Cookie sessions need CSRF/origin protection. Validate that model output is a non-empty string and return a clear retryable error otherwise. Do not connect or alter the Android backend without authorization. Current UI is explicitly a local demo, not a secure production AI backend.

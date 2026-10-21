@@ -1,18 +1,17 @@
-'use strict';
-(() => {
- const panel=document.querySelector('#chat-panel'),launch=document.querySelector('#chat-launch'),form=document.querySelector('#chat-form'),input=document.querySelector('#chat-input'),log=document.querySelector('#chat-log'),typing=document.querySelector('#chat-typing'),language=document.querySelector('#chat-lang'),mainLanguage=document.querySelector('#lang');
- let pending=null;
- function append(text,who){const p=document.createElement('p');p.className='chat-message '+who;p.textContent=text;log.append(p);while(log.children.length>40)log.firstElementChild.remove();log.scrollTop=log.scrollHeight}
- function sync(){language.value=mainLanguage.value}
- launch.addEventListener('click',()=>{sync();panel.showModal();launch.setAttribute('aria-expanded','true');input.focus()});
- const close=()=>panel.close();document.querySelector('#chat-close').addEventListener('click',close);document.querySelector('#chat-minimize').addEventListener('click',close);
+import {translate,setLanguage,getLanguage} from './assets/js/i18n.js';
+// Preview demo: deterministic source-content replies only; no network or API secrets.
+export function initChatbot(){
+ const panel=document.querySelector('#chat-panel'),launch=document.querySelector('#chat-launch'),input=document.querySelector('#chat-input'),form=document.querySelector('#chat-form'),log=document.querySelector('#chat-log'),typing=document.querySelector('#chat-typing');let timer=null;
+ const busy=on=>{typing.hidden=!on;form.querySelector('button').disabled=on;document.querySelectorAll('[data-prompt]').forEach(b=>b.disabled=on)};
+ function append(text,role){const el=document.createElement('p');el.className=`chat-message ${role}`;el.textContent=text;log.append(el);while(log.children.length>40)log.firstElementChild.remove();log.scrollTop=log.scrollHeight;}
+ function open(){document.querySelector('#chat-lang').value=getLanguage();panel.showModal();launch.setAttribute('aria-expanded','true');input.focus();}
+ launch.addEventListener('click',open);document.querySelectorAll('[data-open-chat]').forEach(b=>b.addEventListener('click',open));
+ for(const id of ['chat-close','chat-minimize'])document.getElementById(id).addEventListener('click',()=>panel.close());
  panel.addEventListener('close',()=>{launch.setAttribute('aria-expanded','false');launch.focus()});
- language.addEventListener('change',()=>{mainLanguage.value=language.value;mainLanguage.dispatchEvent(new Event('change'))});mainLanguage.addEventListener('change',sync);
- append('Demo Mode — try a message to see a sample reply using the website’s original content. This is not a live AI service.','assistant');
- form.addEventListener('submit',e=>{e.preventDefault();const text=input.value.trim();if(!text||pending!==null)return;append(text,'user');input.value='';typing.hidden=false;form.querySelector('button').disabled=true;
- const key=/language|ဘာသာ|pau/i.test(text)?'f1d':/mission|about|vision/i.test(text)?'aboutbody':'appdesc';
- const reply=document.querySelector(`[data-i="${key}"]`).textContent;
- pending=setTimeout(()=>{append('Demo reply — '+reply,'assistant');typing.hidden=true;form.querySelector('button').disabled=false;pending=null;input.focus()},650);
- });
- window.addEventListener('pagehide',()=>{if(pending!==null){clearTimeout(pending);pending=null;typing.hidden=true;form.querySelector('button').disabled=false}});
-})();
+ document.querySelector('#chat-expand').addEventListener('click',e=>{const expanded=panel.classList.toggle('expanded');e.currentTarget.setAttribute('aria-pressed',String(expanded));e.currentTarget.textContent=expanded?'Compact':'Expand';});
+ document.querySelector('#chat-lang').addEventListener('change',e=>setLanguage(e.target.value));
+ function send(text,key){if(timer!==null||!text.trim())return;append(text.slice(0,1000),'user');input.value='';busy(true);const source=key||(/language|ဘာသာ|pau/i.test(text)?'f1d':/mission|vision|about/i.test(text)?'aboutbody':'appdesc');const reply=translate(source);timer=setTimeout(()=>{append(reply?'Preview demo — '+reply:'Preview demo — information is currently unavailable. Please try again.','assistant');timer=null;busy(false);if(panel.open)input.focus()},550);}
+ form.addEventListener('submit',e=>{e.preventDefault();send(input.value)});document.querySelectorAll('[data-prompt]').forEach(b=>b.addEventListener('click',()=>send(b.textContent,b.dataset.prompt)));
+ append('Welcome to the ZoLaiGPT preview. Explore our languages, mission and app status with a local demo reply.','assistant');
+ window.addEventListener('pagehide',()=>{clearTimeout(timer);timer=null;busy(false)});
+}
