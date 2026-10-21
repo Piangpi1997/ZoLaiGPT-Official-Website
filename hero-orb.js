@@ -7,5 +7,6 @@ export function initOrb(){
  function fallback(){image.hidden=true;stage.classList.add('asset-fallback');stage.dataset.renderer='css-fallback'}
  image.addEventListener('error',fallback);if(image.complete&&image.naturalWidth===0)fallback();
  if('IntersectionObserver'in window){const observer=new IntersectionObserver(([entry])=>stage.classList.toggle('orb-offscreen',!entry.isIntersecting),{rootMargin:'80px'});observer.observe(stage);window.addEventListener('pagehide',e=>{if(!e.persisted)observer.disconnect()});}
- document.querySelector('#orb-detail').addEventListener('click',e=>{const simple=stage.classList.toggle('low-power');e.currentTarget.setAttribute('aria-pressed',String(simple));e.currentTarget.textContent=simple?'Full atmosphere':'Quiet atmosphere';});
+ const detail=document.querySelector('#orb-detail');detail.setAttribute('aria-pressed',String(Boolean(constrained)));detail.textContent=constrained?'Full atmosphere':'Quiet atmosphere';
+ detail.addEventListener('click',e=>{const simple=stage.classList.toggle('low-power');e.currentTarget.setAttribute('aria-pressed',String(simple));e.currentTarget.textContent=simple?'Full atmosphere':'Quiet atmosphere';});
 }
