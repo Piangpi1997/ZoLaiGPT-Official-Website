@@ -113,7 +113,7 @@ export default function Workspace() {
 
   function send(text = input) {
     if (!text.trim() || job.current) return;
-    if (messages.length >= 80) { notify('Start a new thread to continue this preview.'); return; }
+    if (messages.length >= 79) { notify('Start a new thread to continue this preview.'); return; }
     if (!activeId && threads.length >= 30) { notify('This preview holds up to 30 threads. Clear local conversations in preferences to continue.'); return; }
     const content = text.trim().slice(0, 4000) + (attachment ? `\n\nAttached locally: ${attachment.name}\n${attachment.text.slice(0, 6000)}` : '');
     let id = activeId;

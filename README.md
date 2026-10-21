@@ -10,7 +10,7 @@ PREVIEW ONLY. Do not merge this branch into main or upload its noindex headers t
 ## V5.6 Liquid Glass interface
 The original VNext Premium Orb stays intact. The new last-loaded `assets/css/liquid-glass.css` adds frosted glass, layered specular highlights, translucent dark surfaces, glowing amber accents and refined outlines to navigation, cards, buttons, future updates and the chat panel. Mobile blur is reduced and unsupported backdrop-filter/high contrast/reduced motion all have fallbacks. The version and preview updates are managed in `assets/js/site-config.js`.
 
-This remains an explicitly labelled **local demo** chatbot. The older V5.5 OpenRouter Worker is not implicitly wired into this redesigned branch. Never add or expose API keys in source control.
+This remains an explicitly labelled **local demo** chatbot. Any earlier OpenRouter/Worker endpoint must be independently verified before integration; it is not connected in this branch. Never add or expose API keys in source control.
 
 ## Design
 The owner-supplied orange glass orb artwork replaces the globe map and sticker-like emblem. Independent amber/blue orbit travelers, glass lighting, floating core, restrained particles and a luminous base create a dimensional CSS composition. This is a layered artwork/CSS experience, not a claimed real-time 3D/WebGL sphere. It works without WebGL or third-party runtime libraries.
