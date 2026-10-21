@@ -20,7 +20,7 @@ The homepage uses HTML/CSS/vanilla JavaScript and needs no installation/build. T
 - assets/js/announcement.js measures banner/header heights, adjusts anchor offsets, and remembers dismissals per announcement.
 - assets/js/components.js handles the native FAQ disclosure ARIA state and keyboard/button gallery scrolling.
 - assets/js/i18n.js and translations.js retain the original dictionaries. New editorial headings stay in English pending review; no new approved Zomi translations are claimed.
-- assets/js/animation.js and hero-orb.js retain manual pause, system reduced motion, hidden/offscreen pause, and quiet-atmosphere fallback. The orb is supplied artwork + CSS layers, not a native WebGL globe.
+- assets/js/animation.js and hero-orb.js retain manual pause, system reduced motion, hidden/offscreen pause, and quiet-atmosphere fallback. The hero now uses a real Three.js sphere with the original orb artwork projected into its surface, amber/blue orbital geometry and a star field. A CPU ray-cast Canvas sphere provides real 3D Y rotation when WebGL is unavailable; it does not CSS-rotate an image. Both renderers auto-rotate in 30 active seconds per turn. Original artwork remains a static fallback if neither renderer works. See docs/UNIVERSE-ROTATION-REPORT.md for actual verification limits.
 - chatbot.js keeps a clearly labelled local demo, prevents duplicate sends, and restores focus to the actual opener. /chat/ is also a local scripted demo, with no provider connection.
 
 The original logo, orb artwork, real app screenshots, legal drafts, SEO/verification files and all ten original social/contact destinations remain intact. App pricing/release availability is not invented. No purchase/download transaction is offered.
@@ -35,6 +35,6 @@ The script checks public local links, duplicate IDs, font references, the single
 
 ## Deployment and rollback
 
-Use only `feature/v57-spatial-chat-preview`. See docs/REFERENCE-DEPLOYMENT.md. Cloudflare deployment is not verified; the current connector fails and the Google sign-in attempt returned a generic Cloudflare error. Local browser verification does not prove public deployment. Production/main/Android backend were not changed.
+Use only `feature/v57-spatial-chat-preview`. See docs/REFERENCE-DEPLOYMENT.md. The preceding refinement a033002 was successfully deployed by the Git integration at https://22af2765.zolaigpt-official-website.pages.dev/. The universe refinement needs its own deployment result; use the final response for the latest verified URL. Dashboard sign-in is not needed for the Git preview workflow. Production/main/Android backend were not changed.
 
-The input ZIP is preserved separately as a baseline. Previous preview source commit: 59526d045a53a02bcdc76b9587679d3b30f244db. Restore that source on a separate preview branch, or revert this refinement on the preview branch, if necessary. Do not reset or force-push main.
+The input ZIP is preserved separately as a baseline. Previous preview source commit before the universe enhancement: a0330021a6ec5553f42376e7c50e0b8170c73628. Restore that source on a separate preview branch, or revert this refinement on the preview branch, if necessary. Do not reset or force-push main.

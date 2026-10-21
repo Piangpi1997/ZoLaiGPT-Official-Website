@@ -10,7 +10,7 @@
 6. Manual Direct Upload သုံးလျှင် dedicated preview project သို့သာ extracted deployable files တင်ပါ။ Existing production environment ကို ရွေးမတင်ပါနှင့်။ Provider UI က Git-integrated project တွင် upload မပေးလျှင် preview Git workflow ကိုသာ အသုံးပြုပါ။
 7. `_headers` နှင့် page noindex ကို ထိန်းထားပါ။ Official domain/custom domains၊ production mappings နှင့် API secrets မပြောင်းပါနှင့်။
 
-Current blocker: Cloudflare connector internal error နှင့် browser sign-in generic failure။ Public preview URL အသစ် မအတည်ပြုနိုင်သေးပါ။ ဤလမ်းညွှန်သည် deployed ဖြစ်ကြောင်း သက်သေမဟုတ်ပါ။
+Status update (2026-10-22): a033002 preview ကို Git integration က အောင်မြင်စွာ deploy လုပ်ထားပြီး https://22af2765.zolaigpt-official-website.pages.dev/ နှင့် /chat/ ကို browser တွင် ဖွင့်စစ်ထားသည်။ Universe enhancement အတွက် final response ရှိ deployment URL/commit ကို စစ်ပါ။ Dashboard sign-in error သည် Git preview deployment ကို မတားထားတော့ပါ။
 
 Rollback: Previous preview commit `59526d045a53a02bcdc76b9587679d3b30f244db` ကို branch အသစ်တွင် checkout လုပ်နိုင်သည်၊ သို့မဟုတ် refinement commit ကို preview branch ပေါ်တွင် revert လုပ်နိုင်သည်။ Input V5.6 ZIP ကို backup အဖြစ် သီးခြားထားသည်။ Production မတင်ထားသဖြင့် production rollback မလိုပါ။
 
