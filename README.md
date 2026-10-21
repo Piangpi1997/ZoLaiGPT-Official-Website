@@ -1,46 +1,40 @@
-# ZoLaiGPT V5.7 — Spatial Glass Workspace Preview
+# ZoLaiGPT V5.7 — Liquid Glass Website Preview
 
-Open `/chat/` for the new React/Next.js spatial chat workspace. See `chat-workspace/README.md` for source, rebuilding, demo limitations and secure future integration. Deploy-ready compiled assets are included in `chat/`; the original homepage and legal assets remain available at the root.
+Preview only. This refinement keeps the existing V5.7 version and the V5.6 source assets. It does not announce an app release. Do not merge to `main` or deploy to the official production domain.
 
-## Retained V5.6 homepage foundation
+## Run the complete project
 
-PREVIEW ONLY. Do not merge this branch into main or upload its noindex headers to the production project without separate approval and a production SEO review.
+```sh
+python3 -m http.server 8080
+```
 
+Open http://localhost:8080/ for the homepage, /chat/ for the existing spatial chat workspace, and /qa-reference.html for the responsive testing harness. Serve the extracted root, not chat/ alone. JavaScript modules require HTTP; opening index.html via file:// is unsupported.
 
-## V5.6 Liquid Glass interface
-The original VNext Premium Orb stays intact. The new last-loaded `assets/css/liquid-glass.css` adds frosted glass, layered specular highlights, translucent dark surfaces, glowing amber accents and refined outlines to navigation, cards, buttons, future updates and the chat panel. Mobile blur is reduced and unsupported backdrop-filter/high contrast/reduced motion all have fallbacks. The version and preview updates are managed in `assets/js/site-config.js`.
+The homepage uses HTML/CSS/vanilla JavaScript and needs no installation/build. The independent Next.js chat workspace source remains in chat-workspace/; its complete compiled export is included at chat/. The chat source was not changed by this refinement. Rebuild instructions and dependency licenses are in chat-workspace/README.md.
 
-This remains an explicitly labelled **local demo** chatbot. Any earlier OpenRouter/Worker endpoint must be independently verified before integration; it is not connected in this branch. Never add or expose API keys in source control.
+## Design and maintenance
 
-## Design
-The owner-supplied orange glass orb artwork replaces the globe map and sticker-like emblem. Independent amber/blue orbit travelers, glass lighting, floating core, restrained particles and a luminous base create a dimensional CSS composition. This is a layered artwork/CSS experience, not a claimed real-time 3D/WebGL sphere. It works without WebGL or third-party runtime libraries.
+- assets/css/tokens.css is the single homepage token source, with local Archivo and Noto Sans Myanmar fonts. Original orange brand art is unchanged; UI accents use violet and cyan.
+- assets/css/liquid-glass.css contains the final presentation and responsive rules. Overlay blur is limited to header/chat; large static cards use translucent gradients.
+- assets/js/site-config.js manages the existing version, announcement identifier/message, and future update cards. Change announcement.id for a genuinely new announcement so earlier dismissals do not hide it.
+- assets/js/announcement.js measures banner/header heights, adjusts anchor offsets, and remembers dismissals per announcement.
+- assets/js/components.js handles the native FAQ disclosure ARIA state and keyboard/button gallery scrolling.
+- assets/js/i18n.js and translations.js retain the original dictionaries. New editorial headings stay in English pending review; no new approved Zomi translations are claimed.
+- assets/js/animation.js and hero-orb.js retain manual pause, system reduced motion, hidden/offscreen pause, and quiet-atmosphere fallback. The orb is supplied artwork + CSS layers, not a native WebGL globe.
+- chatbot.js keeps a clearly labelled local demo, prevents duplicate sends, and restores focus to the actual opener. /chat/ is also a local scripted demo, with no provider connection.
 
-Original logo.png, translations, ten social destinations, real app screenshots, legal drafts, canonical domain, sitemap and verification file remain intact. New editorial/preview labels stay in English until approved translations are available. Zomi source copy remains draft.
+The original logo, orb artwork, real app screenshots, legal drafts, SEO/verification files and all ten original social/contact destinations remain intact. App pricing/release availability is not invented. No purchase/download transaction is offered.
 
-## Run
-Serve the repository root: `python3 -m http.server 8080`. Open http://localhost:8080/. Modules need HTTP; file:// is unsupported. No build step or install is needed.
+## Verify
 
-## Organization
-- index.html: semantic content and reusable section/card markup.
-- styles.css: CSS entry point; assets/css/{base,sections,orb,chatbot,liquid-glass}.css.
-- script.js: bootstrap/navigation/screenshot selection.
-- assets/js/translations.js: original dictionaries; i18n.js: shared language state.
-- assets/js/site-config.js: version/channel and future announcements. Change version here for V5.6/V6. Metadata title is separately editorial.
-- assets/js/animation.js: system reduced motion, explicit pause, visibility and reveals.
-- hero-orb.js: optional quiet atmosphere, artwork failure fallback and offscreen pause.
-- chatbot.js: honest local scripted preview with source-based multilingual replies and quick prompts. No network calls, API keys, backend or persistent chat storage.
-- qa.html: responsive test harness; optional and noindex.
+```sh
+python3 tools/verify-preview.py
+```
 
-## Motion and performance
-Reduced motion disables CSS loops automatically. Pause/Resume applies across the page. Hidden tabs and offscreen orb stop relevant animations. Quiet atmosphere removes particles, reflection and floating motion; low-memory/CPU/save-data devices default to this lighter configuration. A CSS-lit original-logo fallback appears if orb artwork fails. Main illustration is the supplied artwork encoded as WebP (dimensions and transparency retained) and is prioritized. App screenshots are lazy-loaded. No Lighthouse or physical-device FPS score is claimed.
+The script checks public local links, duplicate IDs, font references, the single homepage token root and solid-background text-token contrast. Actual browser results and remaining device checks are in docs/REFERENCE-UPDATE-REPORT.md. Earlier V5.6/V5.7 reports describe earlier revisions; the reference-update report supersedes their QA status for this revision.
 
-## Preview deployment
-Branch: feature/v56-liquid-glass-preview. Preferred: push this branch to the existing repository so its Cloudflare Pages Git integration creates a branch preview. Do not change the main/production branch mapping. If preview builds are disabled, enable only this branch's preview build in the intended preview project or direct-upload the ZIP to a dedicated preview project. Preserve `_headers` and robots meta noindex. Never assign zolaigptofficial.com to this preview.
+## Deployment and rollback
 
-Use the final report for actual branch/commit/deployment status; these instructions alone are not evidence of deployment.
+Use only `feature/v57-spatial-chat-preview`. See docs/REFERENCE-DEPLOYMENT.md. Cloudflare deployment is not verified; the current connector fails and the Google sign-in attempt returned a generic Cloudflare error. Local browser verification does not prove public deployment. Production/main/Android backend were not changed.
 
-## Rollback
-Pre-change repository commit: e008d40f854e4ef325177ac194de67f30fa10e43. Changes are isolated to the preview branch; production can continue serving its existing deployment. Restore that commit on a separate preview branch or use the previous preview URL. No production rollback is needed because this task does not deploy to production.
-
-## Future real AI (proposal, not deployed)
-Use a separate server-side Worker proxy with provider credentials in secrets, authenticated sessions, per-user/IP rate and concurrency limits, bounded input/output, timeout handling, bot/abuse controls and minimal redacted logs. Cookie sessions need CSRF/origin protection. Validate that model output is a non-empty string and return a clear retryable error otherwise. Do not connect or alter the Android backend without authorization. Current UI is explicitly a local demo, not a secure production AI backend.
+The input ZIP is preserved separately as a baseline. Previous preview source commit: 59526d045a53a02bcdc76b9587679d3b30f244db. Restore that source on a separate preview branch, or revert this refinement on the preview branch, if necessary. Do not reset or force-push main.
