@@ -6,3 +6,5 @@ Social icons: Simple Icons v13 (CC0), https://github.com/simple-icons/simple-ico
 Brand names and marks remain property of their respective owners.
 Original ZoLaiGPT logo and text: supplied source repository.
 App screenshots: user-supplied 1000232450.jpg and 1000232451.jpg, resized only by CSS; lossless proportions.
+
+V5.7 chat workspace: Next.js, React, Tailwind CSS, Framer Motion, Lucide, react-markdown, remark-gfm, Inter and JetBrains Mono. Exact versions are in chat-workspace/package-lock.json. Included direct-dependency/font licence texts are in chat-workspace/licenses. Font artwork remains unmodified.

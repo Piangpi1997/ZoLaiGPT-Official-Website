@@ -1,4 +1,8 @@
-# ZoLaiGPT V5.6 — Liquid Glass + Premium Orb Preview
+# ZoLaiGPT V5.7 — Spatial Glass Workspace Preview
+
+Open `/chat/` for the new React/Next.js spatial chat workspace. See `chat-workspace/README.md` for source, rebuilding, demo limitations and secure future integration. Deploy-ready compiled assets are included in `chat/`; the original homepage and legal assets remain available at the root.
+
+## Retained V5.6 homepage foundation
 
 PREVIEW ONLY. Do not merge this branch into main or upload its noindex headers to the production project without separate approval and a production SEO review.
 
