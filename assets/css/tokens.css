@@ -1,0 +1,21 @@
+/* Homepage design tokens. Legacy public aliases preserve existing component APIs. */
+@font-face{font-family:Archivo;src:url('../fonts/archivo-latin-variable.woff2') format('woff2');font-style:normal;font-weight:100 900;font-display:swap}
+@font-face{font-family:'Noto Sans Myanmar';src:url('../fonts/noto-sans-myanmar-400.woff2') format('woff2');font-style:normal;font-weight:400;font-display:swap}
+:root{
+ color-scheme:dark;
+ --tint:#7d68ff;--ot-ink:#0d0919;--ot-ink-soft:#1a1440;--ot-snow:#f4f4f9;--ot-night:#0c0a16;
+ --bg:#0c0a16;--bg-deep:#030408;--bg-raised:#151122;--bg-card:rgba(255,255,255,.045);--bg-card-hover:rgba(255,255,255,.075);--bg-glass:rgba(17,13,30,.92);--bg-inset:rgba(255,255,255,.03);
+ --text-hi:#f5f6fb;--text-mid:#b3b8d2;--text-lo:#969bb8;
+ --line:rgba(255,255,255,.12);--line-soft:rgba(255,255,255,.065);--line-hi:rgba(255,255,255,.25);
+ --accent:#8b7bff;--accent-soft:rgba(139,123,255,.18);--accent-line:rgba(139,123,255,.48);--accent-contrast:#fff;
+ --violet:#7c5cff;--violet-soft:#baa3ff;--violet-deep:#5b3ff0;
+ --cyan:#22d3ee;--cyan-soft:#67e8f9;--cyan-deep:#0ea5c9;
+ --green:#34d399;--amber:#fbbf24;--discord:#5865f2;--pink:#f472b6;--brand-orange:#ff741c;
+ --r-sm:10px;--r-md:14px;--r-lg:18px;--r-xl:24px;--r-2xl:32px;--r-full:999px;
+ --shadow-xs:0 1px 2px #0008;--shadow-sm:0 4px 14px #0007;--shadow-md:0 14px 38px -8px #000b;--shadow-lg:0 30px 70px -18px #000d;--shadow-accent:0 14px 44px -14px #7c5cff8c;--shadow-cyan:0 14px 44px -14px #22d3ee66;--inset-hair:inset 0 1px 0 #ffffff17;
+ --ease:cubic-bezier(.22,.61,.36,1);--ease-out:cubic-bezier(.16,1,.3,1);--ease-in-out:cubic-bezier(.65,0,.35,1);--t-fast:.18s var(--ease);--t-med:.34s var(--ease);--t-slow:.6s var(--ease);
+ --font:Archivo,'Noto Sans Myanmar','Myanmar Text',system-ui,sans-serif;
+ --surface:var(--bg-raised);--text:var(--text-hi);--muted:var(--text-mid);--orange:var(--brand-orange);--radius:var(--r-xl);
+ --glass-edge:var(--line);--glass-edge-bright:var(--line-hi);--glass-surface:var(--bg-glass);--glass-shadow:var(--shadow-md);--glass-blur:18px;--glass-radius:var(--r-xl);
+ --announcement-height:44px;--header-height:76px;--header-gap:12px;
+}

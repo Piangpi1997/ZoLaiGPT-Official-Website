@@ -1,0 +1,4 @@
+chat-workspace/node_modules/
+chat-workspace/.next/
+chat-workspace/out/
+chat-workspace/*.tsbuildinfo

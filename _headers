@@ -1,3 +1,33 @@
+# Security headers for all static website assets.
 /*
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
+
+# Keep Pages aliases and branch/deployment snapshots out of search results.
+https://:project.pages.dev/*
+  X-Robots-Tag: noindex, nofollow
+
+https://:deployment.:project.pages.dev/*
+  X-Robots-Tag: noindex, nofollow
+
+# Draft legal documents and local chat demos are not indexed.
+/privacy-policy*
+  X-Robots-Tag: noindex, nofollow
+
+/terms-of-use*
+  X-Robots-Tag: noindex, nofollow
+
+/chat*
+  X-Robots-Tag: noindex, nofollow
+
+/qa*
+  X-Robots-Tag: noindex, nofollow
+
+/docs/*
+  X-Robots-Tag: noindex, nofollow
+
+/tools/*
+  X-Robots-Tag: noindex, nofollow
+
+/*.md
+  X-Robots-Tag: noindex, nofollow

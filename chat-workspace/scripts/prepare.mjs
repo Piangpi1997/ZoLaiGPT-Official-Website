@@ -1,0 +1,4 @@
+import { copyFile, mkdir } from 'node:fs/promises';
+const root = new URL('../', import.meta.url);
+await mkdir(new URL('lib/', root), { recursive: true });
+await copyFile(new URL('../assets/js/translations.js', root), new URL('lib/source-translations.mjs', root));
