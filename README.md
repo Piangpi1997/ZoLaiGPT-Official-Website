@@ -1,6 +1,6 @@
-# ZoLaiGPT V5.7 — Liquid Glass Website Preview
+# ZoLaiGPT V5.7 — Official Website
 
-Preview only. This refinement keeps the existing V5.7 version and the V5.6 source assets. It does not announce an app release. Do not merge to `main` or deploy to the official production domain.
+Production release prepared on 2026-10-22 after the owner requested publishing to the website. This is the official brand website update; the app remains Coming Soon and both chat interfaces remain clearly labelled local demos. The original preview branch is retained separately.
 
 ## Run the complete project
 
@@ -35,6 +35,9 @@ The script checks public local links, duplicate IDs, font references, the single
 
 ## Deployment and rollback
 
-Use only `feature/v57-spatial-chat-preview`. See docs/REFERENCE-DEPLOYMENT.md. The preceding refinement a033002 was successfully deployed by the Git integration at https://22af2765.zolaigpt-official-website.pages.dev/. The universe refinement needs its own deployment result; use the final response for the latest verified URL. Dashboard sign-in is not needed for the Git preview workflow. Production/main/Android backend were not changed.
+Production uses `main` in the existing Cloudflare Pages project. Review `release/v57-universe-production` first; the preview branch remains `feature/v57-spatial-chat-preview`. See docs/PRODUCTION-RELEASE.md. The preceding refinement a033002 was successfully deployed by the Git integration at https://22af2765.zolaigpt-official-website.pages.dev/. The universe refinement needs its own deployment result; use the final response for the latest verified URL. Dashboard sign-in is not needed for the Git preview workflow. The Android backend remains separate. Production deployment is complete only after Cloudflare reports success for the main merge and the official domain serves it.
 
-The input ZIP is preserved separately as a baseline. Previous preview source commit before the universe enhancement: a0330021a6ec5553f42376e7c50e0b8170c73628. Restore that source on a separate preview branch, or revert this refinement on the preview branch, if necessary. Do not reset or force-push main.
+The input ZIP is preserved separately as a baseline. Previous preview source commit before the universe enhancement: a0330021a6ec5553f42376e7c50e0b8170c73628. Restore that source on a separate preview branch, or revert this refinement on the preview branch, if necessary. Do not reset or force-push main. The pre-release production commit is e008d40f854e4ef325177ac194de67f30fa10e43, retained on backup/production-20261022-e008d40.
+
+## Production SEO
+The official-domain homepage is indexable and retains its canonical, robots.txt, sitemap and Google verification file. Host-specific noindex headers protect Pages aliases. Legal drafts, /chat/, QA and source-report routes remain noindex. Chat is a local demo; no provider keys are embedded.
