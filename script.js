@@ -1,11 +1,11 @@
 import {initAnnouncement} from './assets/js/announcement.js';
-import {initGallery,initFaq} from './assets/js/components.js';
+import {initFaq} from './assets/js/components.js';
 import {siteConfig} from './assets/js/site-config.js';
 import {initLanguages} from './assets/js/i18n.js';
 import {initMotion} from './assets/js/animation.js';
 import {initOrb} from './hero-orb.js';
 import {initChatbot} from './chatbot.js';
-initLanguages();initMotion();initOrb();initChatbot();initAnnouncement();initGallery();initFaq();
+initLanguages();initMotion();initOrb();initChatbot();initAnnouncement();initFaq();
 document.querySelectorAll('[data-version]').forEach(el=>el.textContent=`V${siteConfig.version} · ${siteConfig.channel}`);
 document.querySelector('#year').textContent=new Date().getFullYear();
 const menu=document.querySelector('#menu'),nav=document.querySelector('#nav');
