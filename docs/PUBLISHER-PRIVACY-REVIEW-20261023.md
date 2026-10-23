@@ -5,10 +5,10 @@ Status: **PRODUCTION CANDIDATE ONLY / NOT A FINAL LEGAL APPROVAL**
 ## Publication identity decision
 - Public brand: **ZoLaiGPT**
 - Project status supplied by owner: independent project, **no SSM business registration currently claimed**
-- Website operator: **individual publisher** (public legal name deliberately NOT inserted)
+- Website operator: **Thang Piang** (individual website operator name as displayed in the account screenshot; do not infer a separate business registration)
 - Existing public contact: `thangdeihpiang21@gmail.com`
 - Never copy screenshots of AdSense payment settings, address, tax details, phone number, or payment profile IDs to the public website.
-- Confirm any required legal operator name with the owner before releasing it publicly.
+- Owner selected the option to publicly show an individual operator name. The displayed spelling should match the publisher's chosen public identity; do not publish address, tax or banking information.
 
 ## Source-backed privacy observations
 - Cloudflare Pages hosts the production domain `zolaigptofficial.com`.
@@ -34,7 +34,7 @@ Status: **PRODUCTION CANDIDATE ONLY / NOT A FINAL LEGAL APPROVAL**
 - Official source: https://www.pdp.gov.my/ppdpv1/en/akta/guidance-on-the-preparation-of-personal-data-protection-notices/
 
 ## Not yet known or approved
-- Public disclosure of the individual's full legal name or any additional contact details.
+- Legal-name consistency with any applicable official documentation, and requirements for other public contact details.
 - Final law-specific Privacy Policy/Terms review and translations by qualified reviewers.
 - Cloudflare zone analytics/security logging, actual retention periods, processing agreements, third-party cookie requests.
 - Actual AdSense ads and the legally applicable consent management requirements; Google policy for unsupported primary languages.
