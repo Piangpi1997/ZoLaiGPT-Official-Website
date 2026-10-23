@@ -86,12 +86,12 @@ for name in PAGES:
     if name.startswith('guides/') and name != 'guides/index.html':
         if not ('Editorial review needed' in text or 'Preview disclosure:' in text):
             errors.append('Missing human-review or preview notice: ' + name)
-    if name.startswith('guides/') and not re.search(r'<h1(?:\\s|>)', text, re.I):
+    if name.startswith('guides/') and not re.search(r'<h1(?:\s|>)', text, re.I):
         errors.append('Missing guide H1: ' + name)
 
 headers = ROOT / '_headers'
 if not headers.is_file() or not re.search(
-        r'(?m)^/\\*\\s*\\n\\s*X-Robots-Tag:\\s*noindex,\\s*nofollow',
+        r'(?m)^/\*\s*\n\s*X-Robots-Tag:\s*noindex,\s*nofollow',
         headers.read_text(encoding='utf-8')):
     errors.append('Preview-wide X-Robots-Tag noindex header is absent')
 styles = ROOT / 'styles.css'
@@ -101,7 +101,7 @@ else:
     entry = styles.read_text(encoding='utf-8')
     if 'knowledge-guides.css' not in entry:
         errors.append('Guide stylesheet missing from CSS imports')
-    for import_name in re.findall(r"@import\\s+url\\(['\\\"]([^'\\\"]+)", entry):
+    for import_name in re.findall(r"@import\s+url\(['\\"]([^'\\"]+)", entry):
         target = resolve_reference(styles, import_name)
         if target is not None and not target.is_file():
             errors.append('Missing imported CSS file: ' + import_name)
@@ -118,7 +118,7 @@ if not checker.is_file():
 elif guide.is_file() and download.is_file():
     widget = guide.read_text(encoding='utf-8')
     source = download.read_text(encoding='utf-8')
-    m = re.search(r'id="local-hash-expected">\\s*([0-9a-f]{64})', widget, re.I)
+    m = re.search(r'id="local-hash-expected">\s*([0-9a-f]{64})', widget, re.I)
     if not m:
         errors.append('Local checker reference digest missing')
     elif m.group(1).lower() not in source.lower():
@@ -129,7 +129,7 @@ elif guide.is_file() and download.is_file():
     if "crypto.subtle.digest('SHA-256'" not in script:
         errors.append('Browser checker does not use Web Crypto SHA-256')
     # Do not infer no-network privacy from comments. Check executable requests.
-    if re.search(r'\\b(?:fetch|XMLHttpRequest|sendBeacon)\\s*\\(', script):
+    if re.search(r'\b(?:fetch|XMLHttpRequest|sendBeacon)\s*\(', script):
         errors.append('Local checker includes a possible outbound request')
 else:
     errors.append('Cannot compare published and on-device SHA-256 references')
