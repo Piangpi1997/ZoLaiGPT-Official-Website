@@ -1,5 +1,7 @@
+# PREVIEW ONLY: Global noindex is REQUIRED. NEVER merge this file into main.
 # Security headers for all static website assets.
 /*
+  X-Robots-Tag: noindex, nofollow
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
 
