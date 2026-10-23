@@ -6,11 +6,12 @@
 <meta name="description" content="What the preview website code shows about advertising, browser language preferences, hosting, and the privacy policy work still needed.">
 <link rel="icon" href="../logo.png"><link rel="stylesheet" href="../assets/css/knowledge-guides.css"></head>
 <body class="guide-page">
+<a class="guide-skip" href="#guide-main">Skip to main content</a>
 <header class="guide-top guide-wrap">
-<a class="guide-brand" href="../"><img src="../logo.png" width="34" height="34" alt="">ZoLaiGPT <span style="color:#d5c3ff">/ Learn</span></a>
+<a class="guide-brand" href="../"><img src="../logo.png" width="34" height="34" alt="">ZoLaiGPT <span class="guide-wordmark-sub">/ Learn</span></a>
 <nav class="guide-nav" aria-label="Guides navigation"><a href="../">Website</a><a href="./">All guides</a><a href="editorial-standards.html">Editorial standards</a><a href="mailto:thangdeihpiang21@gmail.com">Contact</a></nav>
 </header>
-<main class="guide-wrap">
+<main id="guide-main" class="guide-wrap">
 <p class="guide-label">Visitor transparency · Editorial Preview</p>
 <h1>Privacy and advertising: what is and isn't ready</h1>
 <p class="guide-lede">Website visitors deserve a clear difference between what is visible in the current code, what is still being checked, and what would change if advertising were introduced later.</p>
@@ -22,6 +23,7 @@
 <h2>2. What does the inspected website code appear to store?</h2>
 <ul>
 <li><strong>Language preference:</strong> the homepage's <code>assets/js/i18n.js</code> stores a value under <code>zolaigpt-language</code> in browser <code>localStorage</code> so the site can remember the selected language. The site's English, Myanmar and Zomi language options remain available.</li>
+<li><strong>Announcement preference:</strong> <code>assets/js/announcement.js</code> stores a dismissal marker named <code>zolaigpt-announcement:&lt;id&gt;</code> in browser <code>localStorage</code>. A dismissed announcement can be shown again when its identifier changes.</li>
 <li><strong>Local chatbot demonstrations:</strong> the current public homepage and spatial chat are described as local demos, not verified live AI services. Browser-side chat content is not evidence that hosting or browser extensions never collect any data.</li>
 <li><strong>On-device checksum tool:</strong> the new source ZIP SHA-256 tool reads the file through the browser's Web Crypto API. Its preview JavaScript contains no upload or network request for that file. The browser reads the selected file locally; this is not an archive security audit.</li>
 <li><strong>Hosting:</strong> the site is hosted through Cloudflare Pages. Its provider may process traffic metadata and security logs even when the page itself has no AdSense code.</li>
@@ -29,7 +31,7 @@
 </ul>
 <h2>3. What information still needs the publisher's confirmation?</h2>
 <p>The operator must check Cloudflare Analytics, request logs, cookies, embedded services, third-party scripts, contact-message handling, retention, the actual site operator/legal entity, and where visitors are located. Source inspection cannot establish an account's private settings or data-retention policy.</p>
-<p>The existing <a href="../privacy-policy.html">Privacy Policy</a> and <a href="../terms-of-use.html">Terms of Use</a> are <strong>drafts</strong>. One older Privacy Policy paragraph refers to Google Fonts, while the currently inspected homepage CSS refers to self-hosted font files. The site owner needs to verify the final shipped pages and revise the statement if necessary rather than publish a guess.</p>
+<p>The existing <a href="../privacy-policy.html">Privacy Policy</a> and <a href="../terms-of-use.html">Terms of Use</a> are <strong>drafts</strong>. The current homepage loads local fonts from <code>assets/fonts/</code>, but <code>legal-original.css</code>, used by the draft legal pages, imports a stylesheet from <code>fonts.googleapis.com</code>. This means font requests differ by route. The operator must confirm final live requests and describe them accurately in the approved privacy policy. It is not accurate to conclude that all site fonts are self-hosted.</p>
 <h2>4. What would need to change for Google advertising?</h2>
 <p>Google's <a href="https://support.google.com/publisherpolicies/answer/10437794" target="_blank" rel="noopener noreferrer">publisher privacy disclosures policy</a> calls for accurate notice about information collected, shared or used through Google services, including cookies and identifiers when applicable. AdSense code, real publisher IDs and an accurate <code>ads.txt</code> record should only be added when an actual verified account and an approved deployment plan exist.</p>
 <p>Google's <a href="https://support.google.com/adsense/answer/9727" target="_blank" rel="noopener noreferrer">supported-language policy</a> includes English but does not currently list Myanmar (Burmese) or Zomi (Tedim). Google ad code must not be used on pages that are primarily written in unsupported languages. An automatically language-switching homepage would require special care.</p>
