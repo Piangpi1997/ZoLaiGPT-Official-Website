@@ -1,33 +1,83 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#0c0a16">
-  <meta name="description" content="Melmuh Tongluan v1.6.2 Android project source ZIP download. Not an installable APK.">
-  <title>Melmuh Tongluan v1.6.2 — Android Source | ZoLaiGPT</title>
-  <link rel="icon" href="../../logo.png">
-  <style>
-    *{box-sizing:border-box}body{margin:0;background:#0c0a16;color:#f0eef8;font-family:system-ui,-apple-system,Segoe UI,sans-serif;line-height:1.6}a{color:#c8b6ff}header,main,footer{max-width:840px;margin:0 auto;padding:24px}header{display:flex;justify-content:space-between;align-items:center;gap:16px;border-bottom:1px solid #302845}header a{text-decoration:none}main{padding-top:60px;padding-bottom:60px}.eyebrow{color:#c8b6ff;text-transform:uppercase;letter-spacing:.15em;font-size:.78rem}h1{font-size:clamp(2rem,7vw,3.4rem);line-height:1.15;margin:12px 0 20px}p{color:#ddd7eb}.card{background:#181326;border:1px solid #3b3152;border-radius:18px;padding:28px;margin-top:30px}.dl{display:inline-block;background:#d6c1ff;color:#170f26;text-decoration:none;border-radius:10px;padding:14px 22px;font-weight:700;margin:14px 0}.dl:focus-visible,a:focus-visible{outline:3px solid #fff;outline-offset:3px}.warn{border-left:4px solid #d4af61;padding:10px 16px;background:#2e261d;border-radius:4px}.meta{font-size:.93rem;overflow-wrap:anywhere}footer{border-top:1px solid #302845;color:#aaa1bf;font-size:.9rem}@media(max-width:500px){header{flex-wrap:wrap}main{padding-top:32px}.card{padding:20px}}
-  </style>
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ <meta name="theme-color" content="#110e20">
+ <meta name="robots" content="noindex, follow">
+ <meta name="description" content="Download Melmuh Tongluan v1.6.2 Android developer source ZIP with SHA-256 verification. Not an APK.">
+ <title>Melmuh Tongluan — Developer Download</title>
+ <link rel="icon" href="../../logo.png">
+ <style>
+ :root{color-scheme:dark;--text:#f9f5ff;--muted:#bbafce;--line:#ffffff20;--purple:#bba2ff;--cyan:#90e6fa}
+ *{box-sizing:border-box}
+ html{scroll-behavior:smooth}
+ body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 80% 8%,#492f7d75,transparent 48%),radial-gradient(ellipse at 0% 70%,#12364a77,transparent 55%),#0c0a16;color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.6}
+ .shell{max-width:920px;width:calc(100% - 40px);margin:auto}
+ header{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:22px 0;border-bottom:1px solid var(--line)}
+ .identity{display:flex;align-items:center;gap:10px;color:var(--text);text-decoration:none;font-weight:800;letter-spacing:-.025em;font-size:17px}
+ .identity span{display:grid;place-items:center;width:37px;height:37px;border:1px solid #c7b6ff6b;border-radius:12px;background:#8e6ceb38;color:#e6d9ff;font-size:12px}
+ .back{color:#d8c9ff;text-decoration:none;font-size:13px;font-weight:600}
+ .back:hover{text-decoration:underline}
+ main{padding:62px 0 74px}
+ .eyebrow{display:inline-flex;align-items:center;gap:9px;color:#d7c6ff;font-size:11px;font-weight:750;letter-spacing:.18em}
+ .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#76efc6;box-shadow:0 0 0 5px #76efc61b}
+ h1{font-size:clamp(48px,9vw,83px);line-height:1.04;letter-spacing:-.065em;margin:20px 0 21px}
+ h1 span{display:block;background:linear-gradient(100deg,#fceaff,#c5b1ff 56%,#8ddcf8);color:transparent;-webkit-background-clip:text;background-clip:text}
+ .intro{color:#d3cae0;font-size:16px;max-width:650px}
+ .pillrow{display:flex;flex-wrap:wrap;gap:8px;margin:25px 0 35px}
+ .pill{border:1px solid #bdabf45c;padding:7px 12px;border-radius:99px;background:#b39bf315;color:#d9cbf7;font-size:12px;font-weight:650}
+ .download-card{border:1px solid #a991e17d;border-radius:27px;padding:31px;background:linear-gradient(138deg,#2a2041e8,#171023e8 65%);box-shadow:0 25px 70px #0007,inset 0 1px #ffffff22}
+ .card-header{display:flex;align-items:center;gap:16px;margin-bottom:24px}
+ .file-icon{display:grid;place-items:center;flex:none;width:61px;height:65px;border-radius:17px;border:1px solid #bba0ff80;background:linear-gradient(125deg,#7655ab,#392352);font-size:16px;font-weight:850;color:#fff;letter-spacing:.07em}
+ .card-header strong{display:block;font-size:19px;line-height:1.3}
+ .card-header span{display:block;font-size:12px;color:#bcb0cd;margin-top:5px}
+ .btn{display:flex;align-items:center;justify-content:center;gap:12px;min-height:61px;border-radius:17px;padding:14px 18px;background:linear-gradient(110deg,#ead9ff,#baa3ff 65%,#91e5ff);color:#1d1333;text-decoration:none;font-size:16px;font-weight:850;box-shadow:0 12px 32px #735ba844;transition:transform .2s,box-shadow .2s}
+ .btn:hover{transform:translateY(-2px);box-shadow:0 15px 42px #b39eff66}
+ .btn svg{flex:none}
+ .file-meta{margin:23px 0 0;border-top:1px solid var(--line);padding-top:17px}
+ .file-meta dt{color:#b9aacc;font-size:11px;font-weight:750;text-transform:uppercase;letter-spacing:.08em;margin-top:15px}
+ .file-meta dd{margin:4px 0 0;color:#f4ebff;overflow-wrap:anywhere;font-size:13px}
+ code{color:#dbccff;font-size:12px;overflow-wrap:anywhere}
+ .support-link{color:#cdb8ff;text-underline-offset:3px}
+ .safety{border:1px solid #efc67d4c;background:#a1762614;padding:20px;border-radius:17px;margin-top:23px;color:#e9d5b2;font-size:13px}
+ .safety strong{color:#fce0a7}
+ .fine{font-size:12px;color:#ac9dbf;line-height:1.7;margin-top:24px}
+ footer{border-top:1px solid var(--line);padding:26px 0 35px;color:#aa9cb9;font-size:12px}
+ :focus-visible{outline:3px solid #fff;outline-offset:4px}
+ @media(max-width:550px){.shell{width:calc(100% - 32px)}header{padding:15px 0}.identity{font-size:14px}.back{font-size:12px}main{padding:44px 0 58px}.download-card{padding:20px;border-radius:22px}.btn{font-size:14px}.card-header strong{font-size:15px}.card-header{gap:12px}.file-icon{width:50px;height:55px;font-size:13px}}
+ @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn{transition:none}}
+ </style>
 </head>
 <body>
-  <header><a href="../../" aria-label="ZoLaiGPT Official Website">← ZoLaiGPT Official Website</a><span>Developer downloads</span></header>
-  <main>
-    <p class="eyebrow">Android project source · v1.6.2</p>
-    <h1>Melmuh Tongluan</h1>
-    <p>Android source-code archive for developers. This is <strong>not an APK</strong> and cannot be directly installed on a phone. It is a separate project from the ZoLaiGPT app.</p>
-    <section class="card" aria-labelledby="source-title">
-      <h2 id="source-title">Download Android source ZIP</h2>
-      <p class="meta"><strong>File:</strong> Melmuh-Tongluan-Android-Source-v1.6.2-public.zip<br><strong>Version:</strong> 1.6.2 · <strong>Size:</strong> 2.09 MB</p>
-      <a class="dl" href="https://drive.google.com/uc?export=download&amp;id=1_Rxfa91MLfR2hSc-jL_D1kfeyBw89f0b" rel="noopener noreferrer" type="application/zip">⬇ Direct Download ZIP (2.09 MB)</a>
-      <p class="meta">If the download does not start automatically, <a href="https://drive.google.com/file/d/1_Rxfa91MLfR2hSc-jL_D1kfeyBw89f0b/view?usp=sharing" target="_blank" rel="noopener noreferrer">open the file in Google Drive</a> and select Download.</p>
-      <p class="meta"><strong>SHA-256:</strong> <code>9aef8d6833923a0c7880ce84e5a1441a45cb5e689bd548e3f216e58b601f614d</code></p>
-      <p>The primary button requests the ZIP file directly from Google Drive. A Drive security prompt may still appear depending on the browser.</p>
-    </section>
-    <p class="warn"><strong>Security:</strong> The public archive excludes the development signing keystore. An APK built from source may not have the signing certificate needed to update an existing installation. Never uninstall an old app or clear its data to work around a signature mismatch.</p>
-    <p>Source distribution does not imply that an installable APK, streaming provider, licensed media catalog, or Android device testing is supplied by this website.</p>
-  </main>
-  <footer>ZoLaiGPT Official Website · Developer source download</footer>
+ <header class="shell">
+  <a class="identity" href="../../" aria-label="Back to the website homepage"><span aria-hidden="true">MT</span> Melmuh Tongluan</a>
+  <a class="back" href="../../#download">← Website</a>
+ </header>
+ <main class="shell">
+  <p class="eyebrow"><span class="dot" aria-hidden="true"></span> ANDROID · DEVELOPER SOURCE</p>
+  <h1>Melmuh <span>Tongluan.</span></h1>
+  <p class="intro">Download the Android source project and explore its code. This developer archive is separate from the ZoLaiGPT app and is <strong>not an installable APK</strong>.</p>
+  <div class="pillrow"><span class="pill">v1.6.2</span><span class="pill">Source ZIP</span><span class="pill">2.09 MB</span><span class="pill">SHA-256 listed below</span></div>
+  <section class="download-card" aria-labelledby="download-title">
+   <div class="card-header">
+    <div class="file-icon" aria-hidden="true">ZIP</div>
+    <div><strong id="download-title">Melmuh Tongluan source</strong><span>Version 1.6.2 · Android source code</span></div>
+   </div>
+   <a class="btn" href="https://drive.google.com/uc?export=download&amp;id=1_Rxfa91MLfR2hSc-jL_D1kfeyBw89f0b" rel="noopener noreferrer" aria-label="Download Melmuh Tongluan version 1.6.2 Android source ZIP, not APK">
+    <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m-5-5 5 5 5-5M5 17v4h14v-4"/></svg>
+    Download Source ZIP
+   </a>
+   <dl class="file-meta">
+    <dt>File</dt><dd>Melmuh-Tongluan-Android-Source-v1.6.2-public.zip</dd>
+    <dt>Expected size</dt><dd>2.09 MB</dd>
+    <dt>SHA-256 checksum (compare with downloaded file)</dt><dd><code>9aef8d6833923a0c7880ce84e5a1441a45cb5e689bd548e3f216e58b601f614d</code></dd>
+    <dt>Download help</dt><dd>If direct download does not open, <a class="support-link" href="https://drive.google.com/file/d/1_Rxfa91MLfR2hSc-jL_D1kfeyBw89f0b/view?usp=sharing" target="_blank" rel="noopener noreferrer">open in Google Drive</a> and choose Download.</dd>
+   </dl>
+  </section>
+  <p class="safety"><strong>Important:</strong> This public source archive is described as excluding the development signing keystore. Check the downloaded file and its SHA-256 before using it. Source ZIP files cannot be installed as Android apps. Do not uninstall your existing app or clear its storage to resolve a signing mismatch.</p>
+  <p class="fine">The source release does not imply an APK, streaming subscription, media license, or completed Android device testing. Google Drive may require a browser confirmation before the download starts.</p>
+ </main>
+ <footer class="shell">Melmuh Tongluan · Android developer download · Hosted on the ZoLaiGPT official website</footer>
 </body>
 </html>
