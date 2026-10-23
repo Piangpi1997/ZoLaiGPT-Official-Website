@@ -1,0 +1,6 @@
+# Retire unrelated app/source download URLs without reintroducing an Android app on ZoLaiGPT.
+/downloads/melmuh-tongluan /guides/about-this-website.html 301
+/downloads/melmuh-tongluan/ /guides/about-this-website.html 301
+/downloads/melmuh-tongluan/index.html /guides/about-this-website.html 301
+/guides/source-zip-verification.html /guides/use-zolaigpt-website.html 301
+/guides/check-app-availability.html /guides/use-zolaigpt-website.html 301
