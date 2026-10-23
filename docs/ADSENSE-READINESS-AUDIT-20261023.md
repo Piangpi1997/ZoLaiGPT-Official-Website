@@ -71,6 +71,21 @@ Official sources:
 
 No ads, affiliate links, fabricated publisher identifiers, tracking scripts, consent popups or downloads were added. No production sitemap, robots.txt, original legal drafts, source ZIP or app backend was changed.
 
+## Follow-up improvements — 2026-10-23
+
+The audit preview was further improved without affecting production:
+
+- Each of the three educational guides now cites official technical or Google references. The ZIP verification guide clearly states that the published checksum was **not independently recalculated** during this editorial pass.
+- The Zomi AI quality guide explicitly notes that **no qualified native Tedim review has been completed** for new translations.
+- The editorial policy explains AI-assisted drafting and does not invent credentials or a reviewer identity.
+- The homepage now includes two explanatory panels clearly distinguishing the **Melmuh Tongluan Android developer source ZIP** from the **ZoLaiGPT multilingual AI project/app**.
+- Added `tools/verify-adsense-preview.py`, a standard-library source check for local links, duplicate HTML ids, preview noindex tags, draft notices, CSS imports and ad-script exclusion.
+- Added `docs/ADSENSE-EDITORIAL-HANDOFF-20261023.md` with sign-off tasks for content quality, actual file hash testing, operator/legal identity, privacy, languages and approved publication.
+- Connector-side static validation of the latest six HTML pages found **zero duplicate IDs, zero missing preview noindex tags, and no broken new guide routes**. This is not a mobile or live HTTP header test.
+- Cloudflare Pages reported **success** for preview branch deployments. At least one guide hub page was loaded via Cloudflare Browser Rendering, but comprehensive responsive/device certification remains outstanding.
+
+**Readiness verdict is unchanged: NOT READY FOR ADSENSE SUBMISSION**. Preview copy is a human-review draft, not an approved publication. Do not add Google ad code, invent ads.txt publisher IDs or migrate preview-wide `noindex` headers to production.
+
 ## Acceptance checklist (owner sign-off required)
 
 - [ ] Read every new article; correct errors and add first-hand, useful material.
