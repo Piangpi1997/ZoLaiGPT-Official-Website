@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0c0a16">
+<meta name="robots" content="noindex,nofollow">
+<title>How to review multilingual AI answers responsibly | ZoLaiGPT Learning Guides — Preview</title>
+<meta name="description" content="A practical framework for checking English, Myanmar and Zomi AI replies without inventing verified translations.">
+<link rel="icon" href="../logo.png">
+<link rel="stylesheet" href="../assets/css/knowledge-guides.css">
+</head>
+<body class="guide-page">
+<header class="guide-top guide-wrap">
+<a class="guide-brand" href="../"><img src="../logo.png" width="34" height="34" alt="">ZoLaiGPT <span style="color:#d5c3ff">/ Learn</span></a>
+<nav class="guide-nav" aria-label="Guides navigation"><a href="../">Website</a><a href="./">All guides</a><a href="editorial-standards.html">Editorial standards</a><a href="mailto:thangdeihpiang21@gmail.com">Contact</a></nav>
+</header>
+<main class="guide-wrap">
+<p class="guide-label">Multilingual AI literacy · Editorial Preview</p>
+<h1>How to review multilingual AI answers responsibly</h1>
+<p class="guide-lede">A language selector is just the beginning. Learn how to check meaning, factual accuracy, dialect quality and honest fallback behavior.</p>
+<div class="guide-status"><strong>Editorial review needed:</strong> This practical article is an AI-assisted draft prepared for the ZoLaiGPT website preview. A human editor must verify accuracy, examples, links and terminology before it is considered published guidance. No advertising or tracking code runs on this page.</div>
+<article class="guide-body"><h2>Why language selection is not the same as language quality</h2>
+<p>An AI interface can show “English,” “Myanmar,” and “Zomi (Tedim)” in a selector while its underlying model has uneven ability to answer in each language. ZoLaiGPT presents those languages as the project's areas of focus; that does not guarantee full AI competence. A responsible multilingual product should distinguish <em>the user’s requested language</em> from <em>the language actually produced</em>, and should never rename a Burmese response as Zomi.</p>
+<h2>Build a tiny evaluation set before you ship</h2>
+<p>Start with a spreadsheet or notebook, not a large synthetic training dataset. Record the prompt, selected language, actual response, whether the answer is correct, and what a fluent reviewer says. Use a few deliberately different tasks: greeting, factual question, translation, ambiguity, and a question whose answer has not been announced yet. A model that handles greetings may still invent release dates.</p>
+<h3>Example review table</h3>
+<pre>Selected: English
+Prompt: Which three languages does ZoLaiGPT focus on?
+Expected fact: English, Myanmar (Burmese), Zomi (Tedim)
+Check: accuracy and no unsupported claim
+
+Selected: Myanmar
+Prompt: ZoLaiGPT ရဲ့ အဓိက ဘာသာစကားတွေက ဘာတွေလဲ။
+Check: Myanmar script, accurate fact, natural wording
+
+Selected: Zomi (Tedim)
+Prompt: [native reviewer writes the test question]
+Check: reviewer verifies dialect, grammar and meaning</pre>
+<p>The Zomi example is intentionally left for a fluent Tedim speaker to prepare. Using an unreviewed machine translation in a test and then declaring the model “accurate” would create false confidence.</p>
+<h2>Five things to score separately</h2>
+<ol>
+<li><strong>Language match:</strong> Did the model reply in the requested language? A fallback to English should be stated openly, not hidden.</li>
+<li><strong>Meaning:</strong> Does the reply preserve the main point without adding new claims? Literal word-for-word translation can lose meaning.</li>
+<li><strong>Verified facts:</strong> Can each important factual statement be checked against the official website or other trustworthy sources?</li>
+<li><strong>Clarity:</strong> Can a target reader understand the answer without having to decode unnatural grammar or mixed scripts?</li>
+<li><strong>Safety and uncertainty:</strong> Does the answer admit when details such as app availability, download links, prices or a release date are not confirmed?</li>
+</ol>
+<h2>Use a model instruction, but test its behavior</h2>
+<p>For a preview assistant, a system instruction can say:</p>
+<pre>You are a website preview assistant.
+Use confirmed project facts only.
+Reply in the user's selected language if you can do so reliably.
+If you cannot produce reliable Zomi (Tedim), say so and
+offer an English explanation. Do not pass Burmese off as Zomi.
+Do not invent release dates, pricing or downloads.</pre>
+<p>This is a starting instruction, not a guarantee. A free hosted model can change between requests, produce incomplete output, or choose the wrong language. Quality checks belong in the application too: validate that a reply is present, show errors without fabricating success, and let the user try again.</p>
+<h2>Human review is part of the workflow</h2>
+<p>Choose reviewers who actually read and write the target variety of the language. Ask them to mark errors and supply an approved replacement. Keep a version history with date and reviewer status. If a reviewer disagrees on a term, preserve that uncertainty for future editorial decisions. Do not publish a “verified translation” badge until a qualified person has reviewed it.</p>
+<div class="guide-note"><strong>For website visitors:</strong> If you receive an odd translation, do not treat it as authoritative. Compare with the original and seek help from a fluent speaker, especially for health, legal, safety or financial topics.</div>
+<h2>How to keep the experiment honest</h2>
+<p>Explain whether a chat is a local demo or connected to a live AI provider. A preview interface built with scripted replies should not promise open-ended reasoning. Where an external model processes messages, tell users that text is sent to that service and avoid asking for credentials or sensitive documents. Clear limitations build more trust than impressive but untested capability labels.</p></article>
+<div class="guide-cta"><a href="./">← Browse more guides</a><a href="../downloads/melmuh-tongluan/">Android source download ↗</a></div>
+</main>
+<footer class="guide-wrap"><p>ZoLaiGPT · Preview learning content. Project information and Android developer downloads are separate from installable app releases. Questions or corrections: <a href="mailto:thangdeihpiang21@gmail.com">Contact by email</a>.</p><a href="../privacy-policy.html">Privacy Policy (draft)</a><a href="../terms-of-use.html">Terms (draft)</a><a href="editorial-standards.html">Editorial standards</a></footer>
+</body></html>
