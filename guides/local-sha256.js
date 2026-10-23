@@ -1,71 +1,66 @@
-/* ZoLaiGPT guide: entirely local SHA-256 file check.
-   File bytes are read by the user's browser only. There are NO fetch,
-   XMLHttpRequest, upload, storage, analytics, or external script calls. */
+/* ZoLaiGPT learning tool: all file hashing happens in this browser.
+   No network calls, uploads, cookies or local storage. 32 MiB safety cap for phones. */
 (() => {
   'use strict';
   const fileInput = document.getElementById('local-hash-file');
+  const expectedInput = document.getElementById('local-hash-expected');
   const button = document.getElementById('local-hash-run');
   const status = document.getElementById('local-hash-status');
   const result = document.getElementById('local-hash-output');
   const digestText = document.getElementById('local-hash-digest');
-  const expected = document.getElementById('local-hash-expected')?.textContent?.trim().toLowerCase();
-  if (!fileInput || !button || !status || !result || !digestText || !/^[0-9a-f]{64}$/.test(expected || '')) return;
-
-  // The Web Crypto API uses an in-memory whole-file buffer in this simple demo.
-  // Keep the limit low for older mobile handsets; desktop command examples below
-  // the widget remain usable for larger files.
+  if (!fileInput || !expectedInput || !button || !status || !result || !digestText) return;
   const MAX_BYTES = 32 * 1024 * 1024;
   let busy = false;
-  const writeStatus = (message, tone = '') => {
+  const setStatus = (message, tone = '') => {
     status.textContent = message;
     status.dataset.tone = tone;
   };
-  const reset = () => {
+  function reset() {
     result.hidden = true;
     digestText.textContent = '';
-    writeStatus('Choose a ZIP stored on your device. Nothing will be uploaded.');
-  };
+    setStatus('Choose a file. Processing stays on your device.');
+  }
   fileInput.addEventListener('change', reset);
-
+  expectedInput.addEventListener('input', () => {
+    if (result.hidden) return;
+    setStatus('Reference checksum changed. Calculate again to compare.', '');
+  });
   button.addEventListener('click', async () => {
     if (busy) return;
     reset();
     const file = fileInput.files?.[0];
-    if (!file) {
-      writeStatus('Please choose a file first.', 'error');
-      fileInput.focus();
-      return;
-    }
-    if (!file.size) {
-      writeStatus('The selected file is empty.', 'error');
-      return;
-    }
+    if (!file) { setStatus('Choose a file first.', 'error'); fileInput.focus(); return; }
+    if (!file.size) { setStatus('The selected file is empty.', 'error'); return; }
     if (file.size > MAX_BYTES) {
-      writeStatus('This on-device demo has a 32 MiB limit. Use one of the desktop SHA-256 commands below for larger files.', 'error');
+      setStatus('This tool supports files up to 32 MiB. Use the desktop commands below for larger files.', 'error');
+      return;
+    }
+    const expected = expectedInput.value.trim().toLowerCase().replace(/\s+/g, '');
+    if (expected && !/^[0-9a-f]{64}$/.test(expected)) {
+      setStatus('The optional reference must be exactly 64 hexadecimal characters.', 'error');
+      expectedInput.focus();
       return;
     }
     if (!globalThis.isSecureContext || !globalThis.crypto?.subtle) {
-      writeStatus('Local browser hashing is unavailable here. Open this page via HTTPS or use the desktop command examples below.', 'error');
+      setStatus('Web Crypto is unavailable. Use HTTPS or a desktop hashing command.', 'error');
       return;
     }
     busy = true;
     button.disabled = true;
     fileInput.disabled = true;
-    writeStatus('Calculating SHA-256 on this device. The file is not uploaded.');
+    setStatus('Calculating SHA-256 locally. Your file is not uploaded.');
     try {
       const bytes = await file.arrayBuffer();
-      const digest = await crypto.subtle.digest('SHA-256', bytes);
-      const actual = Array.from(new Uint8Array(digest), byte => byte.toString(16).padStart(2, '0')).join('');
+      const hashed = await crypto.subtle.digest('SHA-256', bytes);
+      const actual = [...new Uint8Array(hashed)].map(b => b.toString(16).padStart(2, '0')).join('');
       digestText.textContent = actual;
       result.hidden = false;
-      if (actual === expected) {
-        writeStatus('MATCH — the file bytes match the checksum printed on the download page. This does not prove the file is safe, official, or independently audited.', 'success');
-      } else {
-        writeStatus('MISMATCH — the file differs from the published checksum. Do not build or run it until the discrepancy is resolved.', 'error');
-      }
+      if (!expected) setStatus('SHA-256 calculated. Compare it with a reference from a trusted publisher.', 'success');
+      else if (actual === expected) setStatus('MATCH: file bytes agree with the reference. This does not prove the file is safe.', 'success');
+      else setStatus('MISMATCH: file bytes differ. Do not trust or run the download until investigated.', 'error');
     } catch {
-      writeStatus('Could not read or hash the selected file. Try again or use the desktop commands below.', 'error');
       result.hidden = true;
+      setStatus('Could not read or hash the file. Try again or use desktop commands.', 'error');
     } finally {
       busy = false;
       button.disabled = false;
