@@ -1,25 +1,32 @@
-/* Melmuh Tongluan download refresh — scoped to header and source-card. */
-.header .mt-site-brand{display:inline-flex;align-items:center;gap:10px;min-width:0;text-decoration:none}
-.mt-brand-mark{display:grid;place-items:center;flex:none;width:36px;height:36px;border:1px solid #ffffff55;border-radius:12px;background:linear-gradient(145deg,#ffc27c,#a865fa 62%,#6354d4);font-size:12px;font-weight:900;letter-spacing:-.04em;color:#171023;box-shadow:0 8px 22px #8557da44}
-.mt-brand-name{display:inline-flex;gap:.26em;align-items:baseline;flex-wrap:wrap;font-size:18px;font-weight:760;letter-spacing:-.035em;line-height:1.12;color:#fbf8ff}
-.mt-brand-name .accent{color:#e6c5ff}
-.mt-download-card{position:relative;isolation:isolate;overflow:hidden;margin-top:26px;padding:clamp(22px,4vw,36px);border:1px solid #c1a5ff66;border-radius:26px;background:radial-gradient(ellipse at 100% 0%,#9a5aff36,transparent 62%),linear-gradient(145deg,#201737,#101125 68%,#171529);box-shadow:0 18px 58px #0804138a,inset 0 1px #ffffff29}
-.mt-download-card::after{content:"";position:absolute;right:-88px;top:-115px;width:210px;height:210px;border:1px solid #d8baff35;border-radius:50%;pointer-events:none;z-index:-1}
-.mt-download-meta{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin:0 0 19px}
-.mt-download-meta span{display:inline-flex;align-items:center;min-height:28px;padding:5px 10px;border:1px solid #ffffff29;border-radius:999px;background:#ffffff0a;color:#e4d9f8;font-size:10px;font-weight:700;letter-spacing:.05em}
-.mt-download-meta span:first-child{background:#ad89ff20;border-color:#c5a6ff6a;color:#f3eaff}
-.mt-download-card h3{font-size:clamp(23px,3vw,32px);line-height:1.12;letter-spacing:-.045em;margin:0 0 9px;color:#fff}
-.mt-download-card p{margin:0 0 18px;font-size:13px;line-height:1.75;color:#d9d1e7}
-.mt-download-card .mt-source-hint{color:#b7abc9;font-size:11px;margin-top:14px}
-.mt-download-btn{display:inline-flex!important;justify-content:center;align-items:center;gap:10px;width:100%;min-height:58px!important;padding:14px 20px!important;border:1px solid #e7d4ff87!important;border-radius:14px!important;background:linear-gradient(115deg,#dcb8ff 0%,#bc9bff 48%,#9b86f3 100%)!important;color:#170c2e!important;box-shadow:0 12px 27px #9a70ff45,inset 0 1px #fff9!important;font-weight:850!important;font-size:14px!important;text-decoration:none;line-height:1.25;white-space:normal;text-align:center}
-.mt-download-btn:hover,.mt-download-btn:focus-visible{transform:translateY(-2px);box-shadow:0 18px 34px #9a70ff65!important;filter:brightness(1.04)}
-.mt-download-btn svg{flex:none;width:19px;height:19px;stroke:currentColor}
-.mt-card-bottom{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;margin-top:16px;font-size:11px}
-.mt-card-bottom a{color:#e6d1ff;text-underline-offset:4px;font-weight:650}
-.mt-card-bottom span{color:#aca0c0}
-.mt-app-status{display:inline-flex;align-items:center;gap:8px;border:1px solid #ffd8a34a;border-radius:999px;padding:8px 13px;background:#e19f4120;color:#ffdfa6;font-size:11px;line-height:1.4;margin:18px 0 0}
-.mt-app-status::before{content:"";width:7px;height:7px;border-radius:100%;background:#ffc978}
-.mt-download-card :focus-visible{outline:3px solid #fff;outline-offset:3px}
-@media(max-width:700px){.mt-brand-mark{width:31px;height:31px;font-size:10px}.mt-brand-name{font-size:16px}.mt-download-card{border-radius:22px;padding:23px 20px}.mt-card-bottom{display:block}.mt-card-bottom a{display:inline-block;margin-bottom:9px}}
-@media(max-width:430px){.header .mt-site-brand{gap:6px}.mt-brand-mark{width:27px;height:27px;border-radius:9px}.mt-brand-name{font-size:13px;max-width:113px;line-height:1.18}.mt-download-btn{font-size:12px!important;padding-inline:10px!important}}
-@media(prefers-reduced-motion:reduce){.mt-download-btn{transition:none!important}}
+/* Melmuh Tongluan download: scoped to the product section to preserve ZoLaiGPT styles. */
+#download{position:relative;isolation:isolate}
+#download .mt-feature{min-width:0}
+#download .mt-feature .kicker{color:#b6a4ff;letter-spacing:.19em;font-size:10px;font-weight:750}
+#download .mt-release-line{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin:16px 0 18px;color:#e5dfff;font-size:10px;font-weight:700;letter-spacing:.12em}
+#download .mt-live-dot{width:8px;height:8px;flex:none;border-radius:50%;background:#66edc2;box-shadow:0 0 0 5px #66edc219}
+#download .mt-version{padding:6px 10px;border:1px solid #b9a6ff57;border-radius:99px;background:#8b6cff12;color:#dacfff;font-size:10px;letter-spacing:.11em}
+#download .mt-title{font-size:clamp(45px,5.4vw,78px);font-weight:750;letter-spacing:-.065em;line-height:1.08;margin:0 0 20px;overflow-wrap:anywhere}
+#download .mt-title span{display:block;background:linear-gradient(105deg,#fff0ff 0%,#c5b1ff 45%,#78dbfa 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+#download .mt-lead{font-size:14px;line-height:1.85;color:#d1c9df;max-width:500px;margin:0 0 24px}
+#download .mt-download-card{position:relative;overflow:hidden;padding:24px;border:1px solid #ac90ff61;border-radius:25px;background:radial-gradient(circle at 100% 0%,#8659df26,transparent 54%),linear-gradient(145deg,#211732,#100e1c 73%);box-shadow:0 22px 55px #0004,inset 0 1px #ffffff12;max-width:490px}
+#download .mt-download-card::before{content:'';position:absolute;inset:0 0 auto;height:1px;background:linear-gradient(90deg,transparent,#dac7ffb0,transparent);pointer-events:none}
+#download .mt-package-line{display:flex;align-items:center;gap:14px;margin-bottom:21px}
+#download .mt-package-line>div:last-child{min-width:0}
+#download .mt-package-line strong{display:block;font-size:16px;font-weight:720;letter-spacing:-.015em;color:#f9f6ff}
+#download .mt-package-line span{display:block;margin-top:4px;color:#b4a8c9;font-size:11px;line-height:1.5}
+#download .mt-file-icon{flex:none;display:grid;place-items:center;width:55px;height:58px;border:1px solid #bea4ff70;border-radius:16px;background:linear-gradient(140deg,#68549c77,#301e50);font-weight:800;font-size:13px;letter-spacing:.06em;color:#ebe3ff}
+#download .mt-download-button{display:flex;align-items:center;justify-content:center;gap:10px;min-height:56px;padding:14px 17px;border-radius:16px;background:linear-gradient(110deg,#dbccff 0%,#b5a0ff 55%,#92dfff 100%);box-shadow:0 12px 25px #8c76dd36,inset 0 1px #ffffff94;color:#1c1234;font-size:14px;font-weight:850;letter-spacing:0;text-decoration:none;transition:transform .2s,box-shadow .2s}
+#download .mt-download-button span:last-child{margin-left:auto;font-size:20px;line-height:1}
+#download .mt-download-button:hover{transform:translateY(-2px);box-shadow:0 17px 36px #8c76dd64}
+#download .mt-download-button:active{transform:translateY(1px)}
+#download .mt-download-button:focus-visible,#download .mt-details-link:focus-visible{outline:3px solid #ffffff;outline-offset:3px}
+#download .mt-details-link{display:flex;justify-content:center;align-items:center;gap:8px;padding:15px 0 2px;color:#ded5ff;text-decoration:none;font-size:12px;font-weight:650;line-height:1.5}
+#download .mt-details-link:hover{text-decoration:underline;color:#fff}
+#download .mt-download-note{padding:13px 14px;margin:18px 0 0;border:1px solid #e8c77b42;border-radius:12px;background:#f1b9500b;color:#cfc0bd;font-size:11px;line-height:1.65}
+#download .mt-download-note strong{color:#f4d59b}
+#download .gallery-heading{gap:10px}
+.header .brand.melmuh-brand{letter-spacing:-.045em;white-space:nowrap;line-height:1.12}
+.header .melmuh-brand .accent{color:#cdb8ff}
+@media(max-width:1180px){.header .brand.melmuh-brand{font-size:clamp(13px,2vw,19px)}}
+@media(max-width:430px){#download .mt-title{font-size:clamp(43px,12vw,60px)}#download .mt-download-card{padding:17px;border-radius:21px}#download .mt-download-button{font-size:13px}#download .mt-package-line strong{font-size:14px}.header .brand.melmuh-brand{font-size:12px;max-width:175px}.header .brand.melmuh-brand>span{white-space:normal}}
+@media(prefers-reduced-motion:reduce){#download .mt-download-button{transition:none}}
