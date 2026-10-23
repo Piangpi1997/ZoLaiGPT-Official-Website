@@ -1,6 +1,6 @@
 // One source of truth for website version and editorial updates. No credentials here.
 export const siteConfig = Object.freeze({
- version:'5.7', channel:'Official', releaseName:'Universe Orb Website',
+ version:'5.7', channel:'Audit Preview', releaseName:'Universe Orb Website',
  chatbotMode:'demo',
  announcement:{id:'melmuh-source-download-20261023',text:'Melmuh Tongluan v1.6.2 developer source download is available.',href:'chat/'},
  announcements:[
