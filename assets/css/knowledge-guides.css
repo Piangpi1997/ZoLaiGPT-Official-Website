@@ -89,3 +89,37 @@
 .hash-tool-result code{display:block;font-size:12px;line-height:1.8;word-break:break-all}
 .local-hash-tool .hash-tool-footnote{margin:18px 0 0;font-size:12px;color:#b8c6d9}
 @media(max-width:500px){.hash-tool-controls button{width:100%;justify-self:stretch}.local-hash-tool{padding:17px 15px}.hash-tool-controls input{font-size:12px}}
+
+/* Trust and reading accessibility (editorial preview). */
+.knowledge-owner-link{margin:18px 0 0;color:#d3c7e9;font-size:13px;line-height:1.8}
+.knowledge-owner-link a{margin-left:3px}
+.guide-page .guide-wordmark-sub{color:#d5c3ff}
+.guide-page .guide-skip{position:fixed;z-index:100;top:-110px;left:14px;background:#231b38;color:#fff;padding:12px 18px;border:2px solid #d6b7ff;border-radius:10px;text-decoration:none;box-shadow:0 12px 35px #000a}
+.guide-page .guide-skip:focus-visible{top:12px}
+.guide-page .guide-nav a{display:inline-flex;align-items:center;min-height:44px;border-radius:9px;padding:6px 3px}
+.guide-page .guide-cta a{display:inline-flex;align-items:center;justify-content:center;min-height:46px;line-height:1.4}
+.guide-page .guide-card a{display:inline-flex;align-items:center;min-height:44px;line-height:1.5}
+.guide-page .guide-body p,.guide-page .guide-body li{font-size:16px;line-height:1.84}
+.guide-page .guide-body a{overflow-wrap:anywhere}
+.guide-page .guide-card p{font-size:15px}
+.guide-page .guide-body h2{scroll-margin-top:30px}
+.guide-page .guide-top{row-gap:5px}
+.guide-page .guide-lede{max-width:50rem}
+.guide-page .guide-note{overflow-wrap:anywhere}
+.guide-page .guide-status{color:#e0d6f2}
+.guide-page .guide-label{color:#d6c1ff}
+@media(max-width:620px){
+ .guide-page .guide-top{padding:14px 0 9px}
+ .guide-page .guide-nav{width:100%;gap:8px 15px}
+ .guide-page .guide-nav a{min-height:44px}
+ .guide-page h1{font-size:clamp(33px,9vw,42px)}
+ .guide-page .guide-body{padding:24px 21px}
+ .guide-page .guide-body p,.guide-page .guide-body li{font-size:15px;line-height:1.8}
+ .guide-page .guide-card{padding:23px}
+}
+@media(prefers-reduced-motion:reduce){.guide-page *, .guide-page *:before, .guide-page *:after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+@media(prefers-contrast:more){
+ .guide-page{background:#070711}
+ .guide-page .guide-body,.guide-page .guide-card,.guide-page .guide-status{background:#1e1b2c;border-color:#d6caff}
+ .guide-page p,.guide-page li{color:#f0ecf8}
+}
