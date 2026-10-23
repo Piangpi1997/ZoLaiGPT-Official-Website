@@ -26,6 +26,13 @@ Status: **PRODUCTION CANDIDATE ONLY / NOT A FINAL LEGAL APPROVAL**
 - `terms-of-use.html`: English-only description of the independent publisher, downloads, and the demo's limits. Explicit DRAFT warnings remain.
 - `guides/about-this-website.html`: transparent brand versus individual-publisher distinction without public personal identifying details.
 
+## Bahasa Malaysia privacy readiness (important)
+- Malaysia's Personal Data Protection Commissioner guidance for PDPA section 7 indicates that a qualifying personal-data notice should be provided in **the national language (Bahasa Malaysia) and English**. English, Myanmar and Zomi are not the same as English and Bahasa Malaysia.
+- Added `privacy-bm.html` as a **DRAFT Bahasa Malaysia** notice linked from the existing English privacy page and website footer.
+- `_headers` and the draft's HTML meta tag exclude it from indexing until operator and legal review.
+- The new notice is not an approved legal translation. A competent Bahasa Malaysia/privacy reviewer must confirm phrasing, actual practices and applicability before the legal draft label is removed.
+- Official source: https://www.pdp.gov.my/ppdpv1/en/akta/guidance-on-the-preparation-of-personal-data-protection-notices/
+
 ## Not yet known or approved
 - Public disclosure of the individual's full legal name or any additional contact details.
 - Final law-specific Privacy Policy/Terms review and translations by qualified reviewers.
