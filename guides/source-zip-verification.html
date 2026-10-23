@@ -26,14 +26,30 @@
 <p>A ZIP downloaded successfully is not proof that its contents are trustworthy. A checksum helps establish file integrity, and source inspection helps assess what the project does; they answer different questions.</p>
 <h2>Step 2 — Calculate SHA-256 locally</h2>
 <p>The download page lists this SHA-256 value. Compare the checksum from your downloaded file <strong>character for character</strong> before opening it in a development environment:</p>
-<pre>9aef8d6833923a0c7880ce84e5a1441a45cb5e689bd548e3f216e58b601f614d</pre>
+<pre><code id="local-hash-expected">9aef8d6833923a0c7880ce84e5a1441a45cb5e689bd548e3f216e58b601f614d</code></pre>
+<section class="local-hash-tool" aria-labelledby="hash-tool-title">
+ <p class="guide-label">Interactive demo · On-device only</p>
+ <h3 id="hash-tool-title">Check a source ZIP on your phone or computer</h3>
+ <p>Select the file you downloaded, then calculate its SHA-256 in this browser. The file stays on your device — nothing is uploaded to the website. Works with recent browsers over HTTPS; this simple check supports files up to 32 MiB.</p>
+ <div class="hash-tool-controls">
+  <label for="local-hash-file">Choose your downloaded ZIP file</label>
+  <input type="file" id="local-hash-file" accept=".zip,application/zip,application/x-zip-compressed">
+  <button id="local-hash-run" type="button">Calculate SHA-256 locally</button>
+ </div>
+ <p id="local-hash-status" class="hash-tool-status" role="status" aria-live="polite">Choose a ZIP stored on your device. Nothing will be uploaded.</p>
+ <div id="local-hash-output" class="hash-tool-result" hidden>
+  <strong>Calculated SHA-256 for your selected file:</strong>
+  <code id="local-hash-digest"></code>
+ </div>
+ <p class="hash-tool-footnote">A match verifies agreement with the checksum <em>printed on this page</em>, not independent publisher identity, software safety, or a security audit. The project owner must separately verify that the printed reference checksum is authentic.</p>
+</section>
 <h3>Windows PowerShell</h3>
 <pre>Get-FileHash -Algorithm SHA256 "Melmuh-Tongluan-Android-Source-v1.6.2-public.zip"</pre>
 <h3>macOS</h3>
 <pre>shasum -a 256 Melmuh-Tongluan-Android-Source-v1.6.2-public.zip</pre>
 <h3>Linux</h3>
 <pre>sha256sum Melmuh-Tongluan-Android-Source-v1.6.2-public.zip</pre>
-<p>The filename and folder must match where you saved the ZIP. On an Android phone, it is usually simpler to transfer the file to a computer you control and compare the hash there, rather than installing an unknown “hash checker” APK. Do not paste file contents into a random online checksum website if the archive contains private work.</p>
+<p>The filename and folder must match where you saved the ZIP. On an Android phone, the on-device checker above can calculate SHA-256 without installing another app. For large files or browsers that lack secure Web Crypto support, transfer the file to a computer you control and use the terminal commands below. Do not paste file contents into a random online checksum website if the archive contains private work.</p>
 <h2>Step 3 — Interpret the result correctly</h2>
 <ul>
 <li><strong>Exact match:</strong> Your local bytes match the checksum printed on the download page. It does not prove the project has been security-audited or that the publisher is trustworthy.</li>
@@ -59,4 +75,5 @@
 <div class="guide-cta"><a href="./">← Browse more guides</a><a href="../downloads/melmuh-tongluan/">Android source download ↗</a></div>
 </main>
 <footer class="guide-wrap"><p>ZoLaiGPT · Preview learning content. Project information and Android developer downloads are separate from installable app releases. Questions or corrections: <a href="mailto:thangdeihpiang21@gmail.com">Contact by email</a>.</p><a href="../privacy-policy.html">Privacy Policy (draft)</a><a href="../terms-of-use.html">Terms (draft)</a><a href="editorial-standards.html">Editorial standards</a></footer>
+<script src="local-sha256.js" defer></script>
 </body></html>
