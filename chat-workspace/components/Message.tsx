@@ -8,12 +8,13 @@ export type ChatMessage = { id: string; role: 'user' | 'assistant'; content: str
 
 function CodeBlock({ children }: { children?: React.ReactNode }) {
   const [copied, setCopied] = useState(false);
+  const [copyError,setCopyError] = useState(false);
   async function copy(e: React.MouseEvent<HTMLButtonElement>) {
     const code = e.currentTarget.closest('pre')?.querySelector('code')?.textContent || '';
-    try { await navigator.clipboard.writeText(code); setCopied(true); setTimeout(() => setCopied(false), 1800); }
-    catch { setCopied(false); }
+    try { await navigator.clipboard.writeText(code); setCopyError(false); setCopied(true); setTimeout(() => setCopied(false), 1800); }
+    catch { setCopied(false); setCopyError(true); }
   }
-  return <pre className="code-panel"><div className="code-header"><span>CODE SAMPLE</span><button onClick={copy} aria-label="Copy code">{copied ? <Check size={13}/> : <Copy size={13}/>} {copied ? 'Copied' : 'Copy code'}</button></div>{children}</pre>;
+  return <pre className="code-panel"><div className="code-header"><span>CODE SAMPLE</span><button onClick={copy} aria-label="Copy code">{copied ? <Check size={13}/> : <Copy size={13}/>} {copied ? 'Copied' : copyError ? 'Select text to copy' : 'Copy code'}</button></div>{children}</pre>;
 }
 
 export default function Message({ message, streaming, onRetry, notify }: { message: ChatMessage; streaming: boolean; onRetry: () => void; notify: (s: string) => void }) {

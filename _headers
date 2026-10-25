@@ -1,36 +1,24 @@
-# Security headers for all static website assets.
 /*
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'sha256-H3sZB+PfrVqFUDzjnFXkMOqzEQnRhq4MuekT/OLXnEw=' 'sha256-OBTN3RiyCV4Bq7dFqZ5a2pAXjnCcCYeTJMO2I/LYKeo=' 'sha256-mFf1hCwCRSKShJ53iYaleWckBolmTzLCP0BOhjjKQjw=' 'sha256-uSNRDCMGAXmDipRYagfOrxSTaNqWLTbGbmfEpMZcBXc='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'self'; form-action 'none'
 
-# Keep Pages aliases and branch/deployment snapshots out of search results.
 https://:project.pages.dev/*
   X-Robots-Tag: noindex, nofollow
-
 https://:deployment.:project.pages.dev/*
   X-Robots-Tag: noindex, nofollow
-
-# Draft legal documents and local chat demos are not indexed.
 /privacy-policy*
-  X-Robots-Tag: noindex, nofollow
-
+  X-Robots-Tag: noindex, follow
 /privacy-bm*
-  X-Robots-Tag: noindex, nofollow
-
+  X-Robots-Tag: noindex, follow
 /terms-of-use*
-  X-Robots-Tag: noindex, nofollow
-
+  X-Robots-Tag: noindex, follow
 /chat*
   X-Robots-Tag: noindex, nofollow
-
 /qa*
   X-Robots-Tag: noindex, nofollow
-
 /docs/*
   X-Robots-Tag: noindex, nofollow
-
-/tools/*
-  X-Robots-Tag: noindex, nofollow
-
 /*.md
   X-Robots-Tag: noindex, nofollow

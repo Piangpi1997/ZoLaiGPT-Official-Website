@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'ZoLaiGPT — Spatial Chat Preview',
-  description: 'A liquid glass workspace preview. Local scripted responses; no live AI connection.',
+  title: 'ZOLAI GPT — Chat Demo',
+  description: 'Explore the ZOLAI GPT workspace demo. English/Myanmar interface, local scripted replies, Markdown and code; no live AI connection.',
   robots: { index: false, follow: false },
 };
 

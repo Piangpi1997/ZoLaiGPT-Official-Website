@@ -1,0 +1,1 @@
+{"name":"zolaigpt-official-platform","version":"6.0.0","private":true,"scripts":{"build":"python3 scripts/build-platform.py && npm --prefix chat-workspace run build && python3 scripts/sync-chat.py && python3 scripts/csp-hashes.py && python3 scripts/package-static.py","check":"python3 scripts/verify-platform.py","test":"npm --prefix chat-workspace test"}}
