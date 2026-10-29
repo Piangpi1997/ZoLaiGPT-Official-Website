@@ -123,3 +123,20 @@
  .guide-page .guide-body,.guide-page .guide-card,.guide-page .guide-status{background:#1e1b2c;border-color:#d6caff}
  .guide-page p,.guide-page li{color:#f0ecf8}
 }
+
+/* UI polish pass (2026-10-29): sticky guide header, card lift and reading comfort.
+   Append-only refinements shared by the homepage knowledge section and guide pages. */
+@media(prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+::selection{background:#7c5cff;color:#fff}
+.knowledge-card{transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease}
+.knowledge-card:hover{transform:translateY(-3px)}
+.guide-card{transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease}
+.guide-card:hover{transform:translateY(-3px);border-color:#c3aaff;box-shadow:0 18px 38px rgba(0,0,0,.4)}
+.guide-page .guide-top{position:sticky;top:0;z-index:60;background:rgba(12,10,22,.85);-webkit-backdrop-filter:blur(14px) saturate(140%);backdrop-filter:blur(14px) saturate(140%)}
+@media(prefers-reduced-transparency:reduce){.guide-page .guide-top{background:#0c0a16;-webkit-backdrop-filter:none;backdrop-filter:none}}
+.guide-page .guide-cta a{transition:background-color .18s ease,border-color .18s ease,transform .18s ease}
+.guide-page .guide-cta a:hover{background:rgba(171,141,255,.2);border-color:#c9b5ff;transform:translateY(-1px)}
+.guide-page .guide-body h2{scroll-margin-top:96px}
+.guide-page .guide-nav a{transition:color .18s ease,background-color .18s ease}
+.guide-page .guide-nav a:hover{background:rgba(171,141,255,.13);text-decoration:none}
+@media(prefers-reduced-motion:reduce){.knowledge-card,.guide-card,.guide-page .guide-cta a{transition:none!important}.knowledge-card:hover,.guide-card:hover,.guide-page .guide-cta a:hover{transform:none}}
