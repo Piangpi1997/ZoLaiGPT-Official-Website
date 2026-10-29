@@ -77,3 +77,25 @@ footer{padding-bottom:100px}.footer-middle h3{font-size:27px}.socials a{color:va
 /* Preserve Burmese shaping in all translated controls and captions. */
 html:lang(my) [data-i],[lang="my"]{letter-spacing:normal;text-transform:none}
 @media(max-width:700px){.header .menu{width:44px;min-width:44px}}
+
+/* UI polish pass (2026-10-29): ambience, balanced type and gentle motion.
+   Append-only refinements; component structure and brand artwork unchanged. */
+@media(prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+::selection{background:#7c5cff;color:#fff}
+*{-webkit-tap-highlight-color:transparent}
+body{background:radial-gradient(1100px 550px at 12% -5%,rgba(124,92,255,.08),transparent 60%),radial-gradient(900px 500px at 88% 8%,rgba(34,211,238,.05),transparent 55%),var(--ot-night)}
+h1,h2{text-wrap:balance}
+p{text-wrap:pretty}
+html{scrollbar-width:thin;scrollbar-color:#4a3f78 transparent}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-thumb{background:#4a3f78;border-radius:8px;border:2px solid var(--ot-night)}
+::-webkit-scrollbar-track{background:transparent}
+.button.primary:hover,.button.secondary:hover{transform:translateY(-1px)}
+.feature,.plan{transition:transform var(--t-fast),border-color var(--t-fast),box-shadow var(--t-fast)}
+.feature:hover,.plan:hover{transform:translateY(-3px)}
+.plan:hover{border-color:var(--accent-line)}
+.language-cards button:hover{transform:translateY(-2px)}
+.update-entry{transition:border-color var(--t-fast)}
+.update-entry:hover{border-color:var(--accent-line)}
+.socials a{transition:color var(--t-fast),background-color var(--t-fast),transform var(--t-fast)}
+.socials a:hover{transform:translateY(-2px)}
