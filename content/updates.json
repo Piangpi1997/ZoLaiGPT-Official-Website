@@ -1,6 +1,32 @@
 [
-  { "date": "2026-11-23", "title": "Website redesign in preview", "body": "A new typography-first design, an Apps directory and a refreshed logo are being reviewed on a preview deployment. The production website is unchanged until approved.", "status": "preview" },
-  { "date": "2026-10-30", "title": "Learning guides expanded", "body": "Guides on SHA-256 verification, multilingual AI review and recognising real app releases were published, with an in-browser checksum tool.", "status": "live" },
-  { "date": "2026-10-30", "title": "Privacy and transparency revisions", "body": "Draft privacy notices were corrected for accuracy and a Bahasa Malaysia draft notice was added. Legal texts remain drafts pending review.", "status": "draft" },
-  { "date": "2026-10-22", "title": "Chat workspace preview", "body": "The /chat/ workspace was published as a clearly labelled local demo with scripted replies. No live AI is connected.", "status": "preview" }
+  {
+    "date": "2026-11-23",
+    "title": "ZoLaiGPT for Android 3.9.1 beta",
+    "body": "The Android app is available as a signed beta APK from the Apps directory, with its version, release notes and SHA-256 checksum. Free accounts get 100 credits every month.",
+    "status": "live"
+  },
+  {
+    "date": "2026-11-23",
+    "title": "New website design",
+    "body": "A typography-first design, an Apps directory and a refreshed logo are now live.",
+    "status": "live"
+  },
+  {
+    "date": "2026-10-30",
+    "title": "Learning guides expanded",
+    "body": "Guides on SHA-256 verification, multilingual AI review and recognising real app releases were published, with an in-browser checksum tool.",
+    "status": "live"
+  },
+  {
+    "date": "2026-10-30",
+    "title": "Privacy and transparency revisions",
+    "body": "Draft privacy notices were corrected for accuracy and a Bahasa Malaysia draft notice was added. Legal texts remain drafts pending review.",
+    "status": "draft"
+  },
+  {
+    "date": "2026-10-22",
+    "title": "Chat workspace preview",
+    "body": "The /chat/ workspace was published as a clearly labelled local demo with scripted replies. No live AI is connected.",
+    "status": "preview"
+  }
 ]

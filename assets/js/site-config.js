@@ -2,5 +2,5 @@
 export const siteConfig = Object.freeze({
  version:'6.0', channel:'Preview', releaseName:'Ultimate redesign',
  chatbotMode:'demo',
- announcement:{id:'zolaigpt-redesign-preview-20261123',text:'New: browse the ZoLaiGPT Apps directory and learning guides.',href:'/apps/'}
+ announcement:{id:'zolaigpt-android-391-launch-20261123',text:'ZoLaiGPT for Android 3.9.1 (beta) is here — download the app.',href:'/apps/zolaigpt-android/'}
 });
