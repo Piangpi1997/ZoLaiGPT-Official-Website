@@ -24,6 +24,8 @@ for path in [ROOT/'index.html',ROOT/'privacy-policy.html',ROOT/'terms-of-use.htm
    continue
   target=(ROOT/u.path.lstrip('/')) if u.path.startswith('/') else path.parent/unquote(u.path)
   if target.is_dir():target/='index.html'
+  # Routes served by a Cloudflare Pages Function (functions/<path>.js) are not files.
+  if u.path.startswith('/') and (ROOT/'functions'/(u.path.strip('/')+'.js')).is_file():continue
   if not target.is_file():errors.append(f'{path.relative_to(ROOT)}: missing {ref}')
 for path in (ROOT/'assets/css').glob('*.css'):
  for ref in re.findall(r'url\([\'\"]?([^\)\'\"]+)',path.read_text()):
