@@ -1,4 +1,4 @@
-import {translate,setLanguage,getLanguage} from './i18n.js?v=20261123b';
+import {translate,setLanguage,getLanguage} from './i18n.js?v=20261123c';
 // Quick preview demo: deterministic replies from existing website copy. No network, no API keys.
 export function initQuickChat(){
  const panel=document.getElementById('chat-panel');if(!panel)return;

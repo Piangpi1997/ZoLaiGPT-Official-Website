@@ -15,7 +15,7 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const SITE = 'https://zolaigptofficial.com';
 const ADSENSE_CLIENT = 'ca-pub-7075005129832926'; // Existing verified account. Do not change.
 const BUILD_DATE = process.env.BUILD_DATE || new Date().toISOString().slice(0, 10);
-const ASSET_V = '20261123b';
+const ASSET_V = '20261123c';
 // Version every CSS/JS file a page pulls in (not only site.css/site.js): the old design used the
 // same file names, and browsers kept serving their cached old copies of tokens.css, site-config.js…
 for (const dir of ['assets/js', 'assets/css']) for (const f of fs.readdirSync(path.join(ROOT, dir))) {
@@ -228,7 +228,7 @@ function appCard(app, {headingLevel = 3, shot = false} = {}) {
 ${s ? `<div class="app-card__shot"><img src="${s.src}" alt="${esc(s.alt)}" width="1200" height="750" loading="lazy" decoding="async"></div>` : ''}
 <div class="app-card__top">${appIcon(app)}<div><h${headingLevel}><a href="/apps/${app.slug}/" style="text-decoration:none">${esc(app.name)}</a></h${headingLevel}><span class="app-card__cat">${esc(app.category)}</span></div></div>
 <p>${esc(app.tagline)}</p>
-<div class="app-meta">${statusBadge(app.status)}${pricingBadge(app.pricing)}${rel ? `<span class="badge badge--plain">${/^\d/.test(rel.version) ? 'v' : ''}${esc(rel.version)}</span>` : '<span class="badge badge--plain">Not released</span>'}</div>
+<div class="app-meta">${statusBadge(app.status)}${app.downloads?.some(d => d.signing === 'debug') ? '<span class="badge badge--draft">Test build</span>' : ''}${pricingBadge(app.pricing)}${rel ? `<span class="badge badge--plain">${/^\d/.test(rel.version) ? 'v' : ''}${esc(rel.version)}</span>` : '<span class="badge badge--plain">Not released</span>'}</div>
 ${platformList(app)}
 <div class="card__foot"><a class="text-link" href="/apps/${app.slug}/">View details <span class="arrow">→</span></a>${rel ? `<span class="note-small">Updated ${fmtDate(rel.date)}</span>` : ''}</div>
 </article>`;
@@ -266,14 +266,14 @@ ${backdrop()}
 <a class="card card--link span-2 tall reveal" style="--delay:.06s" href="/chat/"><div class="card__icon">${icon('message')}</div><h3>AI Chat workspace</h3><p>A browser-based conversation workspace with threads, notes and export. Replies are scripted demo content — clearly labelled, never presented as live AI.</p><div class="card__foot"><span class="badge badge--preview">Demo</span><span class="text-link">Open <span class="arrow">→</span></span></div></a>
 <a class="card card--link span-2 reveal" href="/apps/"><div class="card__icon">${icon('grid')}</div><h3>Apps directory</h3><p>Every ZoLaiGPT product with honest release status, platforms and safe download rules.</p></a>
 <a class="card card--link span-2 reveal" style="--delay:.06s" href="/guides/"><div class="card__icon">${icon('book')}</div><h3>Learning Center</h3><p>Practical guides on verifying downloads, reviewing multilingual AI and spotting real releases.</p></a>
-<article class="card span-6 reveal"><div class="two-col" style="align-items:center;gap:2rem"><div class="stack"><div class="card__icon" style="margin:0">${icon('shield')}</div><h3>${t('f2t')}</h3><p>${t('f2d')} No hidden trackers in the chat demo, no API keys in the browser and no download unless a real, signed release exists.</p></div><ul class="feature-list"><li>Status labels you can trust: Available, Preview, In development</li><li>SHA-256 checksums required for any direct download</li><li>Draft legal texts are labelled as drafts</li></ul></div></article>
+<article class="card span-6 reveal"><div class="two-col" style="align-items:center;gap:2rem"><div class="stack"><div class="card__icon" style="margin:0">${icon('shield')}</div><h3>${t('f2t')}</h3><p>${t('f2d')} No hidden trackers in the chat demo, no API keys in the browser and no download without a checksum and an honest build label.</p></div><ul class="feature-list"><li>Status labels you can trust: Available, Preview, In development</li><li>SHA-256 checksums and signing details for every direct download</li><li>Draft legal texts are labelled as drafts</li></ul></div></article>
 </div>
 </div>
 </section>
 
 <section class="section section--tight" id="apps" aria-labelledby="apps-title">
 <div class="container">
-<div class="section-head section-head--split"><div class="stack"><p class="eyebrow">Apps showcase</p><h2 class="h-lg" id="apps-title">Built in the open. <span class="muted">Released when ready.</span></h2></div><div class="stack"><p>Products are listed with their real status. Downloads appear only for signed builds, always with a SHA-256 checksum.</p><a class="text-link" href="/apps/">See all apps <span class="arrow">→</span></a></div></div>
+<div class="section-head section-head--split"><div class="stack"><p class="eyebrow">Apps showcase</p><h2 class="h-lg" id="apps-title">Built in the open. <span class="muted">Released when ready.</span></h2></div><div class="stack"><p>Products are listed with their real status. Every download shows its SHA-256 checksum and how it is signed; test builds are labelled as test builds.</p><a class="text-link" href="/apps/">See all apps <span class="arrow">→</span></a></div></div>
 <div class="app-grid">${featured.map(a => appCard(a)).join('')}</div>
 </div>
 </section>
@@ -361,7 +361,7 @@ function appsPage() {
     .map(([v, l], i) => `<button class="filter" type="button" data-filter="${v}" aria-pressed="${i === 0}">${l}</button>`).join('');
   const featured = apps.filter(a => a.featured);
   const cats = [...new Set(apps.map(a => a.category))];
-  const body = `${pageHero({eyebrow: 'Apps Platform', title: 'Apps by <span class="text-gradient">ZoLaiGPT</span>', lead: 'The official directory of ZoLaiGPT products. Every listing shows its real release status — nothing here is downloadable unless a genuine, signed release or official store link exists.', crumbs: [{label: 'Apps'}]})}
+  const body = `${pageHero({eyebrow: 'Apps Platform', title: 'Apps by <span class="text-gradient">ZoLaiGPT</span>', lead: 'The official directory of ZoLaiGPT products. Every listing shows its real release status — downloads show their SHA-256 checksum and whether they are a release build or a developer test build.', crumbs: [{label: 'Apps'}]})}
 <section class="section section--tight" aria-labelledby="featured-title" style="padding-top:1rem">
 <div class="container">
 <h2 class="h-md" id="featured-title">Featured</h2>
@@ -378,7 +378,7 @@ function appsPage() {
 </section>
 <section class="section section--tight" aria-labelledby="policy-title">
 <div class="container"><div class="two-col">
-<div class="card"><div class="card__icon">${icon('shield')}</div><h2 class="h-sm" id="policy-title">Our download policy</h2><ul class="feature-list mt-4"><li>Downloads are published only for signed release builds or official store listings.</li><li>Direct downloads always show a SHA-256 checksum and installation notes.</li><li>Source archives are never presented as installable apps.</li><li>Products from separate projects are not rebranded as ZoLaiGPT.</li></ul></div>
+<div class="card"><div class="card__icon">${icon('shield')}</div><h2 class="h-sm" id="policy-title">Our download policy</h2><ul class="feature-list mt-4"><li>Downloads are release-signed builds, official store listings, or developer test builds that are clearly labelled as such.</li><li>Direct downloads always show a SHA-256 checksum, the signing certificate and installation notes.</li><li>Source archives are never presented as installable apps.</li><li>Products from separate projects are not rebranded as ZoLaiGPT.</li></ul></div>
 <div class="card"><div class="card__icon">${icon('info')}</div><h2 class="h-sm">Status labels</h2><dl class="spec-list mt-4" style="background:none;border:0;gap:.75rem">${Object.entries(STATUS).map(([k, v]) => `<div style="background:none;padding:0"><dt>${statusBadge(k)}</dt><dd class="muted mt-4" style="font-weight:400">${{live: 'Released and usable now.', preview: 'A working demo; not a finished product.', beta: 'Test release; may change or break.', 'in-development': 'Being built. No release or download yet.', archived: 'No longer maintained; kept for reference.'}[k]}</dd></div>`).join('')}</dl></div>
 </div></div>
 </section>`;
@@ -412,6 +412,8 @@ function appDetailPage(app) {
     ['Support', `<a href="mailto:${esc(app.supportEmail)}">${esc(app.supportEmail)}</a>`],
   ].map(([k, v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join('');
   const checksums = dl.filter(d => d.sha256).map(d => `<div><dt>SHA-256 · ${esc(d.label)}</dt><dd class="mono">${esc(d.sha256)}</dd></div>`).join('');
+  const signing = dl.filter(d => d.certificate).map(d => `<div><dt>Signing certificate</dt><dd>${esc(d.certificate)}${d.signing === 'debug' ? ' — <strong>Android debug key (test build)</strong>' : ''}<br><span class="mono note-small">SHA-256 ${esc(d.certificateSha256 || '')}</span></dd></div>`).join('');
+  const testBuild = dl.some(d => d.signing === 'debug');
   const body = `<section class="page-hero">${backdrop(false)}<div class="container">
 <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/apps/">Apps</a></li><li><span aria-current="page">${esc(app.name)}</span></li></ol></nav>
 <div class="app-hero mt-6">
@@ -429,7 +431,8 @@ ${app.icon ? `<img class="app-hero__icon" src="${app.icon}" width="88" height="8
 <section class="section section--tight" style="padding-top:1rem"><div class="container">
 ${app.status === 'in-development' ? `<div class="notice">${icon('alert')}<p><strong>Not released.</strong> There is no official download, store listing or beta for this app yet. Do not trust files or websites claiming otherwise.</p></div>` : ''}
 ${app.status === 'preview' ? `<div class="notice notice--info">${icon('info')}<p><strong>Preview.</strong> This is a working demo, not a finished product. It is not connected to a live AI service.</p></div>` : ''}
-<dl class="spec-list mt-6">${specs}${checksums}</dl>
+${testBuild ? `<div class="notice">${icon('alert')}<p><strong>Developer test build.</strong> This APK is signed with the Android <em>debug</em> key, not a private release key, and debugging is enabled. It is for testing only. A release-signed build will replace it; you will need to uninstall the test build once before installing that release.</p></div>` : ''}
+<dl class="spec-list mt-6">${specs}${checksums}${signing}</dl>
 </div></section>
 
 <section class="section section--tight"><div class="container two-col">

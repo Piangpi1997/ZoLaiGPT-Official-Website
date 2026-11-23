@@ -1,4 +1,4 @@
-import {translations} from './translations.js?v=20261123b';
+import {translations} from './translations.js?v=20261123c';
 // Applies reviewed dictionary strings to [data-i] elements. Keys without a reviewed
 // translation stay in English and keep lang="en" so typography and screen readers stay correct.
 let current='en';

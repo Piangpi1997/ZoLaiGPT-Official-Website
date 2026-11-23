@@ -1,8 +1,8 @@
 [
   {
     "date": "2026-11-23",
-    "title": "ZoLaiGPT for Android 3.9.1 beta",
-    "body": "The Android app is available as a signed beta APK from the Apps directory, with its version, release notes and SHA-256 checksum. Free accounts get 100 credits every month.",
+    "title": "ZoLaiGPT for Android 3.9.1 test build",
+    "body": "The Android app is available as a developer test build (beta APK, signed with the Android debug key) from the Apps directory, with its version, release notes and SHA-256 checksum. Free accounts get 100 credits every month.",
     "status": "live"
   },
   {
