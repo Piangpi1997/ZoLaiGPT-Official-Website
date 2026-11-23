@@ -15,7 +15,14 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const SITE = 'https://zolaigptofficial.com';
 const ADSENSE_CLIENT = 'ca-pub-7075005129832926'; // Existing verified account. Do not change.
 const BUILD_DATE = process.env.BUILD_DATE || new Date().toISOString().slice(0, 10);
-const ASSET_V = '20261123';
+const ASSET_V = '20261123b';
+// Version every CSS/JS file a page pulls in (not only site.css/site.js): the old design used the
+// same file names, and browsers kept serving their cached old copies of tokens.css, site-config.js…
+for (const dir of ['assets/js', 'assets/css']) for (const f of fs.readdirSync(path.join(ROOT, dir))) {
+  const file = path.join(ROOT, dir, f), src = fs.readFileSync(file, 'utf8');
+  const out = src.replace(/((?:from\s*|import\s*|@import\s+url\()['"])(\.\/[\w.-]+\.(?:js|css))(?:\?v=[\w]+)?(['"])/g, `$1$2?v=${ASSET_V}$3`);
+  if (out !== src) fs.writeFileSync(file, out);
+}
 
 const read = p => fs.readFileSync(path.join(ROOT, p), 'utf8');
 const readJSON = p => JSON.parse(read(p));

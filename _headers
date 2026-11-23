@@ -9,6 +9,10 @@
 # Long-lived caching for immutable fonts and brand images.
 /assets/fonts/*
   Cache-Control: public, max-age=31536000, immutable
+/assets/css/*
+  Cache-Control: public, max-age=0, must-revalidate
+/assets/js/*
+  Cache-Control: public, max-age=0, must-revalidate
 /assets/brand/*
   Cache-Control: public, max-age=2592000
 /chat/_next/static/*

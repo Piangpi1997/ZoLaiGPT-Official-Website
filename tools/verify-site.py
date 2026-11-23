@@ -59,7 +59,7 @@ for path in pages:
         if frag and target.suffix == '.html' and frag not in parse(target).ids: errors.append(f'{rel}: missing anchor {ref}')
 for css in (ROOT / 'assets/css').glob('*.css'):
     for ref in re.findall(r"url\(['\"]?([^)'\"]+)", css.read_text()):
-        if not ref.startswith('data:') and not urlsplit(ref).scheme and not (css.parent / ref).is_file(): errors.append(f'{css.name}: missing {ref}')
+        if not ref.startswith('data:') and not urlsplit(ref).scheme and not (css.parent / urlsplit(ref).path).is_file(): errors.append(f'{css.name}: missing {ref}')
 def lum(c):
     v = [int(c[i:i+2], 16) / 255 for i in (1, 3, 5)]
     v = [x / 12.92 if x <= .04045 else ((x + .055) / 1.055) ** 2.4 for x in v]

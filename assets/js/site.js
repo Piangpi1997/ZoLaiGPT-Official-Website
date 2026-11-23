@@ -1,6 +1,6 @@
-import {siteConfig} from './site-config.js';
-import {initLanguages} from './i18n.js';
-import {initQuickChat} from './quick-chat.js';
+import {siteConfig} from './site-config.js?v=20261123b';
+import {initLanguages} from './i18n.js?v=20261123b';
+import {initQuickChat} from './quick-chat.js?v=20261123b';
 
 document.documentElement.classList.add('js');
 
