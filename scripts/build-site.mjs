@@ -108,11 +108,13 @@ ${robots ? `<meta name="robots" content="${robots}">` : ''}
 <meta property="og:description" content="${esc(description)}">
 <meta property="og:type" content="${ogType}">
 ${canonical ? `<meta property="og:url" content="${canonical}">` : ''}
-<meta property="og:image" content="${SITE}/assets/brand/og-image.jpg">
+<meta property="og:image" content="${SITE}/assets/brand/og-image.jpg?v=mono">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="/assets/brand/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/assets/brand/favicon-48.png?v=mono" sizes="48x48" type="image/png">
+<link rel="icon" href="/assets/brand/favicon-32.png?v=mono" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/assets/brand/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
 <link rel="preload" href="/assets/fonts/geist-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
@@ -342,7 +344,7 @@ ${backdrop()}
     canonical: `${SITE}/`,
     jsonld: [
       {'@context': 'https://schema.org', '@type': 'WebSite', name: 'ZoLaiGPT Official Website', url: `${SITE}/`, inLanguage: ['en', 'my', 'ctd']},
-      {'@context': 'https://schema.org', '@type': 'Organization', name: 'ZoLaiGPT', url: `${SITE}/`, logo: `${SITE}/assets/brand/icon-512.png`, sameAs: social.filter(s => s.href.startsWith('https')).map(s => s.href)},
+      {'@context': 'https://schema.org', '@type': 'Organization', name: 'ZoLaiGPT', url: `${SITE}/`, logo: `${SITE}/assets/brand/icon-512.png?v=mono`, sameAs: social.filter(s => s.href.startsWith('https')).map(s => s.href)},
     ],
   }, body);
 }
