@@ -31,7 +31,7 @@ export default function Message({ message, streaming, onRetry, notify }: { messa
     speechSynthesis.speak(utterance); notify('Reading this demo reply. Press Read aloud again to stop.');
   }
   return <article className={`message message-${message.role}`}>
-    {message.role === 'assistant' && <div className="message-identity"><img src="/logo.png" alt="" width="25" height="25"/><span>ZoLaiGPT <small>PREVIEW</small></span></div>}
+    {message.role === 'assistant' && <div className="message-identity"><img src="/assets/brand/zolaigpt-icon-64.webp" alt="" width="25" height="25"/><span>ZoLaiGPT <small>PREVIEW</small></span></div>}
     <div className="message-body">
       {message.role === 'user' ? <p className="whitespace-pre-wrap">{message.content}</p> : <div className="markdown"><ReactMarkdown remarkPlugins={[remarkGfm]} components={{ pre: CodeBlock, a: ({children, ...props}) => <a {...props} target="_blank" rel="noopener noreferrer">{children}</a>, code: ({children, className}) => {
         const text = String(children);

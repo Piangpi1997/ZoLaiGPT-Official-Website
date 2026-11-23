@@ -1,0 +1,45 @@
+{
+  "id": "zolaigpt-chat-preview",
+  "slug": "chat-preview",
+  "name": "ZoLaiGPT Chat Preview",
+  "tagline": "A browser-based workspace demo with local threads, notes and scripted replies.",
+  "category": "Web demo",
+  "featured": true,
+  "order": 2,
+  "status": "preview",
+  "pricing": "free",
+  "description": "The Chat Preview shows how a ZoLaiGPT conversation workspace could feel. It runs entirely in your browser and answers with prewritten, source-based demo replies. It is not connected to a live AI model, and it does not send your messages to any server.",
+  "features": [
+    "Conversation threads, search and a collapsible sidebar",
+    "Scripted demo replies drawn from existing website content (English, Myanmar, Zomi)",
+    "Markdown rendering, copy and transcript export",
+    "Personal notes canvas and local text-file preview (not analysed by AI)",
+    "Reduced-motion, high-contrast and reduced-transparency support"
+  ],
+  "icon": "/assets/brand/zolaigpt-icon-256.webp",
+  "platforms": { "android": "not-applicable", "ios": "not-applicable", "web": "available" },
+  "launchUrl": "/chat/",
+  "launchLabel": "Open Chat Preview",
+  "requirements": ["A current version of Chrome, Edge, Firefox or Safari", "JavaScript enabled"],
+  "releases": [
+    {
+      "version": "Workspace preview (website V5.7)",
+      "date": "2026-10-22",
+      "channel": "preview",
+      "notes": ["Spatial chat workspace published at /chat/ as a clearly labelled local demo", "No live AI provider, account system or analytics connected"]
+    }
+  ],
+  "screenshots": [
+    { "src": "/assets/apps/chat-preview-desktop.webp", "alt": "ZoLaiGPT Chat Preview on a desktop browser", "caption": "Desktop workspace (captured from the actual /chat/ page)" },
+    { "src": "/assets/apps/chat-preview-mobile.webp", "alt": "ZoLaiGPT Chat Preview on a 390px-wide mobile viewport", "caption": "Mobile layout at 390px (browser emulation, not a physical device)" }
+  ],
+  "installation": ["No installation is needed. Open the preview in your browser."],
+  "faq": [
+    { "q": "Is this real AI?", "a": "No. Replies are prewritten demo content. A live AI service would require a secured server-side backend, which is not connected." },
+    { "q": "Where are my messages stored?", "a": "Only in the current browser tab. Refreshing the page clears conversations, notes and attachments." }
+  ],
+  "supportEmail": "thangdeihpiang21@gmail.com",
+  "privacyUrl": "/privacy-policy.html",
+  "termsUrl": "/terms-of-use.html",
+  "privacyNote": "The preview runs locally in your browser. See the website Privacy Policy (draft) for details."
+}

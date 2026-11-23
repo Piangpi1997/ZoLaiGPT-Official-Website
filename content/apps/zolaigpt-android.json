@@ -1,0 +1,31 @@
+{
+  "id": "zolaigpt-android",
+  "slug": "zolaigpt-android",
+  "name": "ZoLaiGPT for Android",
+  "tagline": "A multilingual AI assistant for English, Myanmar and Zomi (Tedim) — in development.",
+  "category": "AI assistant",
+  "featured": true,
+  "order": 1,
+  "status": "in-development",
+  "pricing": null,
+  "description": "ZoLaiGPT for Android is the planned mobile companion to this website. It is being developed separately from the website and has not been released. No APK, store listing, beta programme, price or release date has been announced.",
+  "features": [
+    "Planned focus on English, Myanmar and Zomi (Tedim) conversations",
+    "Developed separately from this informational website",
+    "Release details will be published here only after a signed build or official store listing exists"
+  ],
+  "icon": "/assets/brand/zolaigpt-icon-256.webp",
+  "platforms": { "android": "planned", "ios": "not-planned", "web": "not-applicable" },
+  "requirements": [],
+  "releases": [],
+  "screenshots": [],
+  "installation": [],
+  "faq": [
+    { "q": "Can I download the Android app today?", "a": "No. The app has not been released. Any website or file claiming to be an official ZoLaiGPT APK is not published here and should not be trusted." },
+    { "q": "How will I know when it is released?", "a": "A release will appear on this page with a version number, release notes, an official store link or signed download, and a SHA-256 checksum for any direct download." }
+  ],
+  "supportEmail": "thangdeihpiang21@gmail.com",
+  "privacyUrl": null,
+  "termsUrl": null,
+  "privacyNote": "An app-specific privacy notice will be published before any release. The website privacy policy does not cover the Android app."
+}

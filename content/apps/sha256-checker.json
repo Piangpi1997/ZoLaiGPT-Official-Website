@@ -1,0 +1,37 @@
+{
+  "id": "sha256-checker",
+  "slug": "sha256-checker",
+  "name": "Local SHA-256 Checker",
+  "tagline": "Calculate a file checksum in your browser — nothing is uploaded.",
+  "category": "Developer tool",
+  "featured": false,
+  "order": 3,
+  "status": "live",
+  "pricing": "free",
+  "description": "A small learning tool inside the SHA-256 verification guide. It uses the browser's Web Crypto API to calculate a file's SHA-256 digest locally and can compare it with a reference checksum you paste in. Files up to 32 MiB are supported to stay safe on phones.",
+  "features": [
+    "Runs locally with the Web Crypto API — no upload, cookies or storage",
+    "Optional comparison with a publisher's reference checksum",
+    "Works on mobile and desktop browsers"
+  ],
+  "icon": null,
+  "glyph": "hash",
+  "platforms": { "android": "not-applicable", "ios": "not-applicable", "web": "available" },
+  "launchUrl": "/guides/source-zip-verification#hash-tool-title",
+  "launchLabel": "Open the checker",
+  "requirements": ["A browser with Web Crypto support (all current major browsers)", "Files up to 32 MiB"],
+  "releases": [
+    { "version": "1.0", "date": "2026-10-30", "channel": "stable", "notes": ["Published inside the SHA-256 verification learning guide"] }
+  ],
+  "screenshots": [
+    { "src": "/assets/apps/sha256-checker.webp", "alt": "The local SHA-256 checker inside the verification guide", "caption": "Captured from the actual guide page" }
+  ],
+  "installation": ["No installation is needed."],
+  "faq": [
+    { "q": "Does a matching checksum prove a file is safe?", "a": "No. It only shows that the bytes match the reference you compared against. Review the source, signature and permissions as well." }
+  ],
+  "supportEmail": "thangdeihpiang21@gmail.com",
+  "privacyUrl": "/privacy-policy.html",
+  "termsUrl": "/terms-of-use.html",
+  "privacyNote": "Files are processed only on your device."
+}
