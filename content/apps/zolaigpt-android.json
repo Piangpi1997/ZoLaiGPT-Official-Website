@@ -70,7 +70,7 @@
   "downloads": [
     {
       "label": "Download APK 3.9.1",
-      "url": "https://github.com/Piangpi1997/ZoLaiGPT-Official-Website/releases/download/android-v3.9.1/Zolai-GPT-next-debug.3.apk",
+      "url": "/download/android",
       "type": "apk",
       "signed": true,
       "sha256": "f9a5197b2d92d2f3a1e590c9541de12cc34278f3502fd40069dc1a8555e23fcc"

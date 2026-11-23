@@ -52,6 +52,8 @@ for path in pages:
         if not u.path:
             if u.fragment and u.fragment not in p.ids: errors.append(f'{rel}: missing anchor #{u.fragment}')
             continue
+        # Routes served by a Cloudflare Pages Function (functions/<path>.js) are not files.
+        if u.path.startswith('/') and (ROOT / 'functions' / (u.path.strip('/') + '.js')).is_file(): continue
         target, frag = resolve(path, ref)
         if not target.is_file(): errors.append(f'{rel}: missing {ref}'); continue
         if frag and target.suffix == '.html' and frag not in parse(target).ids: errors.append(f'{rel}: missing anchor {ref}')
