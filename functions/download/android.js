@@ -1,11 +1,9 @@
-// GET /download/android — the ZoLaiGPT for Android APK, served from this domain.
-// The file lives in this repository's public GitHub release (Cloudflare Pages cannot
-// host files over 25 MiB); this function streams it through so visitors only see
-// zolaigptofficial.com and a clean file name. Update APK, FILE_NAME and SHA256 for
-// each new app release (and the page that shows the checksum).
-const APK = 'https://github.com/Piangpi1997/ZoLaiGPT-Official-Website/releases/download/android-v3.9.1/Zolai-GPT-next-debug.3.apk';
-const FILE_NAME = 'ZoLaiGPT-3.9.1-test-build.apk';
-const SHA256 = 'f9a5197b2d92d2f3a1e590c9541de12cc34278f3502fd40069dc1a8555e23fcc';
+// GET /download/android — the newest ZoLaiGPT for Android APK, served from this domain.
+// The file lives in this repository's public GitHub Releases (Cloudflare Pages cannot host
+// files over 25 MiB); this function streams it through so visitors only see
+// zolaigptofficial.com and a clean file name. Each app release is published there
+// automatically (see _latest.js), so nothing here changes per version.
+import { latestAndroid } from './_latest.js';
 
 export async function onRequest({ request }) {
   if (request.method !== 'GET' && request.method !== 'HEAD') {
@@ -13,9 +11,10 @@ export async function onRequest({ request }) {
   }
   // Pass a Range header through so interrupted downloads can resume.
   const range = request.headers.get('range');
+  const apk = await latestAndroid();
   let upstream;
   try {
-    upstream = await fetch(APK, { redirect: 'follow', headers: range ? { range } : {} });
+    upstream = await fetch(apk.url, { redirect: 'follow', headers: range ? { range } : {} });
   } catch {
     upstream = null;
   }
@@ -27,11 +26,12 @@ export async function onRequest({ request }) {
   }
   const headers = new Headers({
     'content-type': 'application/vnd.android.package-archive',
-    'content-disposition': `attachment; filename="${FILE_NAME}"`,
+    'content-disposition': `attachment; filename="${apk.file}"`,
     'cache-control': 'public, max-age=3600',
     'x-content-type-options': 'nosniff',
     'x-robots-tag': 'noindex',
-    'x-checksum-sha256': SHA256,
+    'x-checksum-sha256': apk.sha256,
+    'x-app-version': apk.version,
   });
   for (const name of ['content-length', 'content-range', 'accept-ranges', 'etag', 'last-modified']) {
     const value = upstream.headers.get(name);

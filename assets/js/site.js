@@ -47,5 +47,17 @@ function initAppFilters(){
  });
 }
 
-initLanguages();initMenu();initAnnouncement();initReveal();initFaq();initAppFilters();initQuickChat();
+/** The Android download always serves the newest release; show its version and checksum. */
+function initLatestAndroid(){
+ const els=document.querySelectorAll('[data-latest]');if(!els.length)return;
+ fetch('/download/android.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).then(j=>{
+  if(!j||!/^[0-9a-f]{64}$/.test(j.sha256||'')||!j.version)return;
+  els.forEach(el=>{const k=el.dataset.latest;
+   if(k==='version')el.textContent=j.version;
+   else if(k==='sha256')el.textContent=j.sha256;
+   else if(k==='label')el.textContent=el.textContent.replace(/\d+\.\d+(\.\d+)?/,j.version);});
+ }).catch(()=>{});
+}
+
+initLatestAndroid();initLanguages();initMenu();initAnnouncement();initReveal();initFaq();initAppFilters();initQuickChat();
 document.querySelectorAll('[data-year]').forEach(el=>el.textContent=new Date().getFullYear());

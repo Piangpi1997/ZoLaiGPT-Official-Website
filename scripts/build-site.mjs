@@ -402,16 +402,18 @@ function appDetailPage(app) {
   const primary = app.launchUrl
     ? `<a class="btn btn--primary" href="${app.launchUrl}">${esc(app.launchLabel || 'Open')} ${icon('arrow')}</a>`
     : dl.length ? '' : `<span class="btn" aria-disabled="true">${icon('download')} Not available yet</span>`;
-  const downloads = dl.map(d => `<a class="btn btn--primary" href="${esc(d.url)}"${d.type === 'store' ? ' target="_blank" rel="noopener noreferrer"' : ' download'}>${icon('download')} ${esc(d.label)}</a>`).join('');
+  // /download/android always serves the newest release; the page refreshes these from /download/android.json.
+  const live = d => d.url === '/download/android';
+  const downloads = dl.map(d => `<a class="btn btn--primary" href="${esc(d.url)}"${d.type === 'store' ? ' target="_blank" rel="noopener noreferrer"' : ' download'}>${icon('download')} <span${live(d) ? ' data-latest="label"' : ''}>${esc(d.label)}</span></a>`).join('');
   const specs = [
     ['Status', statusBadge(app.status)],
-    ['Version', rel ? esc(rel.version) : 'Not released'],
+    ['Version', rel ? (dl.some(live) ? `<span data-latest="version">${esc(rel.version)}</span>` : esc(rel.version)) : 'Not released'],
     ['Release date', rel ? `<time datetime="${rel.date}">${fmtDate(rel.date)}</time>` : '—'],
     ['Pricing', app.pricing === 'free' ? 'Free' : app.pricing === 'paid' ? 'Paid' : 'Not announced'],
     ['Category', esc(app.category)],
     ['Support', `<a href="mailto:${esc(app.supportEmail)}">${esc(app.supportEmail)}</a>`],
   ].map(([k, v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join('');
-  const checksums = dl.filter(d => d.sha256).map(d => `<div><dt>SHA-256 · ${esc(d.label)}</dt><dd class="mono">${esc(d.sha256)}</dd></div>`).join('');
+  const checksums = dl.filter(d => d.sha256).map(d => `<div><dt>SHA-256 · <span${live(d) ? ' data-latest="label"' : ''}>${esc(d.label)}</span></dt><dd class="mono"${live(d) ? ' data-latest="sha256"' : ''}>${esc(d.sha256)}</dd></div>`).join('');
   const signing = dl.filter(d => d.certificate).map(d => `<div><dt>Signing certificate</dt><dd>${esc(d.certificate)}${d.signing === 'debug' ? ' — <strong>Android debug key (test build)</strong>' : ''}<br><span class="mono note-small">SHA-256 ${esc(d.certificateSha256 || '')}</span></dd></div>`).join('');
   const testBuild = dl.some(d => d.signing === 'debug');
   const body = `<section class="page-hero">${backdrop(false)}<div class="container">
