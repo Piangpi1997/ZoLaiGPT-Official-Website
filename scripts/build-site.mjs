@@ -264,7 +264,7 @@ ${backdrop()}
 
 <section class="section section--tight" id="apps" aria-labelledby="apps-title">
 <div class="container">
-<div class="section-head section-head--split"><div class="stack"><p class="eyebrow">Apps showcase</p><h2 class="h-lg" id="apps-title">Built in the open. <span class="muted">Released when ready.</span></h2></div><div class="stack"><p>Products are listed with their real status. Nothing is downloadable until a signed build or official store listing exists.</p><a class="text-link" href="/apps/">See all apps <span class="arrow">→</span></a></div></div>
+<div class="section-head section-head--split"><div class="stack"><p class="eyebrow">Apps showcase</p><h2 class="h-lg" id="apps-title">Built in the open. <span class="muted">Released when ready.</span></h2></div><div class="stack"><p>Products are listed with their real status. Downloads appear only for signed builds, always with a SHA-256 checksum.</p><a class="text-link" href="/apps/">See all apps <span class="arrow">→</span></a></div></div>
 <div class="app-grid">${featured.map(a => appCard(a)).join('')}</div>
 </div>
 </section>
@@ -327,7 +327,7 @@ ${backdrop()}
 <div class="faq">
 <details><summary>Which languages are in focus?</summary><div><p>${t('f1d')}</p></div></details>
 <details><summary>Is the chat connected to live AI?</summary><div><p>No. Both the quick demo and the <a class="text-link" href="/chat/">AI Chat workspace</a> use scripted replies based on existing website content. Messages stay in the current tab and are cleared on refresh.</p></div></details>
-<details><summary>Can I download a ZoLaiGPT app?</summary><div><p>Not yet. The Android app is in development and has not been released. Any download will only be published in the <a class="text-link" href="/apps/">Apps directory</a> with a version, release notes and checksum.</p></div></details>
+<details><summary>Can I download a ZoLaiGPT app?</summary><div><p>Yes — ZoLaiGPT for Android is available as a beta APK in the <a class="text-link" href="/apps/zolaigpt-android/">Apps directory</a>, with its version, release notes and SHA-256 checksum. Download it only from there.</p></div></details>
 <details><summary>Who runs ZoLaiGPT?</summary><div><p>ZoLaiGPT is an independent project operated by an individual publisher, as described on the <a class="text-link" href="/about/">About page</a> and in the draft Privacy Policy.</p></div></details>
 </div>
 </div>

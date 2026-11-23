@@ -2,30 +2,78 @@
   "id": "zolaigpt-android",
   "slug": "zolaigpt-android",
   "name": "ZoLaiGPT for Android",
-  "tagline": "A multilingual AI assistant for English, Myanmar and Zomi (Tedim) — in development.",
+  "tagline": "A multilingual AI assistant for English, Myanmar and Zomi (Tedim) — beta for Android.",
   "category": "AI assistant",
   "featured": true,
   "order": 1,
-  "status": "in-development",
-  "pricing": null,
-  "description": "ZoLaiGPT for Android is the planned mobile companion to this website. It is being developed separately from the website and has not been released. No APK, store listing, beta programme, price or release date has been announced.",
+  "status": "beta",
+  "pricing": "free",
+  "description": "ZoLaiGPT for Android is the mobile app of the ZoLaiGPT project: chat, Live voice conversations, the Tedim Bible, pictures, files, subtitles and reading of social links (TikTok, Facebook, Instagram, YouTube), in English, Myanmar and Zomi (Tedim). This is a beta: it is installed as an APK from this website and may change. Free accounts get 100 credits every month; optional plans add more credits and models.",
   "features": [
-    "Planned focus on English, Myanmar and Zomi (Tedim) conversations",
-    "Developed separately from this informational website",
-    "Release details will be published here only after a signed build or official store listing exists"
+    "Chat in English, Myanmar and Zomi (Tedim), with Fast, Thinking and Pro models",
+    "Live voice conversations with an animated assistant",
+    "Tedim Bible, pictures, files, PDFs and translated subtitles",
+    "Reads public TikTok, Facebook, Instagram, X and YouTube links",
+    "Free: 100 credits every month; optional paid plans"
   ],
   "icon": "/assets/brand/zolaigpt-icon-256.webp",
-  "platforms": { "android": "planned", "ios": "not-planned", "web": "not-applicable" },
-  "requirements": [],
-  "releases": [],
+  "platforms": {
+    "android": "beta",
+    "ios": "not-planned",
+    "web": "not-applicable"
+  },
+  "requirements": [
+    "Android 10 or newer",
+    "About 172 MB of free space for the download",
+    "A Gmail account to sign in",
+    "An internet connection"
+  ],
+  "releases": [
+    {
+      "version": "3.9.1",
+      "date": "2026-11-23",
+      "channel": "beta",
+      "notes": [
+        "Plans & credits page with a launch offer, rub-to-reveal payment QR",
+        "Robot assistant in Live and chat, or your own photo",
+        "Answers fade in as they are written; quicker, steadier Live replies",
+        "Reads TikTok, Facebook, Instagram, X, Threads and Reddit links",
+        "Full privacy policy and terms in the app"
+      ]
+    }
+  ],
   "screenshots": [],
-  "installation": [],
+  "installation": [
+    "Download the APK and wait until the whole file (about 172 MB) has finished.",
+    "Open it and allow installs from your browser or Files app when Android asks.",
+    "Install, open ZoLaiGPT and sign in with your Gmail account.",
+    "To update later, open the new APK and tap Update — your chats stay. Only if Android says “package conflicts”, uninstall the old app once and install again."
+  ],
   "faq": [
-    { "q": "Can I download the Android app today?", "a": "No. The app has not been released. Any website or file claiming to be an official ZoLaiGPT APK is not published here and should not be trusted." },
-    { "q": "How will I know when it is released?", "a": "A release will appear on this page with a version number, release notes, an official store link or signed download, and a SHA-256 checksum for any direct download." }
+    {
+      "q": "Can I download the Android app today?",
+      "a": "Yes — as a beta APK from this page. Check the SHA-256 checksum above before installing. Download it only from this page or the official GitHub release linked here."
+    },
+    {
+      "q": "Is it on Google Play?",
+      "a": "Not yet. The beta is distributed as an APK from this website; a store listing will be announced here if it is published."
+    },
+    {
+      "q": "How do I update?",
+      "a": "Download the newest APK from this page and open it; Android installs it over the old app and keeps your chats."
+    }
   ],
   "supportEmail": "thangdeihpiang21@gmail.com",
   "privacyUrl": null,
   "termsUrl": null,
-  "privacyNote": "An app-specific privacy notice will be published before any release. The website privacy policy does not cover the Android app."
+  "privacyNote": "The app's own Privacy Policy and Terms of Use are in the app (Settings → Privacy & terms). Chats are stored on your phone; messages are sent to the ZoLaiGPT server only to get answers.",
+  "downloads": [
+    {
+      "label": "Download APK 3.9.1",
+      "url": "https://github.com/Piangpi1997/ZoLaiGPT-Official-Website/releases/download/android-v3.9.1/Zolai-GPT-next-debug.3.apk",
+      "type": "apk",
+      "signed": true,
+      "sha256": "f9a5197b2d92d2f3a1e590c9541de12cc34278f3502fd40069dc1a8555e23fcc"
+    }
+  ]
 }
