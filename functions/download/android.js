@@ -4,7 +4,7 @@
 // zolaigptofficial.com and a clean file name. Update APK, FILE_NAME and SHA256 for
 // each new app release (and the page that shows the checksum).
 const APK = 'https://github.com/Piangpi1997/ZoLaiGPT-Official-Website/releases/download/android-v3.9.1/Zolai-GPT-next-debug.3.apk';
-const FILE_NAME = 'ZoLaiGPT-3.9.1.apk';
+const FILE_NAME = 'ZoLaiGPT-3.9.1-test-build.apk';
 const SHA256 = 'f9a5197b2d92d2f3a1e590c9541de12cc34278f3502fd40069dc1a8555e23fcc';
 
 export async function onRequest({ request }) {

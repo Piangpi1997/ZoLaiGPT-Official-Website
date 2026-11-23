@@ -2,13 +2,13 @@
   "id": "zolaigpt-android",
   "slug": "zolaigpt-android",
   "name": "ZoLaiGPT for Android",
-  "tagline": "A multilingual AI assistant for English, Myanmar and Zomi (Tedim) — beta for Android.",
+  "tagline": "A multilingual AI assistant for English, Myanmar and Zomi (Tedim) — developer test build for Android.",
   "category": "AI assistant",
   "featured": true,
   "order": 1,
   "status": "beta",
   "pricing": "free",
-  "description": "ZoLaiGPT for Android is the mobile app of the ZoLaiGPT project: chat, Live voice conversations, the Tedim Bible, pictures, files, subtitles and reading of social links (TikTok, Facebook, Instagram, YouTube), in English, Myanmar and Zomi (Tedim). This is a beta: it is installed as an APK from this website and may change. Free accounts get 100 credits every month; optional plans add more credits and models.",
+  "description": "ZoLaiGPT for Android is the mobile app of the ZoLaiGPT project: chat, Live voice conversations, the Tedim Bible, pictures, files, subtitles and reading of social links (TikTok, Facebook, Instagram, YouTube), in English, Myanmar and Zomi (Tedim). This is a developer test build (beta): it is signed with the Android debug key, not a release key, and is meant for testing. It is installed as an APK from this website and may change. Free accounts get 100 credits every month; optional plans add more credits and models.",
   "features": [
     "Chat in English, Myanmar and Zomi (Tedim), with Fast, Thinking and Pro models",
     "Live voice conversations with an animated assistant",
@@ -44,6 +44,7 @@
   ],
   "screenshots": [],
   "installation": [
+    "This is a test build signed with the Android debug key. Install it only if you are comfortable testing pre-release software.",
     "Download the APK and wait until the whole file (about 172 MB) has finished.",
     "Open it and allow installs from your browser or Files app when Android asks.",
     "Install, open ZoLaiGPT and sign in with your Gmail account.",
@@ -52,7 +53,7 @@
   "faq": [
     {
       "q": "Can I download the Android app today?",
-      "a": "Yes — as a beta APK from this page. Check the SHA-256 checksum above before installing. Download it only from this page or the official GitHub release linked here."
+      "a": "Yes, as a developer test build (beta). It is signed with the Android debug key and is debuggable, so it is intended for testers. Check the SHA-256 checksum above before installing, and download it only from this page."
     },
     {
       "q": "Is it on Google Play?",
@@ -61,6 +62,10 @@
     {
       "q": "How do I update?",
       "a": "Download the newest APK from this page and open it; Android installs it over the old app and keeps your chats."
+    },
+    {
+      "q": "What does “developer test build” mean?",
+      "a": "This APK is signed with Android's standard debug key instead of a private release key, and debugging is enabled. That is normal for testing but not for a finished release: another debug-signed app could claim to be an update. A release-signed build will replace it; because the signing key changes, you will need to uninstall the test build once before installing the release."
     }
   ],
   "supportEmail": "thangdeihpiang21@gmail.com",
@@ -69,10 +74,13 @@
   "privacyNote": "The app's own Privacy Policy and Terms of Use are in the app (Settings → Privacy & terms). Chats are stored on your phone; messages are sent to the ZoLaiGPT server only to get answers.",
   "downloads": [
     {
-      "label": "Download APK 3.9.1",
+      "label": "Download test build 3.9.1",
       "url": "/download/android",
       "type": "apk",
       "signed": true,
+      "signing": "debug",
+      "certificate": "CN=Android Debug, O=Android, C=US",
+      "certificateSha256": "7E:FF:B8:C7:5A:A9:6E:6E:BE:76:F4:56:5A:14:F6:8A:28:5F:82:FE:2D:6F:56:ED:42:52:F4:DD:AB:44:21:1B",
       "sha256": "f9a5197b2d92d2f3a1e590c9541de12cc34278f3502fd40069dc1a8555e23fcc"
     }
   ]

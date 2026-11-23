@@ -86,7 +86,9 @@ for f in (ROOT / 'content/apps').glob('*.json'):
     app = json.loads(f.read_text())
     for d in app.get('downloads', []):
         if d.get('type') != 'store' and not re.fullmatch(r'[0-9a-f]{64}', d.get('sha256', '')): errors.append(f'{f.name}: direct download without SHA-256')
-        if not d.get('signed'): errors.append(f'{f.name}: download not marked as a signed release')
+        if not d.get('signed'): errors.append(f'{f.name}: download is not signed')
+        if d.get('type') != 'store' and d.get('signing') not in ('release', 'debug'): errors.append(f'{f.name}: download must state signing (release or debug)')
+        if d.get('signing') == 'debug' and 'test' not in d.get('label', '').lower(): errors.append(f'{f.name}: debug-signed download must be labelled as a test build')
     if app['status'] == 'in-development' and app.get('downloads'): errors.append(f'{f.name}: unreleased app lists downloads')
 leftovers = [str(p.relative_to(ROOT)) for p in ROOT.rglob('*') if p.is_file() and not set(p.relative_to(ROOT).parts) & {'.git', 'node_modules', 'docs', '.next', 'out', 'tools'}
              and p.suffix in ('.html', '.js', '.css', '.tsx', '.mjs') and re.search(r'zolaigpt-orb|three\.module|hero-orb|universe-orb|globe\.js|orb-stage', p.read_text(errors='ignore'))]
