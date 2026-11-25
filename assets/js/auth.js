@@ -27,6 +27,51 @@ const firebaseConfig = {
 };
 
 let auth = null;
+let authReadyPromise = null;
+let currentUser = undefined; // undefined = not resolved yet, null = signed out
+
+// Initialise Firebase once and start listening for the auth state. Returns the
+// Auth object, or null when Firebase is unavailable (offline, blocked CDN).
+function ensureAuth() {
+  if (auth) return auth;
+  if (!configReady()) return null;
+  try {
+    const app = initializeApp(firebaseConfig);
+    auth = getAuth(app);
+    authReadyPromise = new Promise((resolve) => {
+      onAuthStateChanged(auth, (user) => { currentUser = user || null; resolve(currentUser); });
+    });
+  } catch {
+    return null;
+  }
+  return auth;
+}
+
+// Resolves with the signed-in user, null when signed out, or undefined when
+// the auth state could not be determined in time (Firebase unreachable).
+function whenAuthReady(timeoutMs = 8000) {
+  if (!ensureAuth()) return Promise.resolve(undefined);
+  if (currentUser !== undefined) return Promise.resolve(currentUser);
+  return Promise.race([
+    authReadyPromise,
+    new Promise((resolve) => setTimeout(() => resolve(undefined), timeoutMs)),
+  ]);
+}
+
+// Page gate: send signed-out visitors to the login page (they come back here
+// after signing in). Returns the user when signed in, or undefined when the
+// state could not be verified — in that case the page is left usable rather
+// than blocking everyone on a Firebase outage. This is a user-experience
+// gate, not a security boundary: the pages are static files.
+export async function guardPage(next) {
+  const user = await whenAuthReady(8000);
+  if (user) return user;
+  if (user === undefined) return undefined;
+  try {
+    location.replace('/login/?next=' + encodeURIComponent(next || location.pathname));
+  } catch {}
+  return null;
+}
 
 function configReady() {
   return firebaseConfig.apiKey && !firebaseConfig.apiKey.startsWith('FIREBASE_');
@@ -132,6 +177,13 @@ function initLoginPage() {
     signedOutEl.hidden = true;
     signedInEl.hidden = false;
     signedInEmail.textContent = user.email || displayName(user);
+    // If the visitor arrived here to reach a gated page, point the button there.
+    const next = nextUrl();
+    const openBtn = signedInEl.querySelector('a.btn--primary');
+    if (openBtn && next !== '/') {
+      openBtn.href = next;
+      openBtn.textContent = 'Continue';
+    }
   };
   const showSignedOut = () => {
     signedInEl.hidden = true;
@@ -214,13 +266,26 @@ export function initAuth() {
   // Always render a plain "Log in" link first so the header is complete
   // even if Firebase is unavailable.
   renderHeader(null);
-  if (!configReady()) return;
-  try {
-    const app = initializeApp(firebaseConfig);
-    auth = getAuth(app);
-  } catch {
-    return;
-  }
+  if (!ensureAuth()) return;
   onAuthStateChanged(auth, (user) => renderHeader(user));
   initLoginPage();
+  initDownloadGate();
+}
+
+// The Android APK download needs a signed-in account. Intercept the download
+// link: signed-in visitors download straight away, everyone else goes to the
+// login page and comes back here afterwards. If Firebase cannot be reached
+// the click is left alone (fail open) — the direct download URL stays
+// reachable, so this gate is a user-experience check, not a security wall.
+function initDownloadGate() {
+  document.addEventListener('click', async (e) => {
+    const a = e.target.closest
+      ? e.target.closest('a[href="/download/android"], a[href^="/download/android?"]')
+      : null;
+    if (!a) return;
+    e.preventDefault();
+    const user = await whenAuthReady(5000);
+    if (user !== null) { location.href = a.href; return; }
+    location.href = '/login/?next=' + encodeURIComponent(location.pathname + location.search);
+  });
 }
