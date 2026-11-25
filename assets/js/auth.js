@@ -274,9 +274,11 @@ export function initAuth() {
 
 // The Android APK download needs a signed-in account. Intercept the download
 // link: signed-in visitors download straight away, everyone else goes to the
-// login page and comes back here afterwards. If Firebase cannot be reached
-// the click is left alone (fail open) — the direct download URL stays
-// reachable, so this gate is a user-experience check, not a security wall.
+// login page and comes back here afterwards. The signed-in user's Firebase ID
+// token is POSTed to the download endpoint so the server can verify it —
+// POST keeps the token out of the URL, the browser history and the server
+// logs. If Firebase cannot be reached the click is left alone (fail open) and
+// the server decides: no token means a redirect to the login page.
 function initDownloadGate() {
   document.addEventListener('click', async (e) => {
     const a = e.target.closest
@@ -284,8 +286,23 @@ function initDownloadGate() {
       : null;
     if (!a) return;
     e.preventDefault();
+    const loginNext = '/login/?next=' + encodeURIComponent(location.pathname + location.search);
     const user = await whenAuthReady(5000);
-    if (user !== null) { location.href = a.href; return; }
-    location.href = '/login/?next=' + encodeURIComponent(location.pathname + location.search);
+    if (user === null) { location.href = loginNext; return; }
+    if (!user) { location.href = a.href; return; }
+    let token = null;
+    try { token = await user.getIdToken(); } catch {}
+    if (!token) { location.href = a.href; return; }
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = a.href;
+    form.style.display = 'none';
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'token';
+    input.value = token;
+    form.append(input);
+    document.body.append(form);
+    form.submit();
   });
 }
