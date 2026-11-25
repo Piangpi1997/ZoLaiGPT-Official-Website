@@ -2,6 +2,11 @@ import {siteConfig} from './site-config.js?v=20261123c';
 import {initLanguages} from './i18n.js?v=20261123c';
 import {initQuickChat} from './quick-chat.js?v=20261123c';
 
+// Firebase Auth is optional and loaded separately: if it fails (offline,
+// blocked CDN, no config yet), the rest of the site keeps working and the
+// header simply shows a plain "Log in" link.
+import('./auth.js?v=20261125a').then(m=>m.initAuth()).catch(()=>{});
+
 document.documentElement.classList.add('js');
 
 function initMenu(){
