@@ -4,8 +4,8 @@
 // The firebaseConfig below is public client configuration: the apiKey is a
 // browser key that identifies the project, not a secret. Never put passwords,
 // service-account keys or Admin SDK credentials in this file.
-// If Firebase fails to load (offline, blocked CDN), this module simply does
-// nothing — the site keeps working and the header shows a plain "Log in" link.
+// The website and server download gate continue to handle navigation when
+// the Firebase SDK is unavailable.
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
 import {
   getAuth, onAuthStateChanged,
@@ -25,6 +25,11 @@ const firebaseConfig = {
   messagingSenderId: '84612259794',
   appId: '1:84612259794:web:7771c5c8a94b7d3006320b'
 };
+
+const ANDROID_APP_PATH = '/apps/zolaigpt-android/';
+const ANDROID_DOWNLOAD_PATH = '/download/android';
+const ANDROID_DOWNLOAD_LOGIN = '/login/?next=' + encodeURIComponent(ANDROID_APP_PATH + '?download=1');
+const AUTH_UNAVAILABLE = 'Sign-in is unavailable. Check your connection and reload this page.';
 
 let auth = null;
 let authReadyPromise = null;
@@ -140,6 +145,7 @@ function renderHeader(user) {
 function initLoginPage() {
   const form = document.getElementById('auth-form');
   if (!form || !auth) return;
+  const checkingEl = document.getElementById('auth-checking');
   const emailEl = document.getElementById('auth-email');
   const passEl = document.getElementById('auth-password');
   const submitBtn = document.getElementById('auth-submit');
@@ -167,13 +173,18 @@ function initLoginPage() {
   const nextUrl = () => {
     try {
       const next = new URLSearchParams(location.search).get('next');
-      if (next && next.startsWith('/') && !next.startsWith('//')) return next;
+      if (next?.startsWith('/') && !next.startsWith('//')) {
+        const target = new URL(next, location.origin);
+        if (target.origin === location.origin) return target.href;
+      }
     } catch {}
     return '/';
   };
   const goNext = () => { location.href = nextUrl(); };
 
   const showSignedIn = (user) => {
+    checkingEl.hidden = true;
+    titleEl.textContent = 'Account.';
     signedOutEl.hidden = true;
     signedInEl.hidden = false;
     signedInEmail.textContent = user.email || displayName(user);
@@ -186,6 +197,8 @@ function initLoginPage() {
     }
   };
   const showSignedOut = () => {
+    checkingEl.hidden = true;
+    titleEl.textContent = mode === 'signin' ? 'Log in.' : 'Create an account.';
     signedInEl.hidden = true;
     signedOutEl.hidden = false;
   };
@@ -251,14 +264,20 @@ function initLoginPage() {
   });
 
   signOutBtn.addEventListener('click', async () => {
-    try { await signOut(auth); } catch {}
-    showSignedOut();
-    setStatus('Signed out.');
+    try {
+      await signOut(auth);
+      setStatus('Signed out.');
+    } catch (err) {
+      setStatus(friendlyError(err), true);
+    }
   });
 
   onAuthStateChanged(auth, (user) => {
     if (user) showSignedIn(user);
     else showSignedOut();
+  });
+  whenAuthReady().then((user) => {
+    if (user === undefined && !checkingEl.hidden) checkingEl.textContent = AUTH_UNAVAILABLE;
   });
 }
 
@@ -266,43 +285,74 @@ export function initAuth() {
   // Always render a plain "Log in" link first so the header is complete
   // even if Firebase is unavailable.
   renderHeader(null);
-  if (!ensureAuth()) return;
+  if (!ensureAuth()) {
+    const checkingEl = document.getElementById('auth-checking');
+    if (checkingEl) checkingEl.textContent = AUTH_UNAVAILABLE;
+    return;
+  }
   onAuthStateChanged(auth, (user) => renderHeader(user));
   initLoginPage();
   initDownloadGate();
 }
 
-// The Android APK download needs a signed-in account. Intercept the download
-// link: signed-in visitors download straight away, everyone else goes to the
-// login page and comes back here afterwards. The signed-in user's Firebase ID
-// token is POSTed to the download endpoint so the server can verify it —
-// POST keeps the token out of the URL, the browser history and the server
-// logs. If Firebase cannot be reached the click is left alone (fail open) and
-// the server decides: no token means a redirect to the login page.
+// Use the same POST for a manual click and for the one-time return from login.
 function initDownloadGate() {
-  document.addEventListener('click', async (e) => {
-    const a = e.target.closest
-      ? e.target.closest('a[href="/download/android"], a[href^="/download/android?"]')
-      : null;
-    if (!a) return;
+  const statusEl = document.getElementById('android-download-status');
+  const showStatus = (message) => {
+    if (!statusEl) return;
+    statusEl.textContent = message;
+    statusEl.hidden = false;
+  };
+  let starting = false;
+  const startDownload = async () => {
+    if (starting) return;
+    starting = true;
+    try {
+      const user = await whenAuthReady(8000);
+      if (user === null) {
+        location.href = ANDROID_DOWNLOAD_LOGIN;
+        return;
+      }
+      if (user === undefined) {
+        showStatus('Could not check sign-in. Check your connection and try Download again.');
+        return;
+      }
+      const token = await user.getIdToken();
+      if (!token) throw new Error('Missing Firebase ID token');
+
+      const form = document.createElement('form');
+      form.method = 'POST';
+      form.action = ANDROID_DOWNLOAD_PATH;
+      form.hidden = true;
+      const input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = 'token';
+      input.value = token;
+      form.append(input);
+      document.body.append(form);
+      try {
+        form.submit();
+      } finally {
+        form.remove();
+      }
+      showStatus('Download requested. Check your browser’s downloads.');
+    } catch {
+      showStatus('Could not start the download. Try Download again.');
+    } finally {
+      starting = false;
+    }
+  };
+
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest?.('a[href="/download/android"]')) return;
     e.preventDefault();
-    const loginNext = '/login/?next=' + encodeURIComponent(location.pathname + location.search);
-    const user = await whenAuthReady(5000);
-    if (user === null) { location.href = loginNext; return; }
-    if (!user) { location.href = a.href; return; }
-    let token = null;
-    try { token = await user.getIdToken(); } catch {}
-    if (!token) { location.href = a.href; return; }
-    const form = document.createElement('form');
-    form.method = 'POST';
-    form.action = a.href;
-    form.style.display = 'none';
-    const input = document.createElement('input');
-    input.type = 'hidden';
-    input.name = 'token';
-    input.value = token;
-    form.append(input);
-    document.body.append(form);
-    form.submit();
+    void startDownload();
   });
+
+  const returnUrl = new URL(location.href);
+  if (returnUrl.pathname === ANDROID_APP_PATH && returnUrl.searchParams.get('download') === '1') {
+    returnUrl.searchParams.delete('download');
+    history.replaceState(history.state, '', returnUrl);
+    void startDownload();
+  }
 }

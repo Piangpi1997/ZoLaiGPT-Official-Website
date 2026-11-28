@@ -30,6 +30,15 @@
   ],
   "releases": [
     {
+      "version": "3.9.2",
+      "date": "2026-11-24",
+      "channel": "beta",
+      "notes": [
+        "Liquid Glass bars in the Android app",
+        "New Android app versions are now published to the official website automatically"
+      ]
+    },
+    {
       "version": "3.9.1",
       "date": "2026-11-23",
       "channel": "beta",
@@ -74,14 +83,14 @@
   "privacyNote": "The app's own Privacy Policy and Terms of Use are in the app (Settings → Privacy & terms). Chats are stored on your phone; messages are sent to the ZoLaiGPT server only to get answers.",
   "downloads": [
     {
-      "label": "Download test build 3.9.1",
+      "label": "Download test build 3.9.2",
       "url": "/download/android",
       "type": "apk",
       "signed": true,
       "signing": "debug",
       "certificate": "CN=Android Debug, O=Android, C=US",
       "certificateSha256": "7E:FF:B8:C7:5A:A9:6E:6E:BE:76:F4:56:5A:14:F6:8A:28:5F:82:FE:2D:6F:56:ED:42:52:F4:DD:AB:44:21:1B",
-      "sha256": "f9a5197b2d92d2f3a1e590c9541de12cc34278f3502fd40069dc1a8555e23fcc"
+      "sha256": "af52edeba2f2e47fd3a911a824772068eb05485e1e049e43922d098b25bb2a84"
     }
   ]
 }

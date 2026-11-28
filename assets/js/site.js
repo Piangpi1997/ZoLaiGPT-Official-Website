@@ -1,11 +1,13 @@
-import {siteConfig} from './site-config.js?v=20261123c';
+import {siteConfig} from './site-config.js?v=20261128a';
 import {initLanguages} from './i18n.js?v=20261123c';
 import {initQuickChat} from './quick-chat.js?v=20261123c';
 
 // Firebase Auth is optional and loaded separately: if it fails (offline,
-// blocked CDN, no config yet), the rest of the site keeps working and the
-// header simply shows a plain "Log in" link.
-import('./auth.js?v=20261125c').then(m=>m.initAuth()).catch(()=>{});
+// blocked CDN, no config yet), the rest of the site keeps working.
+import('./auth.js?v=20261128a').then(m=>m.initAuth()).catch(()=>{
+ const status=document.getElementById('auth-checking');
+ if(status)status.textContent='Sign-in is unavailable. Check your connection and reload this page.';
+});
 
 document.documentElement.classList.add('js');
 
@@ -58,11 +60,11 @@ function initLatestAndroid(){
  fetch('/download/android.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).then(j=>{
   if(!j||!/^[0-9a-f]{64}$/.test(j.sha256||'')||!j.version)return;
   els.forEach(el=>{const k=el.dataset.latest;
-   if(k==='version')el.textContent=j.version;
-   else if(k==='sha256')el.textContent=j.sha256;
-   else if(k==='label')el.textContent=el.textContent.replace(/\d+\.\d+(\.\d+)?/,j.version);});
+   const current=el.textContent;
+   const value=k==='label'?current.replace(/\d+\.\d+(\.\d+)?/,j.version):j[k];
+   if(typeof value==='string'&&value!==current)el.textContent=value;});
  }).catch(()=>{});
 }
 
 initLatestAndroid();initLanguages();initMenu();initAnnouncement();initReveal();initFaq();initAppFilters();initQuickChat();
-document.querySelectorAll('[data-year]').forEach(el=>el.textContent=new Date().getFullYear());
+document.querySelectorAll('[data-copyright]').forEach(el=>el.textContent=`© ${new Date().getFullYear()} ZoLaiGPT`);

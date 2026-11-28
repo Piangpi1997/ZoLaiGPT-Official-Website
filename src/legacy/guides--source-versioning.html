@@ -1,0 +1,25 @@
+<!--meta {"out":"guides/source-versioning.html","lang":"en","title":"Track source code by release and commit | ZoLaiGPT Guides","description":"Record the tag, exact commit, source checksum and build environment so another person can reproduce your software setup.","canonical":"https://zolaigptofficial.com/guides/source-versioning","robots":null,"adsense":true,"section":"learn","scripts":[],"mainClass":"guide-wrap"} -->
+<p class="guide-label">Developer workflow · Learning resource</p>
+<h1>Track source code by release and commit</h1>
+<p class="guide-lede">Give a teammate enough information to find the exact source you used, rebuild it and investigate what changed.</p>
+<article class="guide-body">
+<h2>Record both the release and the commit</h2>
+<p>Start from the publisher’s release page. Record the repository, the release tag and the full commit SHA behind the tag. A branch such as <code>main</code> advances over time, so a link to that branch can show different code to the next reader. A tag gives people a recognizable release name. A commit SHA pins the snapshot even if that tag is later moved.</p>
+<p>If you already cloned the repository, run these commands from the project directory. Substitute the publisher’s actual tag for <code>v1.2.0</code>. Compare the two commit IDs before saying that your checkout matches the release.</p>
+<pre>git rev-parse HEAD
+git rev-parse 'v1.2.0^{commit}'
+git status --short</pre>
+<p>If the command for the tag fails, fetch the tags from the official repository and try again. Record local edits or untracked files before building, since they can change the result without changing the commit ID.</p>
+<h2>Keep a source record with the build</h2>
+<ul>
+<li><strong>Source:</strong> repository URL, release tag, full commit SHA and, if used, the source archive filename.</li>
+<li><strong>Integrity:</strong> the archive’s SHA-256, where you obtained the expected value and the date you verified it. Keep the APK checksum in a separate field.</li>
+<li><strong>Build:</strong> the target, exact build command, JDK, Android SDK and dependency lockfiles, plus any local patches. Record required environment variable names without recording credentials.</li>
+</ul>
+<h2>Compare versions before opening a bug report</h2>
+<p>If a build fails on a new release, rerun the same command with the same tools against the last working commit. Include both commit IDs, the first relevant error and the steps to reproduce it. A commit match identifies the source snapshot. Reproducing identical APK bytes can additionally require the same signing configuration and a reproducible build process.</p>
+<section aria-labelledby="further-reading"><h2 id="further-reading">Further reading</h2>
+<ul><li><a href="https://docs.github.com/en/repositories/releasing-projects-on-github/about-releases">GitHub documentation on releases and tags</a></li><li><a href="/guides/source-zip-verification">Verify an Android source ZIP with SHA-256</a></li></ul>
+</section>
+</article>
+<div class="guide-cta"><a href="/guides/">All guides ↗</a></div>

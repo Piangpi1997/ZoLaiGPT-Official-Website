@@ -16,11 +16,13 @@ const SITE = 'https://zolaigptofficial.com';
 const ADSENSE_CLIENT = 'ca-pub-7075005129832926'; // Existing verified account. Do not change.
 const BUILD_DATE = process.env.BUILD_DATE || new Date().toISOString().slice(0, 10);
 const ASSET_V = '20261123c';
+const SITE_V = '20261128a';
 // Version every CSS/JS file a page pulls in (not only site.css/site.js): the old design used the
 // same file names, and browsers kept serving their cached old copies of tokens.css, site-config.js…
 for (const dir of ['assets/js', 'assets/css']) for (const f of fs.readdirSync(path.join(ROOT, dir))) {
   const file = path.join(ROOT, dir, f), src = fs.readFileSync(file, 'utf8');
-  const out = src.replace(/((?:from\s*|import\s*|@import\s+url\()['"])(\.\/[\w.-]+\.(?:js|css))(?:\?v=[\w]+)?(['"])/g, `$1$2?v=${ASSET_V}$3`);
+  const out = src.replace(/((?:from\s*|import\s*|@import\s+url\()['"])(\.\/[\w.-]+\.(?:js|css))(?:\?v=[\w]+)?(['"])/g,
+    (_, prefix, asset, quote) => `${prefix}${asset}?v=${asset === './site-config.js' ? SITE_V : ASSET_V}${quote}`);
   if (out !== src) fs.writeFileSync(file, out);
 }
 
@@ -126,7 +128,7 @@ ${canonical ? `<meta property="og:url" content="${canonical}">` : ''}
 <link rel="manifest" href="/site.webmanifest">
 <link rel="preload" href="/assets/fonts/geist-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 ${preloadDisplay ? '<link rel="preload" href="/assets/fonts/space-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>\n' : ''}<link rel="stylesheet" href="/assets/css/site.css?v=${ASSET_V}">
-<script type="module" src="/assets/js/site.js?v=${ASSET_V}"></script>
+<script type="module" src="/assets/js/site.js?v=${SITE_V}"></script>
 ${ld}
 </head>`;
 }
@@ -164,10 +166,10 @@ function footer() {
 <div class="socials" aria-label="Social media">${soc}</div>
 </div>
 <div><h2>Explore</h2><ul><li><a href="/apps/">Apps</a></li><li><a href="/chat/">AI Chat (demo)</a></li><li><a href="/guides/">Learning Center</a></li><li><a href="/#updates">Updates</a></li></ul></div>
-<div><h2>Project</h2><ul><li><a href="/about/">About</a></li><li><a href="/contact/">Contact</a></li><li><a href="/guides/editorial-standards">Editorial standards</a></li><li><a href="/guides/check-app-availability">Download safety</a></li></ul></div>
+<div><h2>Project</h2><ul><li><a href="/about/">About</a></li><li><a href="/contact/">Contact</a></li><li><a href="/guides/editorial-standards">Editorial standards</a></li><li><a href="/guides/secure-download-checklist">Download safety</a></li></ul></div>
 <div><h2>Legal (drafts)</h2><ul><li><a href="/privacy-policy.html">Privacy Policy</a></li><li><a href="/privacy-bm.html" lang="ms">Privasi (BM)</a></li><li><a href="/terms-of-use.html">Terms of Use</a></li></ul></div>
 </div>
-<div class="footer-bottom"><span>© <span data-year>${BUILD_DATE.slice(0, 4)}</span> ZoLaiGPT · Independent project, not an incorporated company.</span><span>Chat is a local demo · No live AI connected</span></div>
+<div class="footer-bottom"><span><span data-copyright>© ${BUILD_DATE.slice(0, 4)} ZoLaiGPT</span> · Independent project, not an incorporated company.</span><span>Chat is a local demo · No live AI connected</span></div>
 </div>
 </footer>`;
 }
@@ -343,7 +345,7 @@ ${backdrop()}
 </section>
 
 <section class="section section--tight" id="contact" aria-labelledby="contact-title">
-<div class="container"><div class="cta-band reveal"><p class="eyebrow">${t('contactlabel')}</p><h2 class="h-lg" id="contact-title" style="max-width:20ch">${t('contacttitle')}</h2><p class="muted" style="max-width:40rem">${t('contactbody')}</p><div class="cluster"><a class="btn btn--light" href="/contact/">Contact ZoLaiGPT ${icon('arrow')}</a><a class="btn" href="https://github.com/Piangpi1997" target="_blank" rel="noopener noreferrer">${t('github')} ${icon('external')}</a></div></div></div>
+<div class="container"><div class="cta-band reveal"><p class="eyebrow">${t('contactlabel')}</p><h2 class="h-lg" id="contact-title" style="max-width:20ch">${t('contacttitle')}</h2><p class="muted" style="max-width:40rem">${t('contactbody')}</p><div class="cluster"><a class="btn btn--light" href="/contact/">Contact ZoLaiGPT ${icon('arrow')}</a></div></div></div>
 </section>`;
   return page({
     title: 'ZoLaiGPT — Official Website', active: 'home', adsense: true, preloadDisplay: true, quickChat: true,
@@ -404,7 +406,7 @@ function appDetailPage(app) {
     : dl.length ? '' : `<span class="btn" aria-disabled="true">${icon('download')} Not available yet</span>`;
   // /download/android always serves the newest release; the page refreshes these from /download/android.json.
   const live = d => d.url === '/download/android';
-  const downloads = dl.map(d => `<a class="btn btn--primary" href="${esc(d.url)}"${d.type === 'store' ? ' target="_blank" rel="noopener noreferrer"' : ' download'}>${icon('download')} <span${live(d) ? ' data-latest="label"' : ''}>${esc(d.label)}</span></a>`).join('');
+  const downloads = dl.map(d => `<a class="btn btn--primary" href="${esc(d.url)}"${d.type === 'store' ? ' target="_blank" rel="noopener noreferrer"' : live(d) ? '' : ' download'}>${icon('download')} <span${live(d) ? ' data-latest="label"' : ''}>${esc(d.label)}</span></a>`).join('');
   const specs = [
     ['Status', statusBadge(app.status)],
     ['Version', rel ? (dl.some(live) ? `<span data-latest="version">${esc(rel.version)}</span>` : esc(rel.version)) : 'Not released'],
@@ -425,6 +427,7 @@ ${app.icon ? `<img class="app-hero__icon" src="${app.icon}" width="88" height="8
 <h1 style="margin-top:1rem">${esc(app.name)}</h1>
 <p class="lead">${esc(app.tagline)}</p>
 <div class="cluster mt-6">${primary}${downloads}<a class="btn btn--ghost" href="/apps/">All apps</a></div>
+${dl.some(live) ? '<p id="android-download-status" class="mt-4" role="status" hidden></p>' : ''}
 <div class="mt-5">${platformList(app)}</div>
 </div>
 <div class="app-hero__media">${heroShot ? `<img src="${heroShot.src}" alt="${esc(heroShot.alt)}" width="1200" height="750" fetchpriority="high">` : `<div class="app-hero__placeholder"><img src="${app.icon || '/assets/brand/zolaigpt-icon-256.webp'}" width="96" height="96" alt=""><p>No screenshots yet.<br>Screenshots are added only from real builds.</p></div>`}</div>
@@ -494,13 +497,12 @@ function contactPage() {
 <section class="section section--tight"><div class="container">
 <div class="contact-grid">
 <a class="card card--link contact-card reveal" href="${esc(email.href)}"><div class="card__icon">${icon('mail')}</div><h2 class="h-sm">Email</h2><p>Best for questions, corrections and privacy requests.</p><span class="value">${esc(email.href.replace('mailto:', ''))}</span></a>
-<a class="card card--link contact-card reveal" style="--delay:.06s" href="${esc(pick('GitHub').href)}" target="_blank" rel="noopener noreferrer"><div class="card__icon">${icon('code')}</div><h2 class="h-sm">GitHub</h2><p>Source code and technical feedback.</p><span class="value">github.com/Piangpi1997</span></a>
 <a class="card card--link contact-card reveal" style="--delay:.12s" href="${esc(pick('Discord').href)}" target="_blank" rel="noopener noreferrer"><div class="card__icon">${icon('message')}</div><h2 class="h-sm">Discord</h2><p>Community conversation. Invite links can expire.</p><span class="value">Join the server ↗</span></a>
 </div>
 <div class="card mt-6"><h2 class="h-sm">Social profiles</h2><p class="mt-4">${t('contactbody')}</p><div class="socials">${social.map(s => `<a href="${esc(s.href)}" aria-label="${esc(s.name)}" title="${esc(s.name)}"${s.href.startsWith('mailto:') ? '' : ' target="_blank" rel="noopener noreferrer"'}><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="${s.path}"/></svg></a>`).join('')}</div></div>
 <div class="notice notice--info mt-6">${icon('info')}<p>Please do not send passwords, ID documents or payment details. ZoLaiGPT never asks for them. Messages you send by email or social platforms are handled under those services' own privacy policies and the draft <a class="text-link" href="/privacy-policy.html">ZoLaiGPT Privacy Policy</a>.</p></div>
 </div></section>`;
-  return page({title: 'Contact — ZoLaiGPT', active: 'contact', description: 'Contact the ZoLaiGPT project by email, GitHub, Discord or social media.', canonical: `${SITE}/contact/`, jsonld: [breadcrumbLd([['Contact', '/contact/']])]}, body);
+  return page({title: 'Contact — ZoLaiGPT', active: 'contact', description: 'Contact the ZoLaiGPT project by email, Discord or social media.', canonical: `${SITE}/contact/`, jsonld: [breadcrumbLd([['Contact', '/contact/']])]}, body);
 }
 
 function legacyPage(file) {
@@ -541,7 +543,7 @@ for (const f of fs.readdirSync(path.join(ROOT, 'src/legacy')).filter(f => f.ends
 
 // Sitemap: indexable pages only (legal drafts, chat and QA routes stay noindex).
 const urls = [
-  ['/', BUILD_DATE], ['/apps/', BUILD_DATE], ...apps.map(a => [`/apps/${a.slug}/`, BUILD_DATE]), ['/about/', BUILD_DATE], ['/contact/', BUILD_DATE],
+  ['/', BUILD_DATE], ['/apps/', BUILD_DATE], ...apps.map(a => [`/apps/${a.slug}/`, BUILD_DATE]), ['/about/', BUILD_DATE], ['/contact/', BUILD_DATE], ['/login/', BUILD_DATE],
   ...legacy.filter(m => !m.robots?.includes('noindex') && m.canonical).map(m => [m.canonical.replace(SITE, ''), BUILD_DATE]),
 ];
 write('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>
