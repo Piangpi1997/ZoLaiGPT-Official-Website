@@ -6,11 +6,14 @@ const REPO = 'Piangpi1997/ZoLaiGPT-Official-Website';
 const RELEASES = `https://github.com/${REPO}/releases/download/`;
 
 export const FALLBACK = {
-  version: '3.9.1',
-  versionCode: 21,
-  file: 'ZoLaiGPT-3.9.1-test-build.apk',
-  url: `${RELEASES}android-v3.9.1/Zolai-GPT-next-debug.3.apk`,
-  sha256: 'f9a5197b2d92d2f3a1e590c9541de12cc34278f3502fd40069dc1a8555e23fcc',
+  version: '3.9.2',
+  versionCode: 22,
+  file: 'ZoLaiGPT-3.9.2.apk',
+  url: `${RELEASES}android-v3.9.2/ZoLaiGPT-3.9.2.apk`,
+  sha256: 'af52edeba2f2e47fd3a911a824772068eb05485e1e049e43922d098b25bb2a84',
+  size: 171995846,
+  certificateSha256: '7effb8c75aa96e6ebe76f4565a14f68a285f82fe2d6f56ed4252f4ddab44211b',
+  notes: 'Release 3.9.2 (liquid glass bars) and publish every app version to the website automatically',
 };
 
 export async function latestAndroid() {

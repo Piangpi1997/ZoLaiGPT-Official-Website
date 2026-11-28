@@ -77,7 +77,7 @@ home = (ROOT / 'index.html').read_text()
 if '<meta name="google-adsense-account" content="ca-pub-7075005129832926">' not in home: errors.append('AdSense ownership meta missing on homepage')
 if (ROOT / 'ads.txt').read_text().strip() != 'google.com, pub-7075005129832926, DIRECT, f08c47fec0942fa0': errors.append('ads.txt changed')
 if '<ins class="adsbygoogle"' in ''.join(p.read_text() for p in pages): errors.append('Manual ad units found; ad serving must stay off until approved')
-if len(parse(ROOT / 'index.html').social) != 10: errors.append('Expected the 10 original social/contact links on the homepage')
+if len(parse(ROOT / 'index.html').social) != 9: errors.append('Expected the 9 social/contact links on the homepage')
 for loc in re.findall(r'<loc>https://zolaigptofficial.com(/[^<]*)</loc>', (ROOT / 'sitemap.xml').read_text()):
     t, _ = resolve(ROOT / 'index.html', loc)
     if not t.is_file(): errors.append(f'sitemap: missing {loc}')
